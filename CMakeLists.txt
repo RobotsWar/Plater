@@ -4,6 +4,7 @@ project(plater)
 set(ALL_SOURCES
     modelFile/modelFile.cpp
     modelFile/logoutput.cpp
+    Rectangle.cpp
     )
 
 include_directories("${CMAKE_SOURCE_DIR}/src")
