@@ -133,8 +133,8 @@ namespace Plater
             static Bitmap *trim(const Bitmap *bmp)
             {
                 bool found = false;
-                int minX, minY;
-                int maxX, maxY;
+                int minX=0, minY=0;
+                int maxX=0, maxY=0;
 
                 for (int x=0; x<bmp->width; x++) {
                     for (int y=0; y<bmp->height; y++) {

@@ -3,20 +3,16 @@
 namespace Plater
 {
     PlacedPart::PlacedPart()
-        : part(NULL), x(0), y(0), dirty(true), bmp(NULL), rotation(1.4)
+        : part(NULL), x(0), y(0), rotation(0)
     {
     }
 
     PlacedPart::~PlacedPart()
     {
-        if (bmp != NULL) {
-            delete bmp;
-        }
     }
 
     void PlacedPart::setPart(Part *part_)
     {
-        dirty = true;
         part = part_;
     }
 
@@ -26,9 +22,8 @@ namespace Plater
         y = y_;
     }
 
-    void PlacedPart::setRotation(float r)
+    void PlacedPart::setRotation(int r)
     {
-        dirty = true;
         rotation = r;
     }
 
@@ -46,37 +41,21 @@ namespace Plater
     {
         return y;
     }
-
-    Bitmap *PlacedPart::generateBitmap()
-    {
-        Bitmap *rotated = Bitmap::rotate(part->getBmp(), rotation);
-        Bitmap *trimmed = Bitmap::trim(rotated);
-        delete rotated;
-        return trimmed;
-    }
     
     Bitmap *PlacedPart::getBmp()
     {
-        if (dirty) {
-            dirty = false;
-            if (bmp != NULL) {
-                delete bmp;
-            }
-            bmp = generateBitmap();
-        }
-
-        return bmp;
+        return part->getBmp(rotation);
     }
             
     float PlacedPart::getGX()
     {
-        getBmp();
+        Bitmap *bmp = getBmp();
         return (bmp->sX/(float)bmp->pixels)*part->precision;
     }
 
     float PlacedPart::getGY()
     {
-        getBmp();
+        Bitmap *bmp = getBmp();
         return (bmp->sY/(float)bmp->pixels)*part->precision;
     }
 }

@@ -17,25 +17,29 @@ namespace Plater
             delete model;
         }
         if (bmp != NULL) {
-            delete bmp;
+            delete[] bmp;
         }
     }
 
-    void Part::load(std::string filename_, float precision_)
+    void Part::load(std::string filename_, float precision_, float deltaR)
     {
+        int bmps = (M_PI*2)/deltaR;
         precision = precision_;
         filename = filename_;
         FMatrix3x3 id;
         model = loadModelFromFile(filename.c_str(), id);
-        bmp = model->pixelize(precision, 2000);
+        bmp = new Bitmap*[bmps];
+        bmp[0] = model->pixelize(precision, 2000);
 
-        width = bmp->width*precision;
-        height = bmp->height*precision;
+        for (int k=1; k<bmps; k++) {
+            Bitmap *rotated = Bitmap::rotate(bmp[0], k*deltaR);
+            bmp[k] = Bitmap::trim(rotated);
+        }
     }
             
     float Part::getSurface()
     {
-        return precision*bmp->pixels;
+        return precision*bmp[0]->pixels;
     }
 
     std::string Part::getFilename()
@@ -43,8 +47,8 @@ namespace Plater
         return filename;
     }
             
-    Bitmap *Part::getBmp()
+    Bitmap *Part::getBmp(int index)
     {
-        return bmp;
+        return bmp[index];
     }
 }

@@ -7,7 +7,7 @@ using namespace std;
 namespace Plater
 {
     Request::Request()
-        : precision(300), delta(3000), deltaR(M_PI/4)
+        : precision(300), delta(2000), deltaR(M_PI/2)
     {
     }
 
@@ -45,7 +45,7 @@ namespace Plater
             int quantity = readInt();
             if (filename != "" && quantity != 0) {
                 parts[filename] = new Part;
-                parts[filename]->load(filename, precision);
+                parts[filename]->load(filename, precision, deltaR);
                 quantities[filename] = quantity;
             }
         }
@@ -79,22 +79,26 @@ namespace Plater
                 break;
             }
             cout << "Placing " << part->getPart()->getFilename() << "..." << endl;
-            float betterX, betterY, betterR, betterGX, betterGY;
+            float betterX=0, betterY=0, betterScore;
+            int betterR=0;
+            int rs = (M_PI*2/deltaR);
             bool found = false;
-            for (float r=0; r<M_PI*2; r+=deltaR) {
+            for (int r=0; r<rs; r++) {
                 part->setRotation(r);
                 for (float x=0; x<plateWidth; x+=delta) {
                     for (float y=0; y<plateHeight; y+=delta) {
                         float gx = part->getGX()+x;
                         float gy = part->getGY()+y;
                         part->setOffset(x, y);
+
+                        float score = gy*10+gx;
+
                         if (plate.canPlace(part)) {
-                            if (!found || gy < betterGY || ((gy == betterGY) && (gx < betterGX))) {
+                            if (!found || score < betterScore) {
                                 found = true;
                                 betterX = x;
                                 betterY = y;
-                                betterGX = gx;
-                                betterGY = gy;
+                                betterScore = score;
                                 betterR = r;
                             }
                         }

@@ -13,7 +13,7 @@ namespace Plater
 
             void setPart(Part *part);
             void setOffset(float x, float y);
-            void setRotation(float r);
+            void setRotation(int r);
             Part *getPart();
             float getX();
             float getY();
@@ -22,14 +22,11 @@ namespace Plater
             float getGY();
 
             Bitmap *getBmp();
-            Bitmap *generateBitmap();
 
         protected:
-            Bitmap *bmp;
             Part *part;
             float x, y;
-            float rotation;
-            bool dirty;
+            int rotation;
     };
 }
 
