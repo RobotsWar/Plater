@@ -7,7 +7,7 @@ using namespace std;
 namespace Plater
 {
     Request::Request()
-        : precision(500), delta(3000), deltaR(M_PI/2)
+        : precision(300), delta(3000), deltaR(M_PI/4)
     {
     }
 

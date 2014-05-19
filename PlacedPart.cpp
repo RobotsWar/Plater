@@ -49,7 +49,10 @@ namespace Plater
 
     Bitmap *PlacedPart::generateBitmap()
     {
-        return Bitmap::rotate(part->getBmp(), rotation);
+        Bitmap *rotated = Bitmap::rotate(part->getBmp(), rotation);
+        Bitmap *trimmed = Bitmap::trim(rotated);
+        delete rotated;
+        return trimmed;
     }
     
     Bitmap *PlacedPart::getBmp()

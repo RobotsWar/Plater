@@ -106,8 +106,6 @@ namespace Plater
                 int width = xMax-xMin;
                 int height = yMax-yMin;
 
-                // cout << "W: " << width << ", H: " << height << endl;
-
                 int oldCenterX = other->width/2;
                 int oldCenterY = other->height/2;
                 int centerX = width/2;
@@ -125,6 +123,41 @@ namespace Plater
                 }
 
                 return rotated;
+            }
+
+            static Bitmap *trim(const Bitmap *bmp)
+            {
+                bool found = false;
+                int minX, minY;
+                int maxX, maxY;
+
+                for (int x=0; x<bmp->width; x++) {
+                    for (int y=0; y<bmp->height; y++) {
+                        if (bmp->getPoint(x, y)) {
+                            if (!found) {
+                                found = true;
+                                minX = maxX = x;
+                                minY = maxY = y;
+                            } else {
+                                if (x < minX) minX = x;
+                                if (y < minY) minY = y;
+                                if (x > maxX) maxX = x;
+                                if (y > maxY) maxY = y;
+                            }
+                        }
+                    }
+                }
+
+                int deltaX = maxX-minX;
+                int deltaY = maxY-minY;
+                Bitmap *trimmed = new Bitmap(deltaX, deltaY);
+                for (int x=0; x<deltaX; x++) {
+                    for (int y=0; y<deltaY; y++) {
+                        trimmed->setPoint(x, y, bmp->getPoint(x+minX, y+minY));
+                    }
+                }
+
+                return trimmed;
             }
 
             bool *data;

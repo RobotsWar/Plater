@@ -26,7 +26,7 @@ namespace Plater
         filename = filename_;
         FMatrix3x3 id;
         model = loadModelFromFile(filename.c_str(), id);
-        bmp = model->pixelize(precision, 1000);        
+        bmp = model->pixelize(precision, 2000);
 
         width = bmp->width*precision;
         height = bmp->height*precision;
