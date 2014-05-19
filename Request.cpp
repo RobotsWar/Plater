@@ -79,21 +79,22 @@ namespace Plater
                 break;
             }
             cout << "Placing " << part->getPart()->getFilename() << "..." << endl;
-            float betterX, betterY, betterR, betterDist;
+            float betterX, betterY, betterR, betterGX, betterGY;
             bool found = false;
-            float offset = deltaR*(random()%256);
             for (float r=0; r<M_PI*2; r+=deltaR) {
-                part->setRotation(offset+r);
+                part->setRotation(r);
                 for (float x=0; x<plateWidth; x+=delta) {
                     for (float y=0; y<plateHeight; y+=delta) {
+                        float gx = part->getGX()+x;
+                        float gy = part->getGY()+y;
                         part->setOffset(x, y);
                         if (plate.canPlace(part)) {
-                            float distance = sqrt(x*x+y*y);
-                            if (!found || distance < betterDist) {
+                            if (!found || gy < betterGY || ((gy == betterGY) && (gx < betterGX))) {
                                 found = true;
-                                betterDist = distance;
                                 betterX = x;
                                 betterY = y;
+                                betterGX = gx;
+                                betterGY = gy;
                                 betterR = r;
                             }
                         }
@@ -102,7 +103,7 @@ namespace Plater
             }
             if (found) {
                 cout << "Placing @" << betterX << "," << betterY << ", " << betterR << endl;
-                part->setRotation(betterR+offset);
+                part->setRotation(betterR);
                 part->setOffset(betterX, betterY);
                 plate.place(part);
             }

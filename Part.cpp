@@ -21,8 +21,9 @@ namespace Plater
         }
     }
 
-    void Part::load(std::string filename_, float precision)
+    void Part::load(std::string filename_, float precision_)
     {
+        precision = precision_;
         filename = filename_;
         FMatrix3x3 id;
         model = loadModelFromFile(filename.c_str(), id);
@@ -30,6 +31,11 @@ namespace Plater
 
         width = bmp->width*precision;
         height = bmp->height*precision;
+    }
+            
+    float Part::getSurface()
+    {
+        return precision*bmp->pixels;
     }
 
     std::string Part::getFilename()

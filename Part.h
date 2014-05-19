@@ -18,8 +18,11 @@ namespace Plater
             SimpleModel *model;
 
             Bitmap *getBmp();
+            float getSurface();
 
             float width, height;
+
+            float precision;
 
         protected:
             Bitmap *bmp;

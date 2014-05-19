@@ -34,6 +34,11 @@ namespace Plater
             {
                 if (!(data == NULL || x < 0 || y < 0 || x >= width || y >= height)) {
                     data[BMP_POSITION(x,y)] = value;
+                    if (value) {
+                        sX += x;
+                        sY += y;
+                        pixels++;
+                    }
                 }
             }
 
@@ -160,8 +165,14 @@ namespace Plater
                 return trimmed;
             }
 
+            // Image pixels
             bool *data;
+
+            // Image dimension
             int width, height;
+
+            // Sum of the X, Y and number of pixels
+            unsigned long long int sX, sY, pixels;
     };
 }
 

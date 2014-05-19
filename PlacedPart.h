@@ -17,6 +17,9 @@ namespace Plater
             Part *getPart();
             float getX();
             float getY();
+            
+            float getGX();
+            float getGY();
 
             Bitmap *getBmp();
             Bitmap *generateBitmap();

@@ -67,4 +67,16 @@ namespace Plater
 
         return bmp;
     }
+            
+    float PlacedPart::getGX()
+    {
+        getBmp();
+        return (bmp->sX/(float)bmp->pixels)*part->precision;
+    }
+
+    float PlacedPart::getGY()
+    {
+        getBmp();
+        return (bmp->sY/(float)bmp->pixels)*part->precision;
+    }
 }

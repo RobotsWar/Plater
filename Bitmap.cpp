@@ -7,7 +7,7 @@ using namespace std;
 namespace Plater
 {
     Bitmap::Bitmap(int width_, int height_)
-        : data(NULL), width(width_), height(height_)
+        : data(NULL), width(width_), height(height_), sX(0), sY(0), pixels(0)
     {
         data = new bool[width*height];
 
