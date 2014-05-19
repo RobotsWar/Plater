@@ -1,3 +1,6 @@
+#include <algorithm>
+#include <random>
+#include <chrono>
 #include "Placer.h"
 #include "log.h"
 
@@ -12,6 +15,26 @@ namespace Plater
                 placedPart->setPart(request->parts[part.first]);
                 parts.push_back(placedPart);
             }
+        }
+    }
+            
+    void Placer::sortParts(int sortType)
+    {
+        switch (sortType) {
+            case PLACER_SORT_SURFACE_INC:
+                sort(parts.begin(), parts.end(), [](const PlacedPart *a, const PlacedPart *b) {
+                    return a->getSurface() > b->getSurface();
+                });
+                break;
+            case PLACER_SORT_SURFACE_DEC:
+                sort(parts.begin(), parts.end(), [](const PlacedPart *a, const PlacedPart *b) {
+                    return a->getSurface() < b->getSurface();
+                });
+                break;
+            default:
+                unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
+                shuffle(parts.begin(), parts.end(), std::default_random_engine(seed));
+                break;
         }
     }
 

@@ -59,6 +59,7 @@ namespace Plater
     void Request::process()
     {
         Placer placer(this);
+        placer.sortParts(2);
         Plate *plate = placer.place();
         plate->bmp->toPpm();
         delete plate;

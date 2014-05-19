@@ -17,7 +17,8 @@ namespace Plater
             Part *getPart();
             float getX();
             float getY();
-            
+
+            float getSurface() const;
             float getGX();
             float getGY();
 

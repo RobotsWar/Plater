@@ -37,9 +37,9 @@ namespace Plater
         }
     }
             
-    float Part::getSurface()
+    float Part::getSurface() const
     {
-        return precision*bmp[0]->pixels;
+        return bmp[0]->width*bmp[0]->height;
     }
 
     std::string Part::getFilename()

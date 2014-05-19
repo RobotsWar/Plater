@@ -10,6 +10,11 @@ namespace Plater
     PlacedPart::~PlacedPart()
     {
     }
+            
+    float PlacedPart::getSurface() const
+    {
+        return part->getSurface();
+    }
 
     void PlacedPart::setPart(Part *part_)
     {
