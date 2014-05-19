@@ -2,9 +2,9 @@
 #include <stdio.h>
 #include <stdarg.h>
 
-#include "logoutput.h"
+#include "log.h"
 
-static int verbose_level;
+static int verbose_level = 0;
 static bool progressLogging;
 
 void increaseVerboseLevel()

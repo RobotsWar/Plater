@@ -40,13 +40,13 @@ namespace Plater
             
     void Bitmap::toPpm()
     {
-        cerr << "P1" << endl;
-        cerr << width << " " << height << endl;
+        cout << "P1" << endl;
+        cout << width << " " << height << endl;
         for (int y=0; y<height; y++) {
             for (int x=0; x<width; x++) {
-                cerr << data[BMP_POSITION(x,y)] << " ";
+                cout << data[BMP_POSITION(x,y)] << " ";
             }
-            cerr << "\n";
+            cout << "\n";
         }
     }
 }

@@ -3,7 +3,7 @@
 #include <stdio.h>
 
 #include "modelFile.h"
-#include "logoutput.h"
+#include "../log.h"
 
 using namespace Plater;
 

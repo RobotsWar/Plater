@@ -1,13 +1,14 @@
 #include <iostream>
 #include "Request.h"
 #include "Plate.h"
+#include "log.h"
 
 using namespace std;
 
 namespace Plater
 {
     Request::Request()
-        : precision(300), delta(2000), deltaR(M_PI/2)
+        : precision(500), delta(2000), deltaR(M_PI/2)
     {
     }
 
@@ -37,23 +38,20 @@ namespace Plater
 
     void Request::readFromStdin()
     {
+        _log("* Reading request\n");
         plateWidth = readFloat()*1000;
         plateHeight = readFloat()*1000;
+        _log("- Plate size: %d x %d µm\n", plateWidth, plateHeight);
 
         while (!cin.eof()) {
             string filename = readString();
             int quantity = readInt();
+            _log("- Loading %s (quantity %d)...\n", filename.c_str(), quantity);
             if (filename != "" && quantity != 0) {
                 parts[filename] = new Part;
                 parts[filename]->load(filename, precision, deltaR);
                 quantities[filename] = quantity;
             }
-        }
-
-        cout << "* Request" << endl;
-        cout << "- Plate size: " << plateWidth << "x" << plateHeight << endl;
-        for (auto part : quantities) {
-            cout << "- Part " << part.first << ": " << part.second << " qty" << endl;
         }
     }
 
@@ -74,11 +72,12 @@ namespace Plater
     {
         Plate plate(plateWidth, plateHeight, precision);
 
+        _log("* Solver\n");
         while (PlacedPart *part = getNextPart()) {
             if (part == NULL) {
                 break;
             }
-            cout << "Placing " << part->getPart()->getFilename() << "..." << endl;
+            _log("- Trying to place %s...\n", part->getPart()->getFilename().c_str());
             float betterX=0, betterY=0, betterScore;
             int betterR=0;
             int rs = (M_PI*2/deltaR);
@@ -106,10 +105,12 @@ namespace Plater
                 }
             }
             if (found) {
-                cout << "Placing @" << betterX << "," << betterY << ", " << betterR << endl;
+                _log("- Placing it @%d,%d rotation=%d\n", betterX, betterY, betterR);
                 part->setRotation(betterR);
                 part->setOffset(betterX, betterY);
                 plate.place(part);
+            } else {
+                _log("! Can't place it (TODO: create a new plate)\n");
             }
         }
 
