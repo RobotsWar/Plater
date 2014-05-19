@@ -9,6 +9,7 @@ set(ALL_SOURCES
 
     Bitmap.cpp
     PlacedPart.cpp
+    Placer.cpp
     Plate.cpp
     Part.cpp
     Rectangle.cpp
