@@ -21,15 +21,24 @@ namespace Plater
         }
     }
 
-    void Part::load(std::string filename_)
+    void Part::load(std::string filename_, float precision)
     {
         filename = filename_;
         FMatrix3x3 id;
         model = loadModelFromFile(filename.c_str(), id);
-        bmp = model->pixelize(500, 1000);
+        bmp = model->pixelize(precision, 1000);        
+
+        width = bmp->width*precision;
+        height = bmp->height*precision;
+    }
+
+    std::string Part::getFilename()
+    {
+        return filename;
     }
             
-    bool Part::overlaps(const Part &other)
+    Bitmap *Part::getBmp()
     {
+        return bmp;
     }
 }

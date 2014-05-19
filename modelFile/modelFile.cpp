@@ -186,9 +186,9 @@ bool SimpleModel::contains(float x, float y)
         for (unsigned int k=0; k<volumes[i].faces.size(); k++) {
             SimpleFace &face = volumes[i].faces[k];
             Triangle t(
-                    FPoint2(face.v[0].x, face.v[0].z),
-                    FPoint2(face.v[1].x, face.v[1].z),
-                    FPoint2(face.v[2].x, face.v[2].z)
+                    FPoint2(face.v[0].x, face.v[0].y),
+                    FPoint2(face.v[1].x, face.v[1].y),
+                    FPoint2(face.v[2].x, face.v[2].y)
                     );
 
             if (t.contains(x, y)) {
@@ -205,18 +205,18 @@ Bitmap *SimpleModel::pixelize(float precision, float dilatation)
     Point3 minP = min();
     Point3 maxP = max();
     float xMin = minP.x-dilatation;
-    float yMin = minP.z-dilatation;
+    float yMin = minP.y-dilatation;
     float xMax = maxP.x+dilatation;
-    float yMax = maxP.z+dilatation;
+    float yMax = maxP.y+dilatation;
     int width = (xMax-xMin)/precision;
     int height = (yMax-yMin)/precision;
     Bitmap *bitmap = new Bitmap(width, height);
 
     for (int x=0; x<width; x++) {
-        for (int y=0; y<width; y++) {
-            float X = (x+1)*precision - dilatation;
-            float Y = (y+1)*precision - dilatation;
-            if (X > minP.x && X < maxP.x && Y > minP.z && Y < maxP.z) {
+        for (int y=0; y<height; y++) {
+            float X = (x+1)*precision - dilatation + minP.x;
+            float Y = (y+1)*precision - dilatation + minP.y;
+            if (X > minP.x && X < maxP.x && Y > minP.y && Y < maxP.y) {
                 bitmap->setPoint(x, y, contains(X, Y));
             } else {
                 bitmap->setPoint(x, y, false);

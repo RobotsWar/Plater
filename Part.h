@@ -12,11 +12,14 @@ namespace Plater
             Part();
             virtual ~Part();
 
-            void load(std::string filename);
+            void load(std::string filename, float precision);
             std::string getFilename();
 
-            bool overlaps(const Part &other);
             SimpleModel *model;
+
+            Bitmap *getBmp();
+
+            float width, height;
 
         protected:
             Bitmap *bmp;

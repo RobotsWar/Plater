@@ -1,0 +1,67 @@
+#include "PlacedPart.h"
+
+namespace Plater
+{
+    PlacedPart::PlacedPart()
+        : part(NULL), x(0), y(0), dirty(true), bmp(NULL), rotation(1.4)
+    {
+    }
+
+    PlacedPart::~PlacedPart()
+    {
+        if (bmp != NULL) {
+            delete bmp;
+        }
+    }
+
+    void PlacedPart::setPart(Part *part_)
+    {
+        dirty = true;
+        part = part_;
+    }
+
+    void PlacedPart::setOffset(float x_, float y_)
+    {
+        x = x_;
+        y = y_;
+    }
+
+    void PlacedPart::setRotation(float r)
+    {
+        dirty = true;
+        rotation = r;
+    }
+
+    Part *PlacedPart::getPart()
+    {
+        return part;
+    }
+
+    float PlacedPart::getX()
+    {
+        return x;
+    }
+
+    float PlacedPart::getY()
+    {
+        return y;
+    }
+
+    Bitmap *PlacedPart::generateBitmap()
+    {
+        return Bitmap::rotate(part->getBmp(), rotation);
+    }
+    
+    Bitmap *PlacedPart::getBmp()
+    {
+        if (dirty) {
+            dirty = false;
+            if (bmp != NULL) {
+                delete bmp;
+            }
+            bmp = generateBitmap();
+        }
+
+        return bmp;
+    }
+}

@@ -5,6 +5,7 @@
 #include <iostream>
 #include <vector>
 #include "Part.h"
+#include "PlacedPart.h"
 
 namespace Plater
 {
@@ -16,8 +17,11 @@ namespace Plater
 
             void readFromStdin();
             void process();
+            PlacedPart *getNextPart();
 
         protected:
+            float precision;
+            float delta, deltaR;
             double plateWidth, plateHeight;
             std::map<std::string, int> quantities;
             std::map<std::string, Part*> parts;

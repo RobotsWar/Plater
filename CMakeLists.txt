@@ -8,6 +8,8 @@ set(ALL_SOURCES
     modelFile/logoutput.cpp
 
     Bitmap.cpp
+    PlacedPart.cpp
+    Plate.cpp
     Part.cpp
     Rectangle.cpp
     Request.cpp
