@@ -5,6 +5,8 @@
 #include "modelFile.h"
 #include "logoutput.h"
 
+using namespace Plater;
+
 FILE* binaryMeshBlob = NULL;
 
 /* Custom fgets function to support Mac line-ends in Ascii STL files. OpenSCAD produces this when used on Mac */
@@ -40,17 +42,17 @@ SimpleModel* loadModelSTL_ascii(const char* filename, FMatrix3x3& matrix)
             n++;
             switch(n)
             {
-            case 1:
-                v0 = matrix.apply(vertex);
-                break;
-            case 2:
-                v1 = matrix.apply(vertex);
-                break;
-            case 3:
-                v2 = matrix.apply(vertex);
-                vol->addFace(v0, v1, v2);
-                n = 0;
-                break;
+                case 1:
+                    v0 = matrix.apply(vertex);
+                    break;
+                case 2:
+                    v1 = matrix.apply(vertex);
+                    break;
+                case 3:
+                    v2 = matrix.apply(vertex);
+                    vol->addFace(v0, v1, v2);
+                    n = 0;
+                    break;
             }
         }
     }
@@ -80,11 +82,11 @@ SimpleModel* loadModelSTL_binary(const char* filename, FMatrix3x3& matrix)
     SimpleModel* m = new SimpleModel();
     m->volumes.push_back(SimpleVolume());
     SimpleVolume* vol = &m->volumes[0];
-	if(vol == NULL)
-	{
-		fclose(f);
-		return NULL;
-	}
+    if(vol == NULL)
+    {
+        fclose(f);
+        return NULL;
+    }
 
     for(unsigned int i=0;i<faceCount;i++)
     {
@@ -119,7 +121,7 @@ SimpleModel* loadModelSTL(const char* filename, FMatrix3x3& matrix)
     char buffer[6];
     if (f == NULL)
         return NULL;
-    
+
     if (fread(buffer, 5, 1, f) != 1)
     {
         fclose(f);
@@ -145,11 +147,11 @@ SimpleModel* loadModelFromFile(const char* filename, FMatrix3x3& matrix)
     if (filename[0] == '#' && binaryMeshBlob != NULL)
     {
         SimpleModel* m = new SimpleModel();
-        
+
         while(*filename == '#')
         {
             filename++;
-            
+
             m->volumes.push_back(SimpleVolume());
             SimpleVolume* vol = &m->volumes[m->volumes.size()-1];
             int32_t n, pNr = 0;
@@ -175,4 +177,54 @@ SimpleModel* loadModelFromFile(const char* filename, FMatrix3x3& matrix)
         return m;
     }
     return NULL;
+}
+
+bool SimpleModel::contains(float x, float y)
+{
+    for(unsigned int i=0; i<volumes.size(); i++)
+    {
+        for (unsigned int k=0; k<volumes[i].faces.size(); k++) {
+            SimpleFace &face = volumes[i].faces[k];
+            Triangle t(
+                    FPoint2(face.v[0].x, face.v[0].z),
+                    FPoint2(face.v[1].x, face.v[1].z),
+                    FPoint2(face.v[2].x, face.v[2].z)
+                    );
+
+            if (t.contains(x, y)) {
+                return true;
+            }
+        }
+    }
+
+    return false;
+}
+
+Bitmap *SimpleModel::pixelize(float precision, float dilatation)
+{
+    Point3 minP = min();
+    Point3 maxP = max();
+    float xMin = minP.x-dilatation;
+    float yMin = minP.z-dilatation;
+    float xMax = maxP.x+dilatation;
+    float yMax = maxP.z+dilatation;
+    int width = (xMax-xMin)/precision;
+    int height = (yMax-yMin)/precision;
+    Bitmap *bitmap = new Bitmap(width, height);
+
+    for (int x=0; x<width; x++) {
+        for (int y=0; y<width; y++) {
+            float X = (x+1)*precision - dilatation;
+            float Y = (y+1)*precision - dilatation;
+            if (X > minP.x && X < maxP.x && Y > minP.z && Y < maxP.z) {
+                bitmap->setPoint(x, y, contains(X, Y));
+            } else {
+                bitmap->setPoint(x, y, false);
+            }
+        }
+    }
+
+    bitmap->dilatation(dilatation/precision);
+
+    return bitmap;
 }

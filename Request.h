@@ -4,6 +4,7 @@
 #include <map>
 #include <iostream>
 #include <vector>
+#include "Part.h"
 
 namespace Plater
 {
@@ -11,13 +12,15 @@ namespace Plater
     {
         public:
             Request();
+            virtual ~Request();
 
             void readFromStdin();
             void process();
 
         protected:
             double plateWidth, plateHeight;
-            std::map<std::string, int> parts;
+            std::map<std::string, int> quantities;
+            std::map<std::string, Part*> parts;
     
             std::string readString();
             double readFloat();

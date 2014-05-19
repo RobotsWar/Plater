@@ -9,6 +9,13 @@ namespace Plater
     {
     }
 
+    Request::~Request()
+    {
+        for (auto part : parts) {
+            delete part.second;
+        }
+    }
+
     std::string Request::readString()
     {
         std::string data;
@@ -32,16 +39,18 @@ namespace Plater
         plateHeight = readFloat();
 
         while (!cin.eof()) {
-            string name = readString();
+            string filename = readString();
             int quantity = readInt();
-            if (name != "" && quantity != 0) {
-                parts[name] = quantity;
+            if (filename != "" && quantity != 0) {
+                parts[filename] = new Part;
+                parts[filename]->load(filename);
+                quantities[filename] = quantity;
             }
         }
 
         cout << "* Request" << endl;
         cout << "- Plate size: " << plateWidth << "x" << plateHeight << endl;
-        for (auto part : parts) {
+        for (auto part : quantities) {
             cout << "- Part " << part.first << ": " << part.second << " qty" << endl;
         }
     }

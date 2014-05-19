@@ -2,6 +2,7 @@
 #include <fcntl.h>
 #include "modelFile/modelFile.h"
 #include "Request.h"
+#include "Triangle.h"
 
 using namespace std;
 using namespace Plater;

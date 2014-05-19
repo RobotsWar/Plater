@@ -6,8 +6,12 @@ set (CMAKE_CXX_FLAGS "-std=c++0x -Wall -pedantic")
 set(ALL_SOURCES
     modelFile/modelFile.cpp
     modelFile/logoutput.cpp
+
+    Bitmap.cpp
+    Part.cpp
     Rectangle.cpp
     Request.cpp
+    Triangle.cpp
     )
 
 include_directories("${CMAKE_SOURCE_DIR}/src")

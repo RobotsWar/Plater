@@ -12,6 +12,14 @@ They represent millimeters in 3D space.
 #include <stdint.h>
 #include <math.h>
 
+class FPoint2
+{
+    public:
+        double x, y, z;
+        FPoint2() {}
+        FPoint2(double _x, double _y): x(_x), y(_y) {}
+};
+
 class FPoint3
 {
 public:

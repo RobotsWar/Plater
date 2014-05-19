@@ -9,8 +9,10 @@ The format returned is a Model class with an array of faces, which have integer 
 
 #include <vector>
 using std::vector;
-#include "intpoint.h"
-#include "floatpoint.h"
+#include "../intpoint.h"
+#include "../floatpoint.h"
+#include "../Bitmap.h"
+#include "../Triangle.h"
 
 extern FILE* binaryMeshBlob;
 
@@ -31,7 +33,8 @@ class SimpleVolume
 {
 public:
     vector<SimpleFace> faces;
-    
+
+ 
     void addFace(Point3& v0, Point3& v1, Point3& v2)
     {
         faces.push_back(SimpleFace(v0, v1, v2));
@@ -111,6 +114,9 @@ public:
         }
         return ret;
     }
+    
+    Plater::Bitmap *pixelize(float precision, float dilatation);
+    bool contains(float x, float y);
 };
 
 SimpleModel* loadModelFromFile(const char* filename, FMatrix3x3& matrix);
