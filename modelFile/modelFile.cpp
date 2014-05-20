@@ -217,9 +217,9 @@ Bitmap *SimpleModel::pixelize(float precision, float dilatation)
             float X = (x+1)*precision - dilatation + minP.x;
             float Y = (y+1)*precision - dilatation + minP.y;
             if (X > minP.x && X < maxP.x && Y > minP.y && Y < maxP.y) {
-                bitmap->setPoint(x, y, contains(X, Y));
+                bitmap->setPoint(x, y, contains(X, Y) ? 2 : 0);
             } else {
-                bitmap->setPoint(x, y, false);
+                bitmap->setPoint(x, y, 0);
             }
         }
     }

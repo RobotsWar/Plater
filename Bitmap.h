@@ -21,7 +21,7 @@ namespace Plater
 
             std::string toPpm();
 
-            bool getPoint(int x, int y) const
+            unsigned char getPoint(int x, int y) const
             {
                 if (data == NULL || x < 0 || y < 0 || x >= width || y >= height) {
                     return false;
@@ -30,7 +30,7 @@ namespace Plater
                 }
             }
 
-            void setPoint(int x, int y, bool value)
+            void setPoint(int x, int y, unsigned char value)
             {
                 if (!(data == NULL || x < 0 || y < 0 || x >= width || y >= height)) {
                     data[BMP_POSITION(x,y)] = value;
@@ -58,7 +58,7 @@ namespace Plater
                                     }
                                 }
                                 if (score >= 1) {
-                                    setPoint(x, y, true);
+                                    setPoint(x, y, 1);
                                 }
                             }
                         }
@@ -83,7 +83,7 @@ namespace Plater
                 for (int x=0; x<other->width; x++) {
                     for (int y=0; y<other->height; y++) {
                         if (other->getPoint(x, y)) {
-                            setPoint(x+offx, y+offy, true);
+                            setPoint(x+offx, y+offy, other->getPoint(x, y));
                         }
                     }
                 }
@@ -166,7 +166,7 @@ namespace Plater
             }
 
             // Image pixels
-            bool *data;
+            unsigned char *data;
 
             // Image dimension
             int width, height;

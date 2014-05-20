@@ -19,16 +19,29 @@ namespace Plater
         nCA = FPoint2(CA.y, -CA.x);
     }
 
+    static bool getSide(FPoint2 pt, FPoint2 n, FPoint2 s)
+    {
+        double scalarN = n.x*pt.x + n.y*pt.y;
+
+        if (scalarN == 0) {
+            double scalar = s.x*pt.x + s.y*pt.y;
+            return scalar > 0;
+        }
+
+        return scalarN < 0;
+    }
+
     bool Triangle::contains(double x, double y)
     {
         FPoint2 vectorA(x-A.x, y-A.y);
         FPoint2 vectorB(x-B.x, y-B.y);
         FPoint2 vectorC(x-C.x, y-C.y);
-        double scalarAB = nAB.x*vectorA.x + nAB.y*vectorA.y;
-        double scalarBC = nBC.x*vectorB.x + nBC.y*vectorB.y;
-        double scalarCA = nCA.x*vectorC.x + nCA.y*vectorC.y;
 
-        return (scalarAB < 0 && scalarBC < 0 && scalarCA < 0);
+        bool sideA = getSide(vectorA, nAB, AB);
+        bool sideB = getSide(vectorB, nBC, BC);
+        bool sideC = getSide(vectorC, nCA, CA);
+
+        return sideA && sideB && sideC;
     }
 
     bool Triangle::contains(const FPoint2 &p)

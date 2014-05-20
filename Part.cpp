@@ -21,7 +21,7 @@ namespace Plater
         }
     }
 
-    void Part::load(std::string filename_, float precision_, float deltaR)
+    void Part::load(std::string filename_, float precision_, float deltaR, float spacing)
     {
         int bmps = (M_PI*2)/deltaR;
         precision = precision_;
@@ -29,7 +29,7 @@ namespace Plater
         FMatrix3x3 id;
         model = loadModelFromFile(filename.c_str(), id);
         bmp = new Bitmap*[bmps];
-        bmp[0] = model->pixelize(precision, 2200);
+        bmp[0] = model->pixelize(precision, spacing);
 
         for (int k=1; k<bmps; k++) {
             Bitmap *rotated = Bitmap::rotate(bmp[0], k*deltaR);

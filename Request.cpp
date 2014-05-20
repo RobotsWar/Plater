@@ -1,3 +1,4 @@
+#include <fstream>
 #include <iostream>
 #include "Request.h"
 #include "Placer.h"
@@ -10,7 +11,12 @@ using namespace std;
 namespace Plater
 {
     Request::Request()
-        : precision(500), delta(2000), deltaR(M_PI/2)
+        : mode(REQUEST_STL), 
+        precision(500),
+        delta(2000),
+        deltaR(M_PI/2),
+        spacing(2200),
+        pattern("plate_%03d")
     {
     }
 
@@ -51,10 +57,40 @@ namespace Plater
             _log("- Loading %s (quantity %d)...\n", filename.c_str(), quantity);
             if (filename != "" && quantity != 0) {
                 parts[filename] = new Part;
-                parts[filename]->load(filename, precision, deltaR);
+                parts[filename]->load(filename, precision, deltaR, spacing);
                 quantities[filename] = quantity;
             }
         }
+    }
+
+    void Request::writeFiles(Solution *solution)
+    {
+        _log("* Exporting\n");
+        switch (mode) {
+            case REQUEST_PPM:
+                pattern += ".ppm";
+                break;
+            case REQUEST_STL:
+                pattern += ".stl";
+                break;
+        }
+
+        char *buffer = new char[pattern.size()+64];
+        for (int i=0; i<solution->countPlates(); i++) {
+            Plate *plate = solution->getPlate(i);
+            int plateNumber = i+1;
+            snprintf(buffer, pattern.size()+63, pattern.c_str(), plateNumber);
+            _log("- Exporting %s...\n", buffer);
+
+            ofstream ofile(buffer);
+            if (ofile) {
+                ofile << plate->bmp->toPpm();
+                ofile.close();
+            } else {
+                logError("Error: can't write to %s\n", buffer);
+            }
+        }
+        delete[] buffer;
     }
 
     void Request::process()
@@ -80,8 +116,7 @@ namespace Plater
         _log("* Solution\n");
         _log("- Plates: %d\n", solution->countPlates());
         _log("- Score: %g\n", solution->score());
-        Plate *plate = solution->getPlate(0);
-        cout << plate->bmp->toPpm();
+        writeFiles(solution);
         delete solution;
     }
 }

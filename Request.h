@@ -5,7 +5,11 @@
 #include <iostream>
 #include <vector>
 #include "Part.h"
+#include "Solution.h"
 #include "PlacedPart.h"
+
+#define REQUEST_STL 0
+#define REQUEST_PPM 1
 
 namespace Plater
 {
@@ -19,9 +23,13 @@ namespace Plater
             void process();
             PlacedPart *getNextPart();
 
+            int mode;
             float precision;
             float delta, deltaR;
+            float spacing;
             double plateWidth, plateHeight;
+            std::string pattern;
+            void writeFiles(Solution *solution);
         
             std::map<std::string, int> quantities;
             std::map<std::string, Part*> parts;
