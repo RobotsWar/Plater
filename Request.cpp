@@ -61,14 +61,19 @@ namespace Plater
     {
         Solution *solution = NULL;
 
-        for (int sortMode=0; sortMode<PLACER_SORT_SHUFFLE+3; sortMode++) {
-            Placer placer(this);
-            placer.sortParts(2);
-            Solution *solutionTmp = placer.place();
-            if (solution == NULL || solutionTmp->score() < solution->score()) {
-                solution = solutionTmp;
-            } else {
-                delete solutionTmp;
+        for (int sortMode=0; sortMode<PLACER_SORT_SHUFFLE+2; sortMode++) {
+            for (int gravity=0; gravity<PLACER_GRAVITY_EQ; gravity++) {
+                Placer placer(this);
+                placer.sortParts(sortMode);
+                placer.setGravityMode(gravity);
+
+                Solution *solutionTmp = placer.place();
+
+                if (solution == NULL || solutionTmp->score() < solution->score()) {
+                    solution = solutionTmp;
+                } else {
+                    delete solutionTmp;
+                }
             }
         }
 
