@@ -15,7 +15,7 @@ void help()
     cerr << endl;
     cerr << "-v: Verbose mode" << endl;
     cerr << "-j precision: Sets the precision (in mm, default: 0.5)" << endl;
-    cerr << "-s spacing: Change the spacing between parts (in mm, default: 2.2)" << endl;
+    cerr << "-s spacing: Change the spacing between parts (in mm, default: 2)" << endl;
     cerr << "-d delta: Sets the interval of place grid (in mm, default: 2)" << endl;
     cerr << "-r rotation: Sets the interval of rotation (in °, default: 90)" << endl;
     cerr << "-o pattern: output file pattern (default: plate_%03d)" << endl;
@@ -58,4 +58,4 @@ int main(int argc, char *argv[])
     request.process();
 
     return EXIT_SUCCESS;
-:}
+}

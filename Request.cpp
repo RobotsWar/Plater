@@ -15,7 +15,7 @@ namespace Plater
         precision(500),
         delta(2000),
         deltaR(M_PI/2),
-        spacing(2200),
+        spacing(2000),
         pattern("plate_%03d")
     {
     }
