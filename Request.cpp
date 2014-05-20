@@ -68,6 +68,7 @@ namespace Plater
     {
         SimpleModel model = plate->createModel();
 
+        saveModelToFileAscii(filename, &model);
         cerr << "STL Export not implemented!" << endl;
     }
 

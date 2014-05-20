@@ -1,10 +1,12 @@
 /** Copyright (C) 2013 David Braam - Released under terms of the AGPLv3 License */
+#include <fstream>
 #include <string.h>
 #include <stdio.h>
 
 #include "modelFile.h"
 #include "../log.h"
 
+using namespace std;
 using namespace Plater;
 
 FILE* binaryMeshBlob = NULL;
@@ -23,6 +25,30 @@ void* fgets_(char* ptr, size_t len, FILE* f)
         len--;
     }
     return NULL;
+}
+
+void saveModelToFileAscii(const char *filename, SimpleModel *model)
+{
+    ofstream ofile(filename);
+
+    ofile << "solid plate" << endl;
+    for (auto volume : model->volumes) {
+        for (auto face : volume.faces) {
+            ofile << "  facet normal 1 0 0" << endl;
+            ofile << "    outer loop" << endl;
+            for (int i=0; i<3; i++) {
+                ofile << "      vertex " << 
+                    face.v[i].x/1000.0 << " " <<
+                    face.v[i].y/1000.0 << " " <<
+                    face.v[i].z/1000.0 << endl;
+            }
+            ofile << "    endloop" << endl;
+            ofile << "  endfacet" << endl;
+        }
+    }
+    ofile << "endsolid plate" << endl;
+
+    ofile.close();
 }
 
 SimpleModel* loadModelSTL_ascii(const char* filename, FMatrix3x3& matrix)
@@ -234,8 +260,8 @@ SimpleModel SimpleModel::translate(float X, float Y, float Z)
     SimpleModel translated;
     translated.volumes = volumes;
 
-    for (auto volume : translated.volumes) {
-        for (auto face : volume.faces) {
+    for (auto& volume : translated.volumes) {
+        for (auto& face : volume.faces) {
             for (int i=0; i<3; i++) {
                 face.v[i].x += X;
                 face.v[i].y += Y;
@@ -259,13 +285,14 @@ SimpleModel SimpleModel::rotate(float r)
     SimpleModel rotated;
     rotated.volumes = volumes;
 
-    for (auto volume : rotated.volumes) {
-        for (auto face : volume.faces) {
+    r = -r;
+    for (auto& volume : rotated.volumes) {
+        for (auto& face : volume.faces) {
             for (int i=0; i<3; i++) {
                 float x = face.v[i].x;
                 float y = face.v[i].y;
-                face.v[i].x += cos(r)*x-sin(r)*y;
-                face.v[i].y += sin(r)*y+cos(r)*x;
+                face.v[i].x = cos(r)*x-sin(r)*y;
+                face.v[i].y = sin(r)*x+cos(r)*y;
             }
         }
     }
