@@ -79,6 +79,7 @@ namespace Plater
 
         _log("* Solution\n");
         _log("- Plates: %d\n", solution->countPlates());
+        _log("- Score: %g\n", solution->score());
         Plate *plate = solution->getPlate(0);
         cout << plate->bmp->toPpm();
         delete solution;

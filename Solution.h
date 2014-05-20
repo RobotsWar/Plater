@@ -15,6 +15,7 @@ namespace Plater
 
             int countPlates();
             Plate *getPlate(int index);
+            Plate *lastPlate();
             void addPlate();
 
         protected:

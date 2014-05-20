@@ -45,4 +45,9 @@ namespace Plater
         parts.push_back(placedPart);
         bmp->write(placedPart->getBmp(), placedPart->getX()/precision, placedPart->getY()/precision);
     }
+            
+    int Plate::countParts()
+    {
+        return parts.size();
+    }
 }

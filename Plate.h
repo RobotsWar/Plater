@@ -14,6 +14,7 @@ namespace Plater
 
             void place(PlacedPart *placedPart);
             bool canPlace(PlacedPart *placedPart);
+            int countParts();
 
             float width, height;
             float precision;

@@ -23,6 +23,11 @@ namespace Plater
         }
     }
 
+    Plate *Solution::lastPlate()
+    {
+        return plates[plates.size()-1];
+    }
+
     void Solution::addPlate()
     {
         plates.push_back(new Plate(plateWidth, plateHeight, precision));
@@ -35,6 +40,6 @@ namespace Plater
 
     float Solution::score()
     {
-        return countPlates();
+        return countPlates() + (1-1/(float)(1+lastPlate()->countParts()));
     }
 }
