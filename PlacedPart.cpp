@@ -10,10 +10,20 @@ namespace Plater
     PlacedPart::~PlacedPart()
     {
     }
+
+    std::string PlacedPart::getName()
+    {
+        return part->getFilename();
+    }
             
     float PlacedPart::getSurface() const
     {
         return part->getSurface();
+    }
+            
+    float PlacedPart::getDensity() const
+    {
+        return part->getDensity(rotation);
     }
 
     void PlacedPart::setPart(Part *part_)
@@ -45,6 +55,11 @@ namespace Plater
     float PlacedPart::getY()
     {
         return y;
+    }
+
+    int PlacedPart::getRotation()
+    {
+        return rotation;
     }
     
     Bitmap *PlacedPart::getBmp()

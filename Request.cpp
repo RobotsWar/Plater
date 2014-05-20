@@ -80,7 +80,7 @@ namespace Plater
         _log("* Solution\n");
         _log("- Plates: %d\n", solution->countPlates());
         Plate *plate = solution->getPlate(0);
-        plate->bmp->toPpm();
+        cout << plate->bmp->toPpm();
         delete solution;
     }
 }

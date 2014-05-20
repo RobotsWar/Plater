@@ -33,6 +33,16 @@ namespace Plater
                         return a->getSurface() < b->getSurface();
                         });
                 break;
+            case PLACER_SORT_DENSITY_INC:
+                sort(parts.begin(), parts.end(), [](const PlacedPart *a, const PlacedPart *b) {
+                        return a->getDensity() > b->getDensity();
+                        });
+                break;
+            case PLACER_SORT_DENSITY_DEC:
+                sort(parts.begin(), parts.end(), [](const PlacedPart *a, const PlacedPart *b) {
+                        return a->getDensity() < b->getDensity();
+                        });
+                break;
             default:
                 unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
                 shuffle(parts.begin(), parts.end(), std::default_random_engine(seed));
@@ -65,40 +75,47 @@ namespace Plater
                 break;
         }
     }
-            
+    
     bool Placer::placePart(Plate *plate, PlacedPart *part)
     {
-        float betterX=0, betterY=0, betterScore;
-        int betterR=0;
-        int rs = (M_PI*2/request->deltaR);
-        bool found = false;
-        for (int r=0; r<rs; r++) {
-            part->setRotation(r);
-            for (float x=0; x<plate->width; x+=request->delta) {
-                for (float y=0; y<plate->height; y+=request->delta) {
-                    float gx = part->getGX()+x;
-                    float gy = part->getGY()+y;
-                    float score = gy*yCoef+gx*xCoef;
+        std::string cacheName = part->getName();
 
-                    if (!found || score < betterScore) {
-                        part->setOffset(x, y);
-                        if (plate->canPlace(part)) {
-                            found = true;
-                            betterX = x;
-                            betterY = y;
-                            betterScore = score;
-                            betterR = r;
+        if (!cache[plate][cacheName]) {
+            float betterX=0, betterY=0, betterScore;
+            int betterR=0;
+            int rs = (M_PI*2/request->deltaR);
+            bool found = false;
+            for (int r=0; r<rs; r++) {
+                part->setRotation(r);
+                for (float x=0; x<plate->width; x+=request->delta) {
+                    for (float y=0; y<plate->height; y+=request->delta) {
+                        float gx = part->getGX()+x;
+                        float gy = part->getGY()+y;
+                        float score = gy*yCoef+gx*xCoef;
+
+                        if (!found || score < betterScore) {
+                            part->setOffset(x, y);
+                            if (plate->canPlace(part)) {
+                                found = true;
+                                betterX = x;
+                                betterY = y;
+                                betterScore = score;
+                                betterR = r;
+                            }
                         }
                     }
                 }
             }
-        }
-        if (found) {
-            _log("- Placing it @%g,%g r=%d\n", betterX, betterY, betterR);
-            part->setRotation(betterR);
-            part->setOffset(betterX, betterY);
-            plate->place(part);
-            return true;
+            if (found) {
+                _log("- Placing it @%g,%g r=%d\n", betterX, betterY, betterR);
+                part->setRotation(betterR);
+                part->setOffset(betterX, betterY);
+                plate->place(part);
+                return true;
+            } else {
+                cache[plate][cacheName] = true;
+                return false;
+            }
         } else {
             return false;
         }
@@ -122,7 +139,7 @@ namespace Plater
                     placed = true;
                 } else {
                     if (i+1 == solution->countPlates()) {
-                        _log("! Creating a new plate");
+                        _log("! Creating a new plate\n");
                         solution->addPlate();
                     }
                 }

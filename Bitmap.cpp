@@ -1,3 +1,4 @@
+#include <sstream>
 #include <iostream>
 #include <unistd.h>
 #include "Bitmap.h"
@@ -38,15 +39,19 @@ namespace Plater
         }
     }
             
-    void Bitmap::toPpm()
+    string Bitmap::toPpm()
     {
-        cout << "P1" << endl;
-        cout << width << " " << height << endl;
+        ostringstream oss;
+        oss << "P1" << endl;
+        oss << width << " " << height << endl;
         for (int y=0; y<height; y++) {
             for (int x=0; x<width; x++) {
-                cout << data[BMP_POSITION(x,y)] << " ";
+                oss << data[BMP_POSITION(x,y)] << " ";
             }
-            cout << "\n";
+            if (y+1 != height) {
+                oss << "\n";
+            }
         }
+        return oss.str();
     }
 }

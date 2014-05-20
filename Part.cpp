@@ -47,8 +47,14 @@ namespace Plater
         return filename;
     }
             
-    Bitmap *Part::getBmp(int index)
+    Bitmap *Part::getBmp(int index) const
     {
         return bmp[index];
+    }
+            
+    float Part::getDensity(int index) const
+    {
+        Bitmap *bmp = getBmp(index);
+        return bmp->pixels/(bmp->width*bmp->height);
     }
 }

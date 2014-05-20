@@ -19,7 +19,7 @@ namespace Plater
             Bitmap(int width, int height);
             virtual ~Bitmap();
 
-            void toPpm();
+            std::string toPpm();
 
             bool getPoint(int x, int y) const
             {

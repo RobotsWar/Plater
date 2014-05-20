@@ -17,8 +17,9 @@ namespace Plater
 
             SimpleModel *model;
 
-            Bitmap *getBmp(int index);
+            Bitmap *getBmp(int index) const;
             float getSurface() const;
+            float getDensity(int index) const;
 
             float precision;
 
