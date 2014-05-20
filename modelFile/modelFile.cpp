@@ -179,23 +179,34 @@ SimpleModel* loadModelSTL_binary(const char* filename, FMatrix3x3& matrix)
 SimpleModel* loadModelSTL(const char* filename, FMatrix3x3& matrix)
 {
     FILE* f = fopen(filename, "r");
-    char buffer[6];
+    int n;
+    unsigned char buffer[4096];
     if (f == NULL)
         return NULL;
 
-    if (fread(buffer, 5, 1, f) != 1)
+    if ((n = fread(buffer, 1, 4096, f)) < 1)
     {
         fclose(f);
         return NULL;
     }
     fclose(f);
 
-    buffer[5] = '\0';
-    if (strcasecmp(buffer, "SOLID") == 0)
+    if (strncasecmp((char*)buffer, "SOLID", 5) != 0)
     {
-        return loadModelSTL_ascii(filename, matrix);
+        return loadModelSTL_binary(filename, matrix);
+    } else {
+        int printable = 0;
+        for (int i=0; i<n; i++) {
+            if (buffer[i]<127) {
+                printable++;
+            }
+        }
+        if (printable/(float)n < 0.95) {
+            return loadModelSTL_binary(filename, matrix);
+        } else {
+            return loadModelSTL_ascii(filename, matrix);
+        }
     }
-    return loadModelSTL_binary(filename, matrix);
 }
 
 SimpleModel* loadModelFromFile(const char* filename, FMatrix3x3& matrix)
