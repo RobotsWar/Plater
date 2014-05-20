@@ -8,9 +8,11 @@ using namespace std;
 namespace Plater
 {
     Bitmap::Bitmap(int width_, int height_)
-        : data(NULL), width(width_), height(height_), sX(0), sY(0), pixels(0)
+        : width(width_), height(height_), sX(0), sY(0), pixels(0), data(NULL)
     {
         data = new unsigned char[width*height];
+        centerX = width/2;
+        centerY = height/2;
 
         for (int x=0; x<width; x++) {
             for (int y=0; y<height; y++) {
@@ -18,7 +20,7 @@ namespace Plater
             }
         }
     }
-            
+
     Bitmap::Bitmap(const Bitmap *other)
     {
         width = other->width;
@@ -38,7 +40,7 @@ namespace Plater
             delete[] data;
         }
     }
-            
+
     string Bitmap::toPpm()
     {
         ostringstream oss;
@@ -70,5 +72,130 @@ namespace Plater
             }
         }
         return oss.str();
+    }
+
+    Bitmap *Bitmap::trim(const Bitmap *bmp)
+    {
+        bool found = false;
+        int minX=0, minY=0;
+        int maxX=0, maxY=0;
+
+        for (int x=0; x<bmp->width; x++) {
+            for (int y=0; y<bmp->height; y++) {
+                if (bmp->getPoint(x, y)) {
+                    if (!found) {
+                        found = true;
+                        minX = maxX = x;
+                        minY = maxY = y;
+                    } else {
+                        if (x < minX) minX = x;
+                        if (y < minY) minY = y;
+                        if (x > maxX) maxX = x;
+                        if (y > maxY) maxY = y;
+                    }
+                }
+            }
+        }
+
+        int deltaX = maxX-minX;
+        int deltaY = maxY-minY;
+        Bitmap *trimmed = new Bitmap(deltaX, deltaY);
+        trimmed->centerX = bmp->centerX-minX;
+        trimmed->centerY = bmp->centerY-minY;
+        for (int x=0; x<deltaX; x++) {
+            for (int y=0; y<deltaY; y++) {
+                trimmed->setPoint(x, y, bmp->getPoint(x+minX, y+minY));
+            }
+        }
+
+        return trimmed;
+    }
+
+    Bitmap *Bitmap::rotate(const Bitmap *other, float r)
+    {
+        float w = other->width;
+        float h = other->height;
+
+        int aX = (int)ceil(w*cos(r) - h*sin(r));
+        int aY = (int)ceil(w*sin(r) + h*cos(r));
+
+        int bX = (int)ceil(-h*sin(r));
+        int bY = (int)ceil(h*cos(r));
+
+        int cX = (int)ceil(w*cos(r));
+        int cY = (int)ceil(w*sin(r));
+
+        int xMin = MIN(MIN(0, aX), MIN(bX, cX));
+        int xMax = MAX(MAX(0, aX), MAX(bX, cX));
+        int yMin = MIN(MIN(0, aY), MIN(bY, cY));
+        int yMax = MAX(MAX(0, aY), MAX(bY, cY));
+
+        int width = xMax-xMin;
+        int height = yMax-yMin;
+
+        float oldCenterX = other->centerX;
+        float oldCenterY = other->centerY;
+        float centerX = width/2;
+        float centerY = height/2;
+
+        Bitmap *rotated = new Bitmap(width, height);
+        for (int x=0; x<width; x++) {
+            for (int y=0; y<height; y++) {
+                int cX = round(x-centerX);
+                int cY = round(y-centerY);
+                int X = round((cos(r)*cX - sin(r)*cY) + oldCenterX);
+                int Y = round((sin(r)*cX + cos(r)*cY) + oldCenterY);
+                rotated->setPoint(x, y, other->getPoint(X, Y));
+            }
+        }
+
+        return rotated;
+    }
+
+    void Bitmap::write(const Bitmap *other, int offx, int offy)
+    {
+        for (int x=0; x<other->width; x++) {
+            for (int y=0; y<other->height; y++) {
+                if (other->getPoint(x, y)) {
+                    setPoint(x+offx, y+offy, other->getPoint(x, y));
+                }
+            }
+        }
+    }
+
+    bool Bitmap::overlaps(const Bitmap *other, int offx, int offy)
+    {
+        for (int x=0; x<width; x++) {
+            for (int y=0; y<height; y++) {
+                if (getPoint(x, y) && other->getPoint(x+offx, y+offy)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    void Bitmap::dilatation(int iterations)
+    {
+        for (int i=0; i<iterations; i++) {
+            Bitmap old(this);
+            for (int x=0; x<width; x++) {
+                for (int y=0; y<height; y++) {
+                    if (!old.getPoint(x, y)) {
+                        int score = 0;
+                        for (int dx=-1; dx<=1; dx++) {
+                            for (int dy=-1; dy<=1; dy++) {
+                                if (old.getPoint(x+dx, y+dy)) {
+                                    score++;
+                                }
+                            }
+                        }
+                        if (score >= 1) {
+                            setPoint(x, y, 1);
+                        }
+                    }
+                }
+            }
+        }
     }
 }
