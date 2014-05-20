@@ -68,7 +68,7 @@ namespace Plater
     {
         SimpleModel model = plate->createModel();
 
-        saveModelToFileAscii(filename, &model);
+        saveModelToFileBinary(filename, &model);
     }
 
     void Request::writePpm(Plate *plate, const char *filename)

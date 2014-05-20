@@ -1,5 +1,6 @@
 #include <iostream>
 #include <fcntl.h>
+#include <getopt.h>
 #include "modelFile/modelFile.h"
 #include "Request.h"
 #include "util.h"

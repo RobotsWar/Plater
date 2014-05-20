@@ -126,5 +126,6 @@ public:
 
 SimpleModel* loadModelFromFile(const char* filename, FMatrix3x3& matrix);
 void saveModelToFileAscii(const char *filename, SimpleModel *model);
+void saveModelToFileBinary(const char *filename, SimpleModel *model);
 
 #endif//MODELFILE_H

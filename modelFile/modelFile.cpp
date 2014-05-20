@@ -86,6 +86,42 @@ SimpleModel* loadModelSTL_ascii(const char* filename, FMatrix3x3& matrix)
     return m;
 }
 
+void saveModelToFileBinary(const char *filename, SimpleModel *model)
+{
+    ofstream ofile(filename,ios::binary);
+    char h = '\0';
+    for (int i = 0; i < 80; i++)
+    {
+        ofile.write(&h, sizeof(char));
+    }
+    uint32_t faceCount = 0;
+    for (auto volume : model->volumes) {
+        faceCount += volume.faces.size();
+    }
+    ofile.write((char*)&faceCount, sizeof(uint32_t));
+    for (auto volume : model->volumes) {
+        for (auto face : volume.faces) {
+            float a = 1.0;
+            float b = 0.0;
+            ofile.write((char*)&a, sizeof(float));
+            ofile.write((char*)&b, sizeof(float));
+            ofile.write((char*)&b, sizeof(float));
+            for (int i=0; i<3; i++) {
+                float x = face.v[i].x/1000.0;
+                float y = face.v[i].y/1000.0;
+                float z = face.v[i].z/1000.0;
+                ofile.write((char*)&x, sizeof(float));
+                ofile.write((char*)&y, sizeof(float));
+                ofile.write((char*)&z, sizeof(float));
+            }
+            uint16_t flags = 0;
+            ofile.write((char*)&flags, sizeof(uint16_t));
+        }
+    }
+
+    ofile.close();
+}
+
 SimpleModel* loadModelSTL_binary(const char* filename, FMatrix3x3& matrix)
 {
     FILE* f = fopen(filename, "rb");
@@ -113,7 +149,6 @@ SimpleModel* loadModelSTL_binary(const char* filename, FMatrix3x3& matrix)
         fclose(f);
         return NULL;
     }
-
     for(unsigned int i=0;i<faceCount;i++)
     {
         if (fread(buffer, sizeof(float) * 3, 1, f) != 1)
