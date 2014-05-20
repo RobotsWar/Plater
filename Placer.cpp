@@ -17,19 +17,19 @@ namespace Plater
             }
         }
     }
-            
+
     void Placer::sortParts(int sortType)
     {
         switch (sortType) {
             case PLACER_SORT_SURFACE_INC:
                 sort(parts.begin(), parts.end(), [](const PlacedPart *a, const PlacedPart *b) {
-                    return a->getSurface() > b->getSurface();
-                });
+                        return a->getSurface() > b->getSurface();
+                        });
                 break;
             case PLACER_SORT_SURFACE_DEC:
                 sort(parts.begin(), parts.end(), [](const PlacedPart *a, const PlacedPart *b) {
-                    return a->getSurface() < b->getSurface();
-                });
+                        return a->getSurface() < b->getSurface();
+                        });
                 break;
             default:
                 unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
@@ -64,12 +64,11 @@ namespace Plater
                     for (float y=0; y<plate->height; y+=request->delta) {
                         float gx = part->getGX()+x;
                         float gy = part->getGY()+y;
-                        part->setOffset(x, y);
-
                         float score = gy*10+gx;
 
-                        if (plate->canPlace(part)) {
-                            if (!found || score < betterScore) {
+                        if (!found || score < betterScore) {
+                            part->setOffset(x, y);
+                            if (plate->canPlace(part)) {
                                 found = true;
                                 betterX = x;
                                 betterY = y;
@@ -90,7 +89,7 @@ namespace Plater
             }
 
         }
-        
+
         return plate;
     }
 }
