@@ -3,6 +3,7 @@
 
 #include "Part.h"
 #include "PlacedPart.h"
+#include "modelFile/modelFile.h"
 
 namespace Plater
 {
@@ -15,6 +16,7 @@ namespace Plater
             void place(PlacedPart *placedPart);
             bool canPlace(PlacedPart *placedPart);
             int countParts();
+            SimpleModel createModel();
 
             float width, height;
             float precision;

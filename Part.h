@@ -22,6 +22,7 @@ namespace Plater
             float getDensity(int index) const;
 
             float precision;
+            float deltaR;
 
         protected:
             int bmps;

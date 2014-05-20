@@ -30,6 +30,8 @@ namespace Plater
             double plateWidth, plateHeight;
             std::string pattern;
             void writeFiles(Solution *solution);
+            void writeSTL(Plate *plate, const char *filename);
+            void writePpm(Plate *plate, const char *filename);
         
             std::map<std::string, int> quantities;
             std::map<std::string, Part*> parts;

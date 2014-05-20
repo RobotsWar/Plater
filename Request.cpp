@@ -4,6 +4,7 @@
 #include "Placer.h"
 #include "Plate.h"
 #include "Solution.h"
+#include "modelFile/modelFile.h"
 #include "log.h"
 
 using namespace std;
@@ -62,6 +63,24 @@ namespace Plater
             }
         }
     }
+    
+    void Request::writeSTL(Plate *plate, const char *filename)
+    {
+        SimpleModel model = plate->createModel();
+
+        cerr << "STL Export not implemented!" << endl;
+    }
+
+    void Request::writePpm(Plate *plate, const char *filename)
+    {
+        ofstream ofile(filename);
+        if (ofile) {
+            ofile << plate->bmp->toPpm();
+            ofile.close();
+        } else {
+            logError("Error: can't write to %s\n", filename);
+        }
+    }
 
     void Request::writeFiles(Solution *solution)
     {
@@ -82,12 +101,13 @@ namespace Plater
             snprintf(buffer, pattern.size()+63, pattern.c_str(), plateNumber);
             _log("- Exporting %s...\n", buffer);
 
-            ofstream ofile(buffer);
-            if (ofile) {
-                ofile << plate->bmp->toPpm();
-                ofile.close();
-            } else {
-                logError("Error: can't write to %s\n", buffer);
+            switch (mode) {
+                case REQUEST_STL:
+                    writeSTL(plate, buffer);
+                    break;
+                case REQUEST_PPM:
+                    writePpm(plate, buffer);
+                    break;
             }
         }
         delete[] buffer;

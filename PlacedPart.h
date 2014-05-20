@@ -20,6 +20,8 @@ namespace Plater
             Part *getPart();
             float getX();
             float getY();
+            float getCenterX();
+            float getCenterY();
             int getRotation();
 
             float getSurface() const;
@@ -28,6 +30,8 @@ namespace Plater
             float getGY();
 
             Bitmap *getBmp();
+
+            SimpleModel createModel();
 
         protected:
             Part *part;

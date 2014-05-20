@@ -117,6 +117,11 @@ public:
     
     Plater::Bitmap *pixelize(float precision, float dilatation);
     bool contains(float x, float y);
+
+    SimpleModel rotate(float r);
+    SimpleModel center();
+    SimpleModel translate(float X=0, float Y=0, float Z=0);
+    void merge(const SimpleModel &ohter);
 };
 
 SimpleModel* loadModelFromFile(const char* filename, FMatrix3x3& matrix);

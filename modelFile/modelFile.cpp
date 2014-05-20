@@ -228,3 +228,59 @@ Bitmap *SimpleModel::pixelize(float precision, float dilatation)
 
     return bitmap;
 }
+    
+SimpleModel SimpleModel::translate(float X, float Y, float Z)
+{
+    SimpleModel translated;
+    translated.volumes = volumes;
+
+    for (auto volume : translated.volumes) {
+        for (auto face : volume.faces) {
+            for (int i=0; i<3; i++) {
+                face.v[i].x += X;
+                face.v[i].y += Y;
+                face.v[i].z += Z;
+            }
+        }
+    }
+
+    return translated;
+}
+    
+void SimpleModel::merge(const SimpleModel &other)
+{
+    for (auto volume : other.volumes) {
+        volumes.push_back(volume);
+    }
+}
+    
+SimpleModel SimpleModel::rotate(float r)
+{
+    SimpleModel rotated;
+    rotated.volumes = volumes;
+
+    for (auto volume : rotated.volumes) {
+        for (auto face : volume.faces) {
+            for (int i=0; i<3; i++) {
+                float x = face.v[i].x;
+                float y = face.v[i].y;
+                face.v[i].x += cos(r)*x-sin(r)*y;
+                face.v[i].y += sin(r)*y+cos(r)*x;
+            }
+        }
+    }
+
+    return rotated;
+}
+
+SimpleModel SimpleModel::center()
+{
+    Point3 minP = min();
+    Point3 maxP = max();
+
+    float X = (minP.x+maxP.x)/2.0;
+    float Y = (minP.y+maxP.y)/2.0;
+    float Z = minP.z;
+
+    return translate(-X, -Y, -Z);
+}

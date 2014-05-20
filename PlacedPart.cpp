@@ -10,6 +10,23 @@ namespace Plater
     PlacedPart::~PlacedPart()
     {
     }
+            
+    SimpleModel PlacedPart::createModel()
+    {
+        SimpleModel model = (*part->model).center().rotate(part->deltaR*rotation);
+
+        return model.translate(getCenterX(), getCenterY());
+    }
+    
+    float PlacedPart::getCenterX()
+    {
+        return x+part->precision*getBmp()->centerX;
+    }
+
+    float PlacedPart::getCenterY()
+    {
+        return y+part->precision*getBmp()->centerY;
+    }
 
     std::string PlacedPart::getName()
     {

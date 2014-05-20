@@ -24,10 +24,11 @@ namespace Plater
         }
     }
 
-    void Part::load(std::string filename_, float precision_, float deltaR, float spacing)
+    void Part::load(std::string filename_, float precision_, float deltaR_, float spacing)
     {
-        bmps = (M_PI*2)/deltaR;
         precision = precision_;
+        deltaR = deltaR_;
+        bmps = (M_PI*2)/deltaR;
         filename = filename_;
         FMatrix3x3 id;
         model = loadModelFromFile(filename.c_str(), id);
