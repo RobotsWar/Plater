@@ -46,50 +46,60 @@ namespace Plater
         return part;
     }
 
-    Plate *Placer::place()
+    Solution *Placer::place()
     {
-        Plate *plate = new Plate(request->plateWidth, request->plateHeight, request->precision);
+        Solution *solution = new Solution(request->plateWidth, request->plateHeight, request->precision);
+        solution->addPlate();
 
         _log("* Placer\n");
         while (parts.size()) {
             PlacedPart *part = getNextPart();
             _log("- Trying to place %s...\n", part->getPart()->getFilename().c_str());
-            float betterX=0, betterY=0, betterScore;
-            int betterR=0;
-            int rs = (M_PI*2/request->deltaR);
-            bool found = false;
-            for (int r=0; r<rs; r++) {
-                part->setRotation(r);
-                for (float x=0; x<plate->width; x+=request->delta) {
-                    for (float y=0; y<plate->height; y+=request->delta) {
-                        float gx = part->getGX()+x;
-                        float gy = part->getGY()+y;
-                        float score = gy*10+gx;
+            bool placed = false;
 
-                        if (!found || score < betterScore) {
-                            part->setOffset(x, y);
-                            if (plate->canPlace(part)) {
-                                found = true;
-                                betterX = x;
-                                betterY = y;
-                                betterScore = score;
-                                betterR = r;
+            for (int i=0; i<solution->countPlates() && !placed; i++) {
+                Plate *plate = solution->getPlate(i);
+
+                float betterX=0, betterY=0, betterScore;
+                int betterR=0;
+                int rs = (M_PI*2/request->deltaR);
+                bool found = false;
+                for (int r=0; r<rs; r++) {
+                    part->setRotation(r);
+                    for (float x=0; x<plate->width; x+=request->delta) {
+                        for (float y=0; y<plate->height; y+=request->delta) {
+                            float gx = part->getGX()+x;
+                            float gy = part->getGY()+y;
+                            float score = gy*10+gx;
+
+                            if (!found || score < betterScore) {
+                                part->setOffset(x, y);
+                                if (plate->canPlace(part)) {
+                                    found = true;
+                                    betterX = x;
+                                    betterY = y;
+                                    betterScore = score;
+                                    betterR = r;
+                                }
                             }
                         }
                     }
                 }
+                if (found) {
+                    _log("- Placing it @%g,%g r=%d\n", betterX, betterY, betterR);
+                    part->setRotation(betterR);
+                    part->setOffset(betterX, betterY);
+                    plate->place(part);
+                    placed = true;
+                } else {
+                    if (i+1 == solution->countPlates()) {
+                        _log("! Creating a new plate");
+                        solution->addPlate();
+                    }
+                }
             }
-            if (found) {
-                _log("- Placing it @%g,%g r=%d\n", betterX, betterY, betterR);
-                part->setRotation(betterR);
-                part->setOffset(betterX, betterY);
-                plate->place(part);
-            } else {
-                _log("! Can't place it (TODO: create a new plate)\n");
-            }
-
         }
 
-        return plate;
+        return solution;
     }
 }

@@ -1,4 +1,5 @@
 #include <iostream>
+#include "log.h"
 #include "Plate.h"
 
 using namespace std;

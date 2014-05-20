@@ -2,6 +2,7 @@
 #include "Request.h"
 #include "Placer.h"
 #include "Plate.h"
+#include "Solution.h"
 #include "log.h"
 
 using namespace std;
@@ -42,7 +43,7 @@ namespace Plater
         _log("* Reading request\n");
         plateWidth = readFloat()*1000;
         plateHeight = readFloat()*1000;
-        _log("- Plate size: %d x %d µm\n", plateWidth, plateHeight);
+        _log("- Plate size: %g x %g µm\n", plateWidth, plateHeight);
 
         while (!cin.eof()) {
             string filename = readString();
@@ -58,10 +59,23 @@ namespace Plater
 
     void Request::process()
     {
-        Placer placer(this);
-        placer.sortParts(2);
-        Plate *plate = placer.place();
+        Solution *solution = NULL;
+
+        for (int sortMode=0; sortMode<PLACER_SORT_SHUFFLE+3; sortMode++) {
+            Placer placer(this);
+            placer.sortParts(2);
+            Solution *solutionTmp = placer.place();
+            if (solution == NULL || solutionTmp->score() < solution->score()) {
+                solution = solutionTmp;
+            } else {
+                delete solutionTmp;
+            }
+        }
+
+        _log("* Solution\n");
+        _log("- Plates: %d\n", solution->countPlates());
+        Plate *plate = solution->getPlate(0);
         plate->bmp->toPpm();
-        delete plate;
+        delete solution;
     }
 }

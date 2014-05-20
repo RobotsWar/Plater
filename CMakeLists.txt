@@ -14,6 +14,7 @@ set(ALL_SOURCES
     Part.cpp
     Rectangle.cpp
     Request.cpp
+    Solution.cpp
     Triangle.cpp
     )
 

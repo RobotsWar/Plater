@@ -3,9 +3,11 @@
 
 #include "Request.h"
 #include "Plate.h"
+#include "Solution.h"
 
 #define PLACER_SORT_SURFACE_INC 0
 #define PLACER_SORT_SURFACE_DEC 1
+#define PLACER_SORT_SHUFFLE     3
 
 namespace Plater
 {
@@ -17,7 +19,7 @@ namespace Plater
             void sortParts(int sortType);
 
             PlacedPart *getNextPart();
-            Plate *place();
+            Solution *place();
 
         protected:
             vector<PlacedPart *> parts;
