@@ -67,9 +67,7 @@ namespace Plater
                     oss << " ";
                 }
             }
-            if (y+1 != height) {
-                oss << "\n";
-            }
+            oss << "\n";
         }
         return oss.str();
     }
