@@ -111,18 +111,18 @@ namespace Plater
                 int width = xMax-xMin;
                 int height = yMax-yMin;
 
-                int oldCenterX = other->width/2;
-                int oldCenterY = other->height/2;
-                int centerX = width/2;
-                int centerY = height/2;
+                float oldCenterX = other->width/2;
+                float oldCenterY = other->height/2;
+                float centerX = width/2;
+                float centerY = height/2;
 
                 Bitmap *rotated = new Bitmap(width, height);
                 for (int x=0; x<width; x++) {
                     for (int y=0; y<height; y++) {
-                        int cX = x-centerX;
-                        int cY = y-centerY;
-                        int X = (cos(r)*cX - sin(r)*cY) + oldCenterX;
-                        int Y = (sin(r)*cX + cos(r)*cY) + oldCenterY;
+                        int cX = round(x-centerX);
+                        int cY = round(y-centerY);
+                        int X = round((cos(r)*cX - sin(r)*cY) + oldCenterX);
+                        int Y = round((sin(r)*cX + cos(r)*cY) + oldCenterY);
                         rotated->setPoint(x, y, other->getPoint(X, Y));
                     }
                 }

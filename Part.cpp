@@ -29,7 +29,7 @@ namespace Plater
         FMatrix3x3 id;
         model = loadModelFromFile(filename.c_str(), id);
         bmp = new Bitmap*[bmps];
-        bmp[0] = model->pixelize(precision, 2500);
+        bmp[0] = model->pixelize(precision, 2200);
 
         for (int k=1; k<bmps; k++) {
             Bitmap *rotated = Bitmap::rotate(bmp[0], k*deltaR);
