@@ -17,13 +17,16 @@ namespace Plater
             delete model;
         }
         if (bmp != NULL) {
+            for (int i=0; i<bmps; i++) {
+                delete bmp[i];
+            }
             delete[] bmp;
         }
     }
 
     void Part::load(std::string filename_, float precision_, float deltaR, float spacing)
     {
-        int bmps = (M_PI*2)/deltaR;
+        bmps = (M_PI*2)/deltaR;
         precision = precision_;
         filename = filename_;
         FMatrix3x3 id;

@@ -24,6 +24,7 @@ namespace Plater
             float precision;
 
         protected:
+            int bmps;
             Bitmap **bmp;
             std::string filename;
     };
