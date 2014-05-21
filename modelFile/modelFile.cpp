@@ -1,4 +1,5 @@
 /** Copyright (C) 2013 David Braam - Released under terms of the AGPLv3 License */
+#include <sstream>
 #include <fstream>
 #include <string.h>
 #include <stdio.h>
@@ -30,6 +31,12 @@ void* fgets_(char* ptr, size_t len, FILE* f)
 void saveModelToFileAscii(const char *filename, SimpleModel *model)
 {
     ofstream ofile(filename);
+    
+    if (!ofile) {
+        ostringstream oss;
+        oss << "Can't open file " << filename << " for writing";
+        throw oss.str();
+    }
 
     ofile << "solid plate" << endl;
     for (auto volume : model->volumes) {
@@ -57,6 +64,13 @@ SimpleModel* loadModelSTL_ascii(const char* filename, FMatrix3x3& matrix)
     m->volumes.push_back(SimpleVolume());
     SimpleVolume* vol = &m->volumes[0];
     FILE* f = fopen(filename, "rt");
+
+    if (f == NULL) {
+        ostringstream oss;
+        oss << "Can't open file " << filename << " for reading";
+        throw oss.str();
+    }
+
     char buffer[1024];
     FPoint3 vertex;
     int n = 0;
@@ -89,6 +103,13 @@ SimpleModel* loadModelSTL_ascii(const char* filename, FMatrix3x3& matrix)
 void saveModelToFileBinary(const char *filename, SimpleModel *model)
 {
     ofstream ofile(filename,ios::binary);
+
+    if (!ofile) {
+        ostringstream oss;
+        oss << "Can't open file " << filename << " for writing";
+        throw oss.str();
+    }
+
     char h = '\0';
     for (int i = 0; i < 80; i++)
     {
@@ -125,6 +146,13 @@ void saveModelToFileBinary(const char *filename, SimpleModel *model)
 SimpleModel* loadModelSTL_binary(const char* filename, FMatrix3x3& matrix)
 {
     FILE* f = fopen(filename, "rb");
+
+    if (f == NULL) {
+        ostringstream oss;
+        oss << "Can't open file " << filename << " for reading";
+        throw oss.str();
+    }
+
     char buffer[80];
     uint32_t faceCount;
     //Skip the header
@@ -179,6 +207,13 @@ SimpleModel* loadModelSTL_binary(const char* filename, FMatrix3x3& matrix)
 SimpleModel* loadModelSTL(const char* filename, FMatrix3x3& matrix)
 {
     FILE* f = fopen(filename, "r");
+
+    if (f == NULL) {
+        ostringstream oss;
+        oss << "Can't open file " << filename << " for reading";
+        throw oss.str();
+    }
+
     int n;
     unsigned char buffer[4096];
     if (f == NULL)

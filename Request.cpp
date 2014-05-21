@@ -18,7 +18,8 @@ namespace Plater
         delta(2000),
         deltaR(M_PI/2),
         spacing(2000),
-        pattern("plate_%03d")
+        pattern("plate_%03d"),
+        cancel(false)
     {
     }
 
@@ -48,17 +49,19 @@ namespace Plater
 
     void Request::setPlateSize(float w, float h)
     {
-        plateWidth = w;
-        plateHeight = h;
+        plateWidth = w*1000;
+        plateHeight = h*1000;
     }
 
     void Request::addPart(std::string filename, int quantity)
     {
-        _log("- Loading %s (quantity %d)...\n", filename.c_str(), quantity);
-        if (filename != "" && quantity != 0) {
-            parts[filename] = new Part;
-            parts[filename]->load(filename, precision, deltaR, spacing);
-            quantities[filename] = quantity;
+        if (!cancel) {
+            if (filename != "" && quantity != 0) {
+                _log("- Loading %s (quantity %d)...\n", filename.c_str(), quantity);
+                parts[filename] = new Part;
+                parts[filename]->load(filename, precision, deltaR, spacing);
+                quantities[filename] = quantity;
+            }
         }
     }
             
@@ -72,10 +75,17 @@ namespace Plater
 
     void Request::readParts()
     {
+        hasError = false;
         while (!stream->eof()) {
             string filename = readString();
             int quantity = readInt();
-            addPart(filename, quantity);
+            try {
+                addPart(filename, quantity);
+            } catch (string error_) {
+                hasError = true;
+                error = error_;
+                return;
+            }
         }
     }
 
@@ -95,7 +105,12 @@ namespace Plater
     {
         SimpleModel model = plate->createModel();
 
-        saveModelToFileBinary(filename, &model);
+        try {
+            saveModelToFileBinary(filename, &model);
+        } catch (string error_) {
+            hasError = true;
+            error = error_;
+        }
     }
 
     void Request::writePpm(Plate *plate, const char *filename)
@@ -105,6 +120,10 @@ namespace Plater
             ofile << plate->bmp->toPpm();
             ofile.close();
         } else {
+            ostringstream oss;
+            oss << "Can't write to " << filename;
+            error = oss.str();
+            hasError = true;
             logError("Error: can't write to %s\n", filename);
         }
     }
@@ -142,28 +161,43 @@ namespace Plater
 
     void Request::process()
     {
-        Solution *solution = NULL;
+        if (!cancel) {
+            if (hasError) {
+                cerr << "Can't process: " << error << endl;
+            } else {
+                Solution *solution = NULL;
 
-        for (int sortMode=0; sortMode<PLACER_SORT_SHUFFLE+2; sortMode++) {
-            for (int gravity=0; gravity<PLACER_GRAVITY_EQ; gravity++) {
-                Placer placer(this);
-                placer.sortParts(sortMode);
-                placer.setGravityMode(gravity);
+                for (int sortMode=0; !cancel && sortMode<PLACER_SORT_SHUFFLE+2; sortMode++) {
+                    for (int gravity=0; !cancel && gravity<PLACER_GRAVITY_EQ; gravity++) {
+                        Placer placer(this);
+                        placer.sortParts(sortMode);
+                        placer.setGravityMode(gravity);
 
-                Solution *solutionTmp = placer.place();
+                        Solution *solutionTmp = placer.place();
 
-                if (solution == NULL || solutionTmp->score() < solution->score()) {
-                    solution = solutionTmp;
-                } else {
-                    delete solutionTmp;
+                        if (solution == NULL || solutionTmp->score() < solution->score()) {
+                            solution = solutionTmp;
+                        } else {
+                            delete solutionTmp;
+                        }
+                    }
                 }
+
+                if (!cancel) {
+                    _log("* Solution\n");
+                    _log("- Plates: %d\n", solution->countPlates());
+                    _log("- Score: %g\n", solution->score());
+                    writeFiles(solution);
+                    plates = solution->countPlates();
+                }
+                delete solution;
             }
         }
-
-        _log("* Solution\n");
-        _log("- Plates: %d\n", solution->countPlates());
-        _log("- Score: %g\n", solution->score());
-        writeFiles(solution);
-        delete solution;
+    }
+            
+    void Request::fatalError(std::string message)
+    {
+        error = message;
+        cerr << error << endl;
     }
 }

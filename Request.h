@@ -46,6 +46,13 @@ namespace Plater
             int readInt();
 
             std::istream *stream;
+
+            void fatalError(std::string message);
+            bool hasError;
+            std::string error;
+
+            bool cancel;
+            int plates;
     };
 }
 

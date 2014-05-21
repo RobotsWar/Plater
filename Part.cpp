@@ -7,7 +7,7 @@ using namespace std;
 namespace Plater
 {
     Part::Part()
-        : model(NULL)
+        : model(NULL), bmp(NULL)
     {
     }
 
@@ -31,6 +31,7 @@ namespace Plater
         bmps = (M_PI*2)/deltaR;
         filename = filename_;
         FMatrix3x3 id;
+
         model = loadModelFromFile(filename.c_str(), id);
         bmp = new Bitmap*[bmps];
         bmp[0] = model->pixelize(precision, spacing);
