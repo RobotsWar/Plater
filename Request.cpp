@@ -45,9 +45,25 @@ namespace Plater
         return atoi(readString().c_str());
     }
 
+    void Request::setPlateSize(float w, float h)
+    {
+        plateWidth = w;
+        plateHeight = h;
+    }
+
+    void Request::addPart(std::string filename, int quantity)
+    {
+        _log("- Loading %s (quantity %d)...\n", filename.c_str(), quantity);
+        if (filename != "" && quantity != 0) {
+            parts[filename] = new Part;
+            parts[filename]->load(filename, precision, deltaR, spacing);
+            quantities[filename] = quantity;
+        }
+    }
+
     void Request::readFromStdin()
     {
-        _log("* Reading request\n");
+        _log("* Reading request from stdin\n");
         plateWidth = readFloat()*1000;
         plateHeight = readFloat()*1000;
         _log("- Plate size: %g x %g µm\n", plateWidth, plateHeight);
@@ -55,12 +71,7 @@ namespace Plater
         while (!cin.eof()) {
             string filename = readString();
             int quantity = readInt();
-            _log("- Loading %s (quantity %d)...\n", filename.c_str(), quantity);
-            if (filename != "" && quantity != 0) {
-                parts[filename] = new Part;
-                parts[filename]->load(filename, precision, deltaR, spacing);
-                quantities[filename] = quantity;
-            }
+            addPart(filename, quantity);
         }
     }
     
