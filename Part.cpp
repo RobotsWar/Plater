@@ -36,6 +36,11 @@ namespace Plater
         bmp = new Bitmap*[bmps];
         bmp[0] = model->pixelize(precision, spacing);
 
+        Point3 minP = model->min();
+        Point3 maxP = model->max();
+        width = maxP.x-minP.x + 2*spacing;
+        height = maxP.y-minP.y + 2*spacing;
+
         for (int k=1; k<bmps; k++) {
             Bitmap *rotated = Bitmap::rotate(bmp[0], k*deltaR);
             bmp[k] = Bitmap::trim(rotated);

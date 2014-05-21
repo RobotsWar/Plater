@@ -55,12 +55,21 @@ namespace Plater
 
     void Request::addPart(std::string filename, int quantity)
     {
-        if (!cancel) {
+        if (!cancel && !hasError) {
             if (filename != "" && quantity != 0) {
                 _log("- Loading %s (quantity %d)...\n", filename.c_str(), quantity);
                 parts[filename] = new Part;
                 parts[filename]->load(filename, precision, deltaR, spacing);
                 quantities[filename] = quantity;
+
+                // TODO: something smarter here
+                if ((parts[filename]->width > plateWidth || parts[filename]->height > plateHeight)
+                 && (parts[filename]->height > plateWidth || parts[filename]->width > plateHeight)) {
+                    ostringstream oss;
+                    oss << "Part " << filename << " is too big for the plate";
+                    error = oss.str();
+                    hasError = true;
+                }
             }
         }
     }
@@ -193,11 +202,5 @@ namespace Plater
                 delete solution;
             }
         }
-    }
-            
-    void Request::fatalError(std::string message)
-    {
-        error = message;
-        cerr << error << endl;
     }
 }

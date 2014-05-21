@@ -47,7 +47,6 @@ namespace Plater
 
             std::istream *stream;
 
-            void fatalError(std::string message);
             bool hasError;
             std::string error;
 

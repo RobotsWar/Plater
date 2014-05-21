@@ -24,6 +24,9 @@ namespace Plater
             float precision;
             float deltaR;
 
+            float width;
+            float height;
+
         protected:
             int bmps;
             Bitmap **bmp;
