@@ -29,7 +29,7 @@ int main(int argc, char *argv[])
     int index;
     Request request;
 
-    while ((index = getopt(argc, argv, "hvs:d:r:pj:")) != -1) {
+    while ((index = getopt(argc, argv, "hvs:d:r:pj:d:o:")) != -1) {
         switch (index) {
             case 'h':
                 help();
@@ -51,6 +51,9 @@ int main(int argc, char *argv[])
                 break;
             case 'j':
                 request.precision = atof(optarg)*1000;
+                break;
+            case 'o':
+                request.pattern = string(optarg);
                 break;
         }
     }
