@@ -7,15 +7,12 @@ using namespace std;
 namespace Plater
 {
     Part::Part()
-        : model(NULL), bmp(NULL)
+        : bmp(NULL)
     {
     }
 
     Part::~Part()
     {
-        if (model != NULL) {
-            delete model;
-        }
         if (bmp != NULL) {
             for (int i=0; i<bmps; i++) {
                 delete bmp[i];
@@ -24,20 +21,24 @@ namespace Plater
         }
     }
 
-    void Part::load(std::string filename_, float precision_, float deltaR_, float spacing)
+    void Part::load(std::string filename_, float precision_, float deltaR_, float spacing,
+            float rX, float rY, float rZ)
     {
         precision = precision_;
         deltaR = deltaR_;
-        bmps = (M_PI*2)/deltaR;
+        bmps = ceil((M_PI*2)/deltaR);
         filename = filename_;
         FMatrix3x3 id;
 
         model = loadModelFromFile(filename.c_str(), id);
+        if (rX != 0) model = model.rotateX(DEG2RAD(rX));
+        if (rY != 0) model = model.rotateY(DEG2RAD(rY));
+        if (rZ != 0) model = model.rotateZ(DEG2RAD(rZ));
         bmp = new Bitmap*[bmps];
-        bmp[0] = model->pixelize(precision, spacing);
+        bmp[0] = model.pixelize(precision, spacing);
 
-        Point3 minP = model->min();
-        Point3 maxP = model->max();
+        Point3 minP = model.min();
+        Point3 maxP = model.max();
         width = maxP.x-minP.x + 2*spacing;
         height = maxP.y-minP.y + 2*spacing;
 

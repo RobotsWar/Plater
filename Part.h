@@ -12,10 +12,10 @@ namespace Plater
             Part();
             virtual ~Part();
 
-            void load(std::string filename, float precision, float deltaR, float spacing);
+            void load(std::string filename, float precision, float deltaR, float spacing, float rX, float rY, float rZ);
             std::string getFilename();
 
-            SimpleModel *model;
+            SimpleModel model;
 
             Bitmap *getBmp(int index) const;
             float getSurface() const;

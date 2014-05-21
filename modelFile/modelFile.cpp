@@ -58,11 +58,11 @@ void saveModelToFileAscii(const char *filename, SimpleModel *model)
     ofile.close();
 }
 
-SimpleModel* loadModelSTL_ascii(const char* filename, FMatrix3x3& matrix)
+SimpleModel loadModelSTL_ascii(const char* filename, FMatrix3x3& matrix)
 {
-    SimpleModel* m = new SimpleModel();
-    m->volumes.push_back(SimpleVolume());
-    SimpleVolume* vol = &m->volumes[0];
+    SimpleModel m;
+    m.volumes.push_back(SimpleVolume());
+    SimpleVolume* vol = &m.volumes[0];
     FILE* f = fopen(filename, "rt");
 
     if (f == NULL) {
@@ -143,8 +143,9 @@ void saveModelToFileBinary(const char *filename, SimpleModel *model)
     ofile.close();
 }
 
-SimpleModel* loadModelSTL_binary(const char* filename, FMatrix3x3& matrix)
+SimpleModel loadModelSTL_binary(const char* filename, FMatrix3x3& matrix)
 {
+    SimpleModel m;
     FILE* f = fopen(filename, "rb");
 
     if (f == NULL) {
@@ -159,36 +160,35 @@ SimpleModel* loadModelSTL_binary(const char* filename, FMatrix3x3& matrix)
     if (fread(buffer, 80, 1, f) != 1)
     {
         fclose(f);
-        return NULL;
+        return m;
     }
     //Read the face count
     if (fread(&faceCount, sizeof(uint32_t), 1, f) != 1)
     {
         fclose(f);
-        return NULL;
+        return m;
     }
     //For each face read:
     //float(x,y,z) = normal, float(X,Y,Z)*3 = vertexes, uint16_t = flags
-    SimpleModel* m = new SimpleModel();
-    m->volumes.push_back(SimpleVolume());
-    SimpleVolume* vol = &m->volumes[0];
+    m.volumes.push_back(SimpleVolume());
+    SimpleVolume* vol = &m.volumes[0];
     if(vol == NULL)
     {
         fclose(f);
-        return NULL;
+        return m;
     }
     for(unsigned int i=0;i<faceCount;i++)
     {
         if (fread(buffer, sizeof(float) * 3, 1, f) != 1)
         {
             fclose(f);
-            return NULL;
+            return m;
         }
         float v[9];
         if (fread(v, sizeof(float) * 9, 1, f) != 1)
         {
             fclose(f);
-            return NULL;
+            return m;
         }
         Point3 v0 = matrix.apply(FPoint3(v[0], v[1], v[2]));
         Point3 v1 = matrix.apply(FPoint3(v[3], v[4], v[5]));
@@ -197,15 +197,16 @@ SimpleModel* loadModelSTL_binary(const char* filename, FMatrix3x3& matrix)
         if (fread(buffer, sizeof(uint16_t), 1, f) != 1)
         {
             fclose(f);
-            return NULL;
+            return m;
         }
     } 
     fclose(f);
     return m;
 }
 
-SimpleModel* loadModelSTL(const char* filename, FMatrix3x3& matrix)
+SimpleModel loadModelSTL(const char* filename, FMatrix3x3& matrix)
 {
+    SimpleModel m;
     FILE* f = fopen(filename, "r");
 
     if (f == NULL) {
@@ -217,12 +218,12 @@ SimpleModel* loadModelSTL(const char* filename, FMatrix3x3& matrix)
     int n;
     unsigned char buffer[4096];
     if (f == NULL)
-        return NULL;
+        return m;
 
     if ((n = fread(buffer, 1, 4096, f)) < 1)
     {
         fclose(f);
-        return NULL;
+        return m;
     }
     fclose(f);
 
@@ -244,8 +245,9 @@ SimpleModel* loadModelSTL(const char* filename, FMatrix3x3& matrix)
     }
 }
 
-SimpleModel* loadModelFromFile(const char* filename, FMatrix3x3& matrix)
+SimpleModel loadModelFromFile(const char* filename, FMatrix3x3& matrix)
 {
+    SimpleModel m;
     const char* ext = strrchr(filename, '.');
     if (ext && strcasecmp(ext, ".stl") == 0)
     {
@@ -253,24 +255,22 @@ SimpleModel* loadModelFromFile(const char* filename, FMatrix3x3& matrix)
     }
     if (filename[0] == '#' && binaryMeshBlob != NULL)
     {
-        SimpleModel* m = new SimpleModel();
-
         while(*filename == '#')
         {
             filename++;
 
-            m->volumes.push_back(SimpleVolume());
-            SimpleVolume* vol = &m->volumes[m->volumes.size()-1];
+            m.volumes.push_back(SimpleVolume());
+            SimpleVolume* vol = &m.volumes[m.volumes.size()-1];
             int32_t n, pNr = 0;
             if (fread(&n, 1, sizeof(int32_t), binaryMeshBlob) < 1)
-                return NULL;
+                return m;
             log("Reading mesh from binary blob with %i vertexes\n", n);
             Point3 v[3];
             while(n)
             {
                 float f[3];
                 if (fread(f, 3, sizeof(float), binaryMeshBlob) < 1)
-                    return NULL;
+                    return m;
                 FPoint3 fp(f[0], f[1], f[2]);
                 v[pNr++] = matrix.apply(fp);
                 if (pNr == 3)
@@ -283,7 +283,7 @@ SimpleModel* loadModelFromFile(const char* filename, FMatrix3x3& matrix)
         }
         return m;
     }
-    return NULL;
+    return m;
 }
 
 bool SimpleModel::contains(float x, float y)
@@ -361,12 +361,11 @@ void SimpleModel::merge(const SimpleModel &other)
     }
 }
     
-SimpleModel SimpleModel::rotate(float r)
+SimpleModel SimpleModel::rotateZ(float r)
 {
     SimpleModel rotated;
     rotated.volumes = volumes;
 
-    r = -r;
     for (auto& volume : rotated.volumes) {
         for (auto& face : volume.faces) {
             for (int i=0; i<3; i++) {
@@ -374,6 +373,44 @@ SimpleModel SimpleModel::rotate(float r)
                 float y = face.v[i].y;
                 face.v[i].x = cos(r)*x-sin(r)*y;
                 face.v[i].y = sin(r)*x+cos(r)*y;
+            }
+        }
+    }
+
+    return rotated;
+}
+    
+SimpleModel SimpleModel::rotateY(float r)
+{
+    SimpleModel rotated;
+    rotated.volumes = volumes;
+
+    for (auto& volume : rotated.volumes) {
+        for (auto& face : volume.faces) {
+            for (int i=0; i<3; i++) {
+                float x = face.v[i].x;
+                float z = face.v[i].z;
+                face.v[i].x = cos(r)*x-sin(r)*z;
+                face.v[i].z = sin(r)*x+cos(r)*z;
+            }
+        }
+    }
+
+    return rotated;
+}
+    
+SimpleModel SimpleModel::rotateX(float r)
+{
+    SimpleModel rotated;
+    rotated.volumes = volumes;
+
+    for (auto& volume : rotated.volumes) {
+        for (auto& face : volume.faces) {
+            for (int i=0; i<3; i++) {
+                float y = face.v[i].y;
+                float z = face.v[i].z;
+                face.v[i].y = cos(r)*y-sin(r)*z;
+                face.v[i].z = sin(r)*y+cos(r)*z;
             }
         }
     }

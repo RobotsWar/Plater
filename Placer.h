@@ -26,11 +26,13 @@ namespace Plater
 
             void sortParts(int sortType);
             void setGravityMode(int gravityMode);
+            void setRotateDirection(int direction);
 
             PlacedPart *getNextPart();
             Solution *place();
 
         protected:
+            int rotateDirection;
             std::map<Plate *, std::map<std::string, bool> > cache;
             float xCoef, yCoef;
             vector<PlacedPart *> parts;

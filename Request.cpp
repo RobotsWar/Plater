@@ -10,6 +10,21 @@
 
 using namespace std;
 
+static std::vector<std::string> &split(const std::string &s, char delim, std::vector<std::string> &elems) {
+    std::stringstream ss(s);
+    std::string item;
+    while (std::getline(ss, item, delim)) {
+        elems.push_back(item);
+    }   
+    return elems;
+}
+
+static std::vector<std::string> split(const std::string &s, char delim) {
+    std::vector<std::string> elems;
+    split(s, delim, elems);
+    return elems;
+}
+
 namespace Plater
 {
     Request::Request()
@@ -29,11 +44,20 @@ namespace Plater
             delete part.second;
         }
     }
+            
+    std::string Request::readLine()
+    {
+        char buffer[4096];
+        cin.getline(buffer, 4096);
+
+        return string(buffer);
+    }
 
     std::string Request::readString()
     {
         std::string data;
         *stream >> data;
+
         return data;
     }
 
@@ -53,13 +77,13 @@ namespace Plater
         plateHeight = h*1000;
     }
 
-    void Request::addPart(std::string filename, int quantity)
+    void Request::addPart(std::string filename, int quantity, float rX, float rY, float rZ)
     {
         if (!cancel && !hasError) {
             if (filename != "" && quantity != 0) {
                 _log("- Loading %s (quantity %d)...\n", filename.c_str(), quantity);
                 parts[filename] = new Part;
-                parts[filename]->load(filename, precision, deltaR, spacing);
+                parts[filename]->load(filename, precision, deltaR, spacing, rX, rY, rZ);
                 quantities[filename] = quantity;
 
                 // TODO: something smarter here
@@ -86,14 +110,27 @@ namespace Plater
     {
         hasError = false;
         while (!stream->eof()) {
-            string filename = readString();
-            int quantity = readInt();
-            try {
-                addPart(filename, quantity);
-            } catch (string error_) {
-                hasError = true;
-                error = error_;
-                return;
+            string line = readLine();
+            vector<string> chunks = split(line, ' ');
+            if (chunks.size() > 0) {
+                string filename = chunks[0];
+                int quantity = 1;
+                int rX = 0;
+                int rY = 0;
+                int rZ = 0;
+
+                if (chunks.size() >= 2) quantity = atof(chunks[1].c_str());
+                if (chunks.size() >= 3) rX = atof(chunks[2].c_str());
+                if (chunks.size() >= 4) rY = atof(chunks[3].c_str());
+                if (chunks.size() >= 5) rZ = atof(chunks[4].c_str());
+
+                try {
+                    addPart(filename, quantity, rX, rY, rZ);
+                } catch (string error_) {
+                    hasError = true;
+                    error = error_;
+                    return;
+                }
             }
         }
     }
@@ -176,18 +213,21 @@ namespace Plater
             } else {
                 Solution *solution = NULL;
 
-                for (int sortMode=0; !cancel && sortMode<PLACER_SORT_SHUFFLE+2; sortMode++) {
-                    for (int gravity=0; !cancel && gravity<PLACER_GRAVITY_EQ; gravity++) {
-                        Placer placer(this);
-                        placer.sortParts(sortMode);
-                        placer.setGravityMode(gravity);
+                for (int rotateDirection=0; rotateDirection<2; rotateDirection++) {
+                    for (int sortMode=0; !cancel && sortMode<PLACER_SORT_SHUFFLE+2; sortMode++) {
+                        for (int gravity=0; !cancel && gravity<PLACER_GRAVITY_EQ; gravity++) {
+                            Placer placer(this);
+                            placer.sortParts(sortMode);
+                            placer.setGravityMode(gravity);
+                            placer.setRotateDirection(rotateDirection);
 
-                        Solution *solutionTmp = placer.place();
+                            Solution *solutionTmp = placer.place();
 
-                        if (solution == NULL || solutionTmp->score() < solution->score()) {
-                            solution = solutionTmp;
-                        } else {
-                            delete solutionTmp;
+                            if (solution == NULL || solutionTmp->score() < solution->score()) {
+                                solution = solutionTmp;
+                            } else {
+                                delete solutionTmp;
+                            }
                         }
                     }
                 }

@@ -111,6 +111,8 @@ namespace Plater
 
     Bitmap *Bitmap::rotate(const Bitmap *other, float r)
     {
+        r = -r;
+
         float w = other->width;
         float h = other->height;
 

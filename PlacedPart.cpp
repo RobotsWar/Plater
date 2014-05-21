@@ -13,7 +13,7 @@ namespace Plater
             
     SimpleModel PlacedPart::createModel()
     {
-        SimpleModel model = (*part->model).center().rotate(part->deltaR*rotation);
+        SimpleModel model = part->model.center().rotateZ(part->deltaR*rotation);
 
         return model.translate(getCenterX(), getCenterY());
     }

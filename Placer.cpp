@@ -7,7 +7,8 @@
 namespace Plater
 {
     Placer::Placer(Request *request_)
-        : request(request_)
+        : rotateDirection(0),
+        request(request_)
     {
         for (auto part : request->quantities) {
             for (int i=0; i<part.second; i++) {
@@ -58,6 +59,11 @@ namespace Plater
         return part;
     }
             
+    void Placer::setRotateDirection(int direction)
+    {
+        rotateDirection = direction;
+    }
+            
     void Placer::setGravityMode(int gravityMode)
     {
         switch (gravityMode) {
@@ -83,9 +89,10 @@ namespace Plater
         if (!cache[plate][cacheName]) {
             float betterX=0, betterY=0, betterScore;
             int betterR=0;
-            int rs = (M_PI*2/request->deltaR);
+            int rs = ceil(M_PI*2/request->deltaR);
             bool found = false;
-            for (int r=0; r<rs; r++) {
+
+            for (int r=(rotateDirection ? rs-1 : 0); rotateDirection ? r>=0 : r<rs; rotateDirection ? r-- : r++) {
                 part->setRotation(r);
                 for (float x=0; x<plate->width; x+=request->delta) {
                     for (float y=0; y<plate->height; y+=request->delta) {
