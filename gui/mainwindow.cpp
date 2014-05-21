@@ -71,6 +71,8 @@ void MainWindow::on_runButton_clicked()
         worker.parts = ui->parts->toPlainText().toStdString();
         if (ui->ppmRadio->isChecked()) {
             worker.request.mode = REQUEST_PPM;
+        } else {
+            worker.request.mode = REQUEST_STL;
         }
 
         showSuccess("Working...");
