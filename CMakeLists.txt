@@ -20,5 +20,9 @@ set(ALL_SOURCES
 
 include_directories("${CMAKE_SOURCE_DIR}/src")
 
-add_executable(plater "main.cpp" ${ALL_SOURCES})
+add_library(libplater ${ALL_SOURCES})
+
+add_executable(plater "main.cpp")
+target_link_libraries(plater libplater)
+
 install(TARGETS plater DESTINATION bin)
