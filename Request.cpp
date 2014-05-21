@@ -1,3 +1,4 @@
+#include <sstream>
 #include <fstream>
 #include <iostream>
 #include "Request.h"
@@ -31,7 +32,7 @@ namespace Plater
     std::string Request::readString()
     {
         std::string data;
-        cin >> data;
+        *stream >> data;
         return data;
     }
 
@@ -60,19 +61,34 @@ namespace Plater
             quantities[filename] = quantity;
         }
     }
+            
+    void Request::readPartsFromString(std::string parts)
+    {
+        istringstream s(parts);
+
+        stream = &s;
+        readParts();
+    }
+
+    void Request::readParts()
+    {
+        while (!stream->eof()) {
+            string filename = readString();
+            int quantity = readInt();
+            addPart(filename, quantity);
+        }
+    }
 
     void Request::readFromStdin()
     {
+        stream = &cin;
+
         _log("* Reading request from stdin\n");
         plateWidth = readFloat()*1000;
         plateHeight = readFloat()*1000;
         _log("- Plate size: %g x %g µm\n", plateWidth, plateHeight);
 
-        while (!cin.eof()) {
-            string filename = readString();
-            int quantity = readInt();
-            addPart(filename, quantity);
-        }
+        readParts();
     }
     
     void Request::writeSTL(Plate *plate, const char *filename)

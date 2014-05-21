@@ -2,6 +2,7 @@
 #define _PLATER_REQUEST_H
 
 #include <map>
+#include <sstream>
 #include <iostream>
 #include <vector>
 #include "Part.h"
@@ -22,6 +23,8 @@ namespace Plater
             void setPlateSize(float w, float h);
             void addPart(std::string filename, int quantity);
             void readFromStdin();
+            void readPartsFromString(std::string parts);
+            void readParts();
             void process();
             PlacedPart *getNextPart();
 
@@ -41,6 +44,8 @@ namespace Plater
             std::string readString();
             double readFloat();
             int readInt();
+
+            std::istream *stream;
     };
 }
 
