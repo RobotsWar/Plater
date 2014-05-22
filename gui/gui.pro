@@ -6,7 +6,7 @@
 
 QT       += core gui opengl
 
-TARGET = gui
+TARGET =   plater-gui
 TEMPLATE = app
 
 
