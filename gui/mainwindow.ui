@@ -70,7 +70,7 @@
         <item>
          <widget class="QLineEdit" name="plateWidth">
           <property name="text">
-           <string>180</string>
+           <string>150</string>
           </property>
          </widget>
         </item>
@@ -84,7 +84,7 @@
         <item>
          <widget class="QLineEdit" name="plateHeight">
           <property name="text">
-           <string>180</string>
+           <string>150</string>
           </property>
          </widget>
         </item>
