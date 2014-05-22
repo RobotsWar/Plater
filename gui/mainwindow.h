@@ -22,6 +22,7 @@ public:
     void enableAll(bool enable);
     void showError(std::string error);
     void showSuccess(std::string error);
+    void wizardNext();
     float getPlateWidth();
     float getPlateHeight();
 
@@ -44,6 +45,7 @@ private:
     Worker worker;
     Wizard *wizard;
     PlatesViewer *platesViewer;
+    QStringList stls;
 };
 
 #endif // MAINWINDOW_H

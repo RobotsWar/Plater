@@ -63,6 +63,27 @@ void MainWindow::showSuccess(string success)
     ui->errorMessage->setText(QString::fromStdString(success));
 }
 
+void MainWindow::wizardNext()
+{
+    if (stls.size() == 0) {
+        return;
+    }
+    QString stl = stls.last();
+    stls.pop_back();
+
+    if (stl != "") {
+        if (wizard != NULL) {
+            wizard->close();
+            delete wizard;
+        }
+
+        wizard = new Wizard(stl);
+        connect(wizard, SIGNAL(accepted()), this, SLOT(on_wizard_accept()));
+        wizard->show();
+        wizard->setPlateDimension(getPlateWidth(), getPlateHeight());
+    }
+}
+
 float MainWindow::getPlateWidth()
 {
     return ui->plateWidth->text().toFloat();
@@ -103,19 +124,8 @@ void MainWindow::on_runButton_clicked()
 
 void MainWindow::on_partBrowse_clicked()
 {
-    QString stl = QFileDialog::getOpenFileName(this, "Select a part", "", "*.stl");
-
-    if (stl != "") {
-        if (wizard != NULL) {
-            wizard->close();
-            delete wizard;
-        }
-
-        wizard = new Wizard(stl);
-        connect(wizard, SIGNAL(accepted()), this, SLOT(on_wizard_accept()));
-        wizard->show();
-        wizard->setPlateDimension(getPlateWidth(), getPlateHeight());
-    }
+    stls = QFileDialog::getOpenFileNames(this, "Select a part", "", "*.stl");
+    wizardNext();
 }
 
 void MainWindow::on_worker_end()
@@ -151,4 +161,6 @@ void MainWindow::on_wizard_accept()
     wizard->close();
     parts += wizard->getPart() + "\n";
     ui->parts->setText(parts);
+
+    wizardNext();
 }
