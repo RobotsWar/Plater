@@ -175,6 +175,8 @@ namespace Plater
 
     void Request::writeFiles(Solution *solution)
     {
+        generatedFiles.clear();
+
         _log("* Exporting\n");
         switch (mode) {
             case REQUEST_PPM:
@@ -191,6 +193,7 @@ namespace Plater
             int plateNumber = i+1;
             snprintf(buffer, pattern.size()+63, pattern.c_str(), plateNumber);
             _log("- Exporting %s...\n", buffer);
+            generatedFiles.push_back(string(buffer));
 
             switch (mode) {
                 case REQUEST_STL:
