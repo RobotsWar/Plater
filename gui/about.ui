@@ -26,7 +26,7 @@
      <item>
       <widget class="QLabel" name="label">
        <property name="text">
-        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Plater 2014 by &lt;/span&gt;&lt;a href=&quot;http://www.robotcampus.fr/&quot;&gt;&lt;span style=&quot; font-weight:600; text-decoration: underline; color:#0000ff;&quot;&gt;Robot Campus&lt;/span&gt;&lt;/a&gt;&lt;br/&gt;&lt;br/&gt;Plater is a free software under CC-BY-NC license&lt;br/&gt;&lt;br/&gt;&lt;a href=&quot;https://github.com/RobotsWar/Plater&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;https://github.com/RobotsWar/Plater&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Plater 2014 by &lt;/span&gt;&lt;a href=&quot;http://www.robotcampus.fr/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Robot Campus&lt;/span&gt;&lt;/a&gt;&lt;br/&gt;&lt;br/&gt;Plater is a free software under CC-BY-NC license&lt;br/&gt;&lt;br/&gt;&lt;a href=&quot;https://github.com/RobotsWar/Plater&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;https://github.com/RobotsWar/Plater&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
       </widget>
      </item>
