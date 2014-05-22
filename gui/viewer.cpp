@@ -45,7 +45,7 @@ void Viewer::initializeGL()
     GLfloat diffuse[] = {1.0f, 1.0f, 1.0f, 1.0f};
 
     glShadeModel(GL_SMOOTH);
-    glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+    glClearColor(0.0f, 0.0f, 0.0f, 0.2f);
     // glClearStencil(0);
     glClearDepth(1.0f);
     glEnable(GL_DEPTH_TEST);
@@ -76,7 +76,7 @@ void Viewer::resizeGL(int width, int height)
     gluPerspective(45.0f, (GLfloat)width/(GLfloat)height, 0.1f, 1000.0f);
 
     // gluLookAt(2.0, 2.0, 2.0, 0, 0, 0, 0, 0, 1);
-
+    glEnable(GL_LIGHTING);
     if (model) {
         if (autorotate) {
             alpha += 0.02;
@@ -90,12 +90,11 @@ void Viewer::resizeGL(int width, int height)
         float Y = aX*sin(alpha)+aY*cos(alpha);
         float Z = aZ;
 
-        float Xl = radius*cos(t+M_PI/2.0);
-        float Yl = radius*sin(t+M_PI/2.0);
+        float Xl = aX*cos(alpha+M_PI/2)-aY*sin(alpha);
+        float Yl = aX*sin(alpha+M_PI/2)+aY*cos(alpha);
 
         GLfloat light0_pos[] = {Xl, Yl, Z, 0.0f};
         glLightfv(GL_LIGHT0, GL_POSITION, light0_pos);
-
         gluLookAt(X, Y, Z, 0, 0, 0, 0, 0, 1);
     }
 
@@ -105,10 +104,9 @@ void Viewer::resizeGL(int width, int height)
 
 void Viewer::paintGL()
 {
-    GLfloat mat_amb_diff[] = { 0.3, 0.3, 0.3, 1.0 };
+    GLfloat mat_amb_diff[] = { 0.6, 0.6, 0.6, 1.0 };
     GLfloat mat_dif_diff[] = { 1.0, 1.0, 1.0, 1.0 };
     GLfloat mat_spe_diff[] = { 0.2, 0.2, 0.2, 1.0 };
-    glEnable(GL_LIGHTING);
 
     if (model) {
         resizeGL(size().width(), size().height());
@@ -154,8 +152,8 @@ void Viewer::paintGL()
     glEnd();
 
     glDisable(GL_LIGHTING);
-    glLineWidth(3.0);
-    glColor3f(0.0, 0.4, 0.0);
+    glLineWidth(2.0);
+    glColor3f(0.6, 0.6, 0.0);
     glBegin(GL_LINES);
     for (float x=0; x<=plateWidth; x+=10.0) {
         glVertex3f(x-plateWidth/2, -plateHeight/2, 0);
@@ -165,6 +163,19 @@ void Viewer::paintGL()
         glVertex3f(-plateWidth/2, y-plateHeight/2, 0);
         glVertex3f(plateWidth/2, y-plateHeight/2, 0);
     }
+    glEnd();
+
+    glLineWidth(1.0);
+    glBegin(GL_LINES);
+    glColor3f(0.9, 0.0, 0.0);
+    glVertex3f(0, 0, 0);
+    glVertex3f(10.0, 0, 0);
+    glColor3f(0.0, 0.9, 0.0);
+    glVertex3f(0, 0, 0);
+    glVertex3f(0.0, 10, 0);
+    glColor3f(0.0, 0.0, 0.9);
+    glVertex3f(0, 0, 0);
+    glVertex3f(0, 0, 10);
     glEnd();
 }
 
@@ -198,6 +209,9 @@ void Viewer::mouseMoveEvent(QMouseEvent *evt)
         float dY = evt->y()-mY;
         alpha = mAlpha - 0.01*dX;
         beta = mBeta + 0.01*dY;
+
+        if (beta > M_PI/2-0.01) beta = M_PI/2-0.01;
+        if (beta < -M_PI/2+0.01) beta = -M_PI/2+0.01;
     }
 }
 
