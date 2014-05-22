@@ -77,13 +77,13 @@ namespace Plater
         plateHeight = h*1000;
     }
 
-    void Request::addPart(std::string filename, int quantity, float rX, float rY, float rZ)
+    void Request::addPart(std::string filename, int quantity, string orientation)
     {
         if (!cancel && !hasError) {
             if (filename != "" && quantity != 0) {
                 _log("- Loading %s (quantity %d)...\n", filename.c_str(), quantity);
                 parts[filename] = new Part;
-                parts[filename]->load(filename, precision, deltaR, spacing, rX, rY, rZ);
+                parts[filename]->load(filename, precision, deltaR, spacing, orientation);
                 quantities[filename] = quantity;
 
                 // TODO: something smarter here
@@ -115,24 +115,16 @@ namespace Plater
             if (chunks.size() > 0) {
                 string filename = chunks[0];
                 int quantity = 1;
-                int rX = 0;
-                int rY = 0;
-                int rZ = 0;
+                string orientation = "bottom";
 
                 if (chunks.size() >= 2) quantity = atof(chunks[1].c_str());
 
                 if (chunks.size() >= 3) {
-                    string orientation = chunks[2];
-                    if (orientation == "bottom") { };
-                    if (orientation == "front") { rX=90; };
-                    if (orientation == "top") { rX=180; };
-                    if (orientation == "back") { rX=270; };
-                    if (orientation == "left") { rY=90; };
-                    if (orientation == "right") { rY=-90; };
+                    orientation = chunks[2];
                 }
 
                 try {
-                    addPart(filename, quantity, rX, rY, rZ);
+                    addPart(filename, quantity, orientation);
                 } catch (string error_) {
                     hasError = true;
                     error = error_;

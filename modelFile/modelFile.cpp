@@ -429,3 +429,13 @@ SimpleModel SimpleModel::center()
 
     return translate(-X, -Y, -Z);
 }
+    
+SimpleModel SimpleModel::putFaceOnPlate(string orientation)
+{
+    if (orientation == "front") return rotateX(DEG2RAD(90));
+    if (orientation == "top") return rotateX(DEG2RAD(180));
+    if (orientation == "back") return rotateX(DEG2RAD(270));
+    if (orientation == "left") return rotateY(DEG2RAD(90));
+    if (orientation == "right") return rotateY(DEG2RAD(-90));
+    return *this;
+}

@@ -12,7 +12,7 @@ namespace Plater
             Part();
             virtual ~Part();
 
-            void load(std::string filename, float precision, float deltaR, float spacing, float rX, float rY, float rZ);
+            void load(std::string filename, float precision, float deltaR, float spacing, string orientation);
             std::string getFilename();
 
             SimpleModel model;

@@ -21,7 +21,7 @@ namespace Plater
             virtual ~Request();
 
             void setPlateSize(float w, float h);
-            void addPart(std::string filename, int quantity, float rX, float rY, float rZ);
+            void addPart(std::string filename, int quantity, std::string orientation);
             void readFromStdin();
             void readPartsFromString(std::string parts);
             void readParts();

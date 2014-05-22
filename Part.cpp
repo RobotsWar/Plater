@@ -22,7 +22,7 @@ namespace Plater
     }
 
     void Part::load(std::string filename_, float precision_, float deltaR_, float spacing,
-            float rX, float rY, float rZ)
+            string orientation)
     {
         precision = precision_;
         deltaR = deltaR_;
@@ -31,9 +31,7 @@ namespace Plater
         FMatrix3x3 id;
 
         model = loadModelFromFile(filename.c_str(), id);
-        if (rX != 0) model = model.rotateX(DEG2RAD(rX));
-        if (rY != 0) model = model.rotateY(DEG2RAD(rY));
-        if (rZ != 0) model = model.rotateZ(DEG2RAD(rZ));
+        model = model.putFaceOnPlate(orientation);
         bmp = new Bitmap*[bmps];
         bmp[0] = model.pixelize(precision, spacing);
 

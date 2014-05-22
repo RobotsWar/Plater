@@ -123,6 +123,7 @@ public:
     SimpleModel rotateZ(float r);
     SimpleModel center();
     SimpleModel translate(float X=0, float Y=0, float Z=0);
+    SimpleModel putFaceOnPlate(string orientation);
     void merge(const SimpleModel &ohter);
 };
 
