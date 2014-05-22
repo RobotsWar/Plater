@@ -30,6 +30,10 @@ FORMS    += mainwindow.ui \
     platesviewer.ui \
     about.ui
 
+CONFIG += c++11
+QMAKE_CXX = clang++
+QMAKE_CXXFLAGS += -std=c++11
+
 win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../plater/build/release/ -llibplater
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../plater/build/debug/ -llibplater
 else:symbian: LIBS += -llibplater
