@@ -19,6 +19,7 @@ public:
     void mousePressEvent(QMouseEvent *);
     void mouseReleaseEvent(QMouseEvent *);
     void mouseMoveEvent(QMouseEvent *);
+    void wheelEvent(QWheelEvent *);
 
     void setPlateDimension(float width, float height);
 

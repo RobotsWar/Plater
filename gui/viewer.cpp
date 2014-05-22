@@ -201,6 +201,11 @@ void Viewer::mouseMoveEvent(QMouseEvent *evt)
     }
 }
 
+void Viewer::wheelEvent(QWheelEvent *evt)
+{
+    radius -= evt->delta()*0.02;
+}
+
 void Viewer::setPlateDimension(float width, float height)
 {
     plateWidth = width;
