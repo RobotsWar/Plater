@@ -3,12 +3,15 @@
 #include <QFileDialog>
 #include <QMessageBox>
 #include <log.h>
+#include <viewer.h>
+#include <wizard.h>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow),
     enabled(true),
-    worker()
+    worker(),
+    wizard(NULL)
 {
     ui->setupUi(this);
     setWindowTitle("Plater");
@@ -84,14 +87,18 @@ void MainWindow::on_runButton_clicked()
 
 void MainWindow::on_partBrowse_clicked()
 {
-    QStringList files = QFileDialog::getOpenFileNames(this, "Select a part", "", "*.stl");
-    QString parts = ui->parts->toPlainText();
+    QString stl = QFileDialog::getOpenFileName(this, "Select a part", "", "*.stl");
 
-    for (int i=0; i<files.size(); i++) {
-        parts += files[i] + " 1\n";
+    if (stl != "") {
+        if (wizard != NULL) {
+            wizard->close();
+            delete wizard;
+        }
+
+        wizard = new Wizard(stl);
+        connect(wizard, SIGNAL(accepted()), this, SLOT(on_wizard_accept()));
+        wizard->show();
     }
-
-    ui->parts->setText(parts);
 }
 
 void MainWindow::on_worker_end()
@@ -108,4 +115,12 @@ void MainWindow::on_worker_end()
         }
     }
     enableAll(true);
+}
+
+void MainWindow::on_wizard_accept()
+{
+    QString parts = ui->parts->toPlainText();
+    wizard->close();
+    parts += wizard->getPart() + "\n";
+    ui->parts->setText(parts);
 }

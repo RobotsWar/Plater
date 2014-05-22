@@ -3,6 +3,7 @@
 
 #include <QThread>
 #include <QMainWindow>
+#include "wizard.h"
 #include "worker.h"
 
 namespace Ui {
@@ -23,6 +24,8 @@ public:
 
 public slots:
     void on_worker_end();
+
+    void on_wizard_accept();
     
 private slots:
     void on_outputDirectoryButton_clicked();
@@ -36,6 +39,7 @@ private:
     QThread thread;
     bool enabled;
     Worker worker;
+    Wizard *wizard;
 };
 
 #endif // MAINWINDOW_H

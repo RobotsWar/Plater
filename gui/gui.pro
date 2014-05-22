@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT       += core gui opengl
 
 TARGET = gui
 TEMPLATE = app
@@ -12,12 +12,17 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    worker.cpp
+    worker.cpp \
+    viewer.cpp \
+    wizard.cpp
 
 HEADERS  += mainwindow.h \
-    worker.h
+    worker.h \
+    viewer.h \
+    wizard.h
 
-FORMS    += mainwindow.ui
+FORMS    += mainwindow.ui \
+    wizard.ui
 
 win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../build/release/ -llibplater
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../build/debug/ -llibplater
@@ -30,3 +35,5 @@ DEPENDPATH += $$PWD/..
 win32:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/../build/release/libplater.lib
 else:win32:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/../build/debug/libplater.lib
 else:unix:!symbian: PRE_TARGETDEPS += $$PWD/../build/liblibplater.a
+
+LIBS += -lGLU -lglut

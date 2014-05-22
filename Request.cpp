@@ -48,7 +48,7 @@ namespace Plater
     std::string Request::readLine()
     {
         char buffer[4096];
-        cin.getline(buffer, 4096);
+        stream->getline(buffer, 4096);
 
         return string(buffer);
     }
@@ -81,7 +81,7 @@ namespace Plater
     {
         if (!cancel && !hasError) {
             if (filename != "" && quantity != 0) {
-                _log("- Loading %s (quantity %d)...\n", filename.c_str(), quantity);
+                _log("- Loading %s (quantity %d, orientation %s)...\n", filename.c_str(), quantity, orientation.c_str());
                 parts[filename] = new Part;
                 parts[filename]->load(filename, precision, deltaR, spacing, orientation);
                 quantities[filename] = quantity;
