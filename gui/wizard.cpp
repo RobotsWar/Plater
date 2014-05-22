@@ -60,6 +60,13 @@ QString Wizard::getPart()
     return QString::fromStdString(oss.str());
 }
 
+void Wizard::setPlateDimension(float width, float height)
+{
+    if (viewer != NULL) {
+        viewer->setPlateDimension(width, height);
+    }
+}
+
 void Wizard::on_front_clicked()
 {
     setOrientation("front");

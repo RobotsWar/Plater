@@ -21,6 +21,8 @@ public:
     void enableAll(bool enable);
     void showError(std::string error);
     void showSuccess(std::string error);
+    float getPlateWidth();
+    float getPlateHeight();
 
 public slots:
     void on_worker_end();

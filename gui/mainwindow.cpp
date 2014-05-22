@@ -56,6 +56,16 @@ void MainWindow::showSuccess(string success)
     ui->errorMessage->setText(QString::fromStdString(success));
 }
 
+float MainWindow::getPlateWidth()
+{
+    return ui->plateWidth->text().toFloat();
+}
+
+float MainWindow::getPlateHeight()
+{
+    return ui->plateHeight->text().toFloat();
+}
+
 void MainWindow::on_outputDirectoryButton_clicked()
 {
     ui->outputDirectory->setText(QFileDialog::getExistingDirectory());
@@ -66,8 +76,7 @@ void MainWindow::on_runButton_clicked()
     if (enabled) {
         enableAll(false);
         increaseVerboseLevel();
-        worker.request.setPlateSize(ui->plateWidth->text().toFloat(),
-                                    ui->plateHeight->text().toFloat());
+        worker.request.setPlateSize(getPlateWidth(), getPlateHeight());
         worker.request.pattern = ui->outputDirectory->text().toStdString() + "/plate_%03d";
         worker.request.spacing = ui->spacing->text().toFloat()*1000;
         worker.request.precision = ui->precision->text().toFloat()*1000;
@@ -98,6 +107,7 @@ void MainWindow::on_partBrowse_clicked()
         wizard = new Wizard(stl);
         connect(wizard, SIGNAL(accepted()), this, SLOT(on_wizard_accept()));
         wizard->show();
+        wizard->setPlateDimension(getPlateWidth(), getPlateHeight());
     }
 }
 
