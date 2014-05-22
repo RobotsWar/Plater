@@ -152,8 +152,8 @@ void Viewer::paintGL()
     glEnd();
 
     glDisable(GL_LIGHTING);
-    glLineWidth(2.0);
-    glColor3f(0.6, 0.6, 0.0);
+    glLineWidth(1.0);
+    glColor3f(0.15, 0.15, 0.75);
     glBegin(GL_LINES);
     for (float x=0; x<=plateWidth; x+=10.0) {
         glVertex3f(x-plateWidth/2, -plateHeight/2, 0);
