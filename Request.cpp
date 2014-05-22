@@ -111,6 +111,9 @@ namespace Plater
 
     void Request::readParts()
     {
+        parts.clear();
+        quantities.clear();
+
         hasError = false;
         while (!stream->eof()) {
             string line = readLine();

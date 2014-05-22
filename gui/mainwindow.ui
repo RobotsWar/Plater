@@ -30,7 +30,7 @@
       <item>
        <widget class="QPushButton" name="partBrowse">
         <property name="text">
-         <string>Add part</string>
+         <string>Add part(s)</string>
         </property>
        </widget>
       </item>
