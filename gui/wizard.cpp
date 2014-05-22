@@ -12,7 +12,7 @@ Wizard::Wizard(QString stl_, QWidget *parent) :
 {
     ui->setupUi(this);
     setWindowTitle(QString("Importing %1").arg(stl));
-
+    setWindowIcon(QIcon("img/plater.png"));
     ui->grid->setColumnStretch(0, 1);
 
     setOrientation("bottom");

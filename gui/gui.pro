@@ -15,17 +15,20 @@ SOURCES += main.cpp\
     worker.cpp \
     viewer.cpp \
     wizard.cpp \
-    platesviewer.cpp
+    platesviewer.cpp \
+    about.cpp
 
 HEADERS  += mainwindow.h \
     worker.h \
     viewer.h \
     wizard.h \
-    platesviewer.h
+    platesviewer.h \
+    about.h
 
 FORMS    += mainwindow.ui \
     wizard.ui \
-    platesviewer.ui
+    platesviewer.ui \
+    about.ui
 
 win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../build/release/ -llibplater
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../build/debug/ -llibplater

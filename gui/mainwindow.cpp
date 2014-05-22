@@ -16,8 +16,12 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     setWindowTitle("Plater");
+    setWindowIcon(QIcon("img/plater.png"));
+
+    about = new About;
 
     connect(&worker, SIGNAL(workerEnd()), this, SLOT(on_worker_end()));
+    connect(ui->actionAbout, SIGNAL(triggered()), this, SLOT(on_about()));
 }
 
 MainWindow::~MainWindow()
@@ -28,6 +32,7 @@ MainWindow::~MainWindow()
     if (platesViewer != NULL) {
         delete platesViewer;
     }
+    delete about;
     delete ui;
 }
 
@@ -153,6 +158,11 @@ void MainWindow::on_worker_end()
         }
     }
     enableAll(true);
+}
+
+void MainWindow::on_about()
+{
+    about->show();
 }
 
 void MainWindow::on_wizard_accept()

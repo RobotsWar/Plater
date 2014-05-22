@@ -6,6 +6,7 @@
 #include "wizard.h"
 #include "worker.h"
 #include "platesviewer.h"
+#include "about.h"
 
 namespace Ui {
 class MainWindow;
@@ -29,6 +30,8 @@ public:
 public slots:
     void on_worker_end();
 
+    void on_about();
+
     void on_wizard_accept();
     
 private slots:
@@ -44,6 +47,7 @@ private:
     bool enabled;
     Worker worker;
     Wizard *wizard;
+    About *about;
     PlatesViewer *platesViewer;
     QStringList stls;
 };

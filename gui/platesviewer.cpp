@@ -8,6 +8,7 @@ PlatesViewer::PlatesViewer(QWidget *parent) :
 {
     ui->setupUi(this);
     setWindowTitle("Plates");
+    setWindowIcon(QIcon("img/plater.png"));
     index = 0;
     viewer = new Viewer;
     ui->zone->addWidget(viewer);
