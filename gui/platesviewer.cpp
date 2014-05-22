@@ -7,6 +7,7 @@ PlatesViewer::PlatesViewer(QWidget *parent) :
     ui(new Ui::PlatesViewer)
 {
     ui->setupUi(this);
+    setWindowTitle("Plates");
     index = 0;
     viewer = new Viewer;
     ui->zone->addWidget(viewer);
