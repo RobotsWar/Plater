@@ -17,6 +17,7 @@ public:
     explicit PlatesViewer(QWidget *parent = 0);
     ~PlatesViewer();
 
+    void keyPressEvent(QKeyEvent *);
     void setPlateDimension(float width, float height);
     void setPlates(std::vector<std::string> plates);
     void viewPlate();

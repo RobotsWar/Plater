@@ -24,7 +24,7 @@
        <item>
         <widget class="QPushButton" name="prevButton">
          <property name="text">
-          <string>« Previons</string>
+          <string>« Previons (P)</string>
          </property>
         </widget>
        </item>
@@ -38,7 +38,7 @@
        <item>
         <widget class="QPushButton" name="nextButton">
          <property name="text">
-          <string>Next »</string>
+          <string>Next (N) »</string>
          </property>
         </widget>
        </item>

@@ -1,3 +1,4 @@
+#include <QKeyEvent>
 #include "platesviewer.h"
 #include "ui_platesviewer.h"
 
@@ -14,6 +15,20 @@ PlatesViewer::PlatesViewer(QWidget *parent) :
 PlatesViewer::~PlatesViewer()
 {
     delete ui;
+}
+
+void PlatesViewer::keyPressEvent(QKeyEvent *evt)
+{
+    if (evt->key() == Qt::Key_P) {
+        index--;
+        viewPlate();
+    }
+    if (evt->key() == Qt::Key_N) {
+        index++;
+        viewPlate();
+    }
+
+    QDialog::keyPressEvent(evt);
 }
 
 void PlatesViewer::setPlateDimension(float width, float height)
