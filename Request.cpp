@@ -28,7 +28,10 @@ static std::vector<std::string> split(const std::string &s, char delim) {
 namespace Plater
 {
     Request::Request()
-        : mode(REQUEST_STL), 
+        : 
+        plateWidth(150000),
+        plateHeight(150000),
+        mode(REQUEST_STL), 
         precision(500),
         delta(2000),
         deltaR(M_PI/2),
@@ -111,24 +114,26 @@ namespace Plater
         hasError = false;
         while (!stream->eof()) {
             string line = readLine();
-            vector<string> chunks = split(line, ' ');
-            if (chunks.size() > 0) {
-                string filename = chunks[0];
-                int quantity = 1;
-                string orientation = "bottom";
+            if (line[0] != '#') {
+                vector<string> chunks = split(line, ' ');
+                if (chunks.size() > 0) {
+                    string filename = chunks[0];
+                    int quantity = 1;
+                    string orientation = "bottom";
 
-                if (chunks.size() >= 2) quantity = atof(chunks[1].c_str());
+                    if (chunks.size() >= 2) quantity = atof(chunks[1].c_str());
 
-                if (chunks.size() >= 3) {
-                    orientation = chunks[2];
-                }
+                    if (chunks.size() >= 3) {
+                        orientation = chunks[2];
+                    }
 
-                try {
-                    addPart(filename, quantity, orientation);
-                } catch (string error_) {
-                    hasError = true;
-                    error = error_;
-                    return;
+                    try {
+                        addPart(filename, quantity, orientation);
+                    } catch (string error_) {
+                        hasError = true;
+                        error = error_;
+                        return;
+                    }
                 }
             }
         }
@@ -136,13 +141,8 @@ namespace Plater
 
     void Request::readFromStdin()
     {
-        stream = &cin;
-
         _log("* Reading request from stdin\n");
-        plateWidth = readFloat()*1000;
-        plateHeight = readFloat()*1000;
-        _log("- Plate size: %g x %g µm\n", plateWidth, plateHeight);
-
+        stream = &cin;
         readParts();
     }
     
@@ -211,8 +211,9 @@ namespace Plater
     {
         if (!cancel) {
             if (hasError) {
-                cerr << "Can't process: " << error << endl;
+                cerr << "! Can't process: " << error << endl;
             } else {
+                _log("- Plate size: %g x %g µm\n", plateWidth, plateHeight);
                 Solution *solution = NULL;
 
                 for (int rotateDirection=0; rotateDirection<2; rotateDirection++) {

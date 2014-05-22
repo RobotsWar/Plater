@@ -28,11 +28,11 @@ namespace Plater
             void process();
             PlacedPart *getNextPart();
 
+            double plateWidth, plateHeight;
             int mode;
             float precision;
             float delta, deltaR;
             float spacing;
-            double plateWidth, plateHeight;
             std::string pattern;
             void writeFiles(Solution *solution);
             void writeSTL(Plate *plate, const char *filename);
