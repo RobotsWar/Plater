@@ -9,7 +9,6 @@ Viewer::Viewer(int framesPerSecond, QWidget *parent, char *name)
 {
     alpha = 0;
     pressed = false;
-    setMinimumSize(500, 200);
     t = 0.0;
     if(framesPerSecond == 0)
         t_Timer = NULL;
