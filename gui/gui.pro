@@ -6,7 +6,7 @@
 
 QT       += core gui opengl
 
-TARGET =   plater-gui
+TARGET = plater-gui
 TEMPLATE = app
 
 
@@ -30,16 +30,16 @@ FORMS    += mainwindow.ui \
     platesviewer.ui \
     about.ui
 
-win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../build/release/ -llibplater
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../build/debug/ -llibplater
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../plater/build/release/ -llibplater
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../plater/build/debug/ -llibplater
 else:symbian: LIBS += -llibplater
-else:unix: LIBS += -L$$PWD/../build/ -llibplater
+else:unix: LIBS += -L$$PWD/../plater/build/ -llibplater
 
-INCLUDEPATH += $$PWD/..
-DEPENDPATH += $$PWD/..
+INCLUDEPATH += $$PWD/../plater
+DEPENDPATH += $$PWD/../plater
 
-win32:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/../build/release/libplater.lib
-else:win32:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/../build/debug/libplater.lib
-else:unix:!symbian: PRE_TARGETDEPS += $$PWD/../build/liblibplater.a
+win32:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/../plater/build/release/libplater.lib
+else:win32:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/../plater/build/debug/libplater.lib
+else:unix:!symbian: PRE_TARGETDEPS += $$PWD/../plater/build/liblibplater.a
 
-LIBS += -lGLU -lglut
+LIBS += -lGLU
