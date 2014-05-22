@@ -192,6 +192,16 @@
      </widget>
     </item>
     <item>
+     <widget class="QCheckBox" name="viewAfter">
+      <property name="text">
+       <string>View after generation</string>
+      </property>
+      <property name="checked">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
+    <item>
      <widget class="QPushButton" name="runButton">
       <property name="text">
        <string>Run</string>

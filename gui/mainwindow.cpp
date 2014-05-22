@@ -11,7 +11,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow),
     enabled(true),
     worker(),
-    wizard(NULL)
+    wizard(NULL),
+    platesViewer(NULL)
 {
     ui->setupUi(this);
     setWindowTitle("Plater");
@@ -21,6 +22,12 @@ MainWindow::MainWindow(QWidget *parent) :
 
 MainWindow::~MainWindow()
 {
+    if (wizard != NULL) {
+        delete wizard;
+    }
+    if (platesViewer != NULL) {
+        delete platesViewer;
+    }
     delete ui;
 }
 
@@ -122,6 +129,17 @@ void MainWindow::on_worker_end()
             ostringstream oss;
             oss << "Generation over, generated " << worker.request.plates << " plates.";
             showSuccess(oss.str());
+
+            if (ui->viewAfter->isChecked()) {
+                if (platesViewer != NULL) {
+                    platesViewer->close();
+                    delete platesViewer;
+                }
+                platesViewer = new PlatesViewer();
+                platesViewer->setPlateDimension(getPlateWidth(), getPlateHeight());
+                platesViewer->setPlates(worker.request.generatedFiles);
+                platesViewer->show();
+            }
         }
     }
     enableAll(true);

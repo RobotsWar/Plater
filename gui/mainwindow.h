@@ -5,6 +5,7 @@
 #include <QMainWindow>
 #include "wizard.h"
 #include "worker.h"
+#include "platesviewer.h"
 
 namespace Ui {
 class MainWindow;
@@ -42,6 +43,7 @@ private:
     bool enabled;
     Worker worker;
     Wizard *wizard;
+    PlatesViewer *platesViewer;
 };
 
 #endif // MAINWINDOW_H
