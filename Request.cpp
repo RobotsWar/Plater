@@ -120,9 +120,16 @@ namespace Plater
                 int rZ = 0;
 
                 if (chunks.size() >= 2) quantity = atof(chunks[1].c_str());
-                if (chunks.size() >= 3) rX = atof(chunks[2].c_str());
-                if (chunks.size() >= 4) rY = atof(chunks[3].c_str());
-                if (chunks.size() >= 5) rZ = atof(chunks[4].c_str());
+
+                if (chunks.size() >= 3) {
+                    string orientation = chunks[2];
+                    if (orientation == "bottom") { };
+                    if (orientation == "front") { rX=90; };
+                    if (orientation == "top") { rX=180; };
+                    if (orientation == "back") { rX=270; };
+                    if (orientation == "left") { rY=90; };
+                    if (orientation == "right") { rY=-90; };
+                }
 
                 try {
                     addPart(filename, quantity, rX, rY, rZ);
