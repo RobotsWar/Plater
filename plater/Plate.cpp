@@ -20,7 +20,7 @@ namespace Plater
             model.merge(part->createModel());
         }
 
-        return model;
+        return model.center();
     }
 
     Plate::~Plate()
