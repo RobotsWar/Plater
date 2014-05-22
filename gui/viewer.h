@@ -16,6 +16,10 @@ public:
     void paintGL();
     void keyPressEvent( QKeyEvent *keyEvent );
 
+    void mousePressEvent(QMouseEvent *);
+    void mouseReleaseEvent(QMouseEvent *);
+    void mouseMoveEvent(QMouseEvent *);
+
     void setPlateDimension(float width, float height);
 
     SimpleModel *model;
@@ -26,6 +30,12 @@ public slots:
     virtual void timeOutSlot();
 
 private:
+    bool autorotate;
+    float radius;
+    float alpha, beta;
+    float mAlpha, mBeta;
+    float mX, mY;
+    bool pressed;
     QTimer *t_Timer;
 };
 

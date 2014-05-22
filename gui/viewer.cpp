@@ -2,10 +2,13 @@
 #include "viewer.h"
 #include <GL/glu.h>
 #include <GL/glut.h>
+#include <QMouseEvent>
 
 Viewer::Viewer(int framesPerSecond, QWidget *parent, char *name)
     : QGLWidget(parent)
 {
+    alpha = 0;
+    pressed = false;
     setMinimumSize(500, 200);
     t = 0.0;
     if(framesPerSecond == 0)
@@ -23,6 +26,16 @@ Viewer::Viewer(int framesPerSecond, QWidget *parent, char *name)
 void Viewer::setModel(SimpleModel *model_)
 {
     model = model_;
+    autorotate = true;
+    beta = M_PI/4.0;
+
+    Point3 maxP = model->max();
+    radius = maxP.x;
+    if (maxP.y > radius) radius = maxP.y;
+    if (maxP.z > radius) radius = maxP.z;
+    if (radius < 0) radius *= -1;
+
+    radius *= 4/1000.0;
 }
 
 void Viewer::initializeGL()
@@ -65,18 +78,17 @@ void Viewer::resizeGL(int width, int height)
     // gluLookAt(2.0, 2.0, 2.0, 0, 0, 0, 0, 0, 1);
 
     if (model) {
-        t += 0.02;
-        Point3 maxP = model->max();
-        float radius = maxP.x;
-        if (maxP.y > radius) radius = maxP.y;
-        if (maxP.z > radius) radius = maxP.z;
-        if (radius < 0) radius *= -1;
+        if (autorotate) {
+            alpha += 0.02;
+        }
 
-        radius *= 3/1000.0;
+        float aX = radius*cos(beta);
+        float aY = 0;
+        float aZ = radius*sin(beta);
 
-        float X = radius*cos(t);
-        float Y = radius*sin(t);
-        float Z = radius;
+        float X = aX*cos(alpha)-aY*sin(alpha);
+        float Y = aX*sin(alpha)+aY*cos(alpha);
+        float Z = aZ;
 
         float Xl = radius*cos(t+M_PI/2.0);
         float Yl = radius*sin(t+M_PI/2.0);
@@ -158,6 +170,35 @@ void Viewer::paintGL()
 
 void Viewer::keyPressEvent(QKeyEvent *keyEvent)
 {
+}
+
+void Viewer::mousePressEvent(QMouseEvent *evt)
+{
+    if (evt->button() == Qt::LeftButton) {
+        pressed = true;
+        mX = evt->x();
+        mY = evt->y();
+        mAlpha = alpha;
+        mBeta = beta;
+    }
+}
+
+void Viewer::mouseReleaseEvent(QMouseEvent *evt)
+{
+    if (evt->button() == Qt::LeftButton) {
+        pressed = false;
+    }
+}
+
+void Viewer::mouseMoveEvent(QMouseEvent *evt)
+{
+    if (pressed) {
+        autorotate = false;
+        float dX = evt->x()-mX;
+        float dY = evt->y()-mY;
+        alpha = mAlpha - 0.01*dX;
+        beta = mBeta + 0.01*dY;
+    }
 }
 
 void Viewer::setPlateDimension(float width, float height)
