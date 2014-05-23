@@ -82,6 +82,7 @@ SimpleModel loadModelSTL_ascii(const char* filename, FMatrix3x3& matrix)
         throw oss.str();
     }
 
+    std::locale::global(std::locale("C"));
     char buffer[1024];
     FPoint3 vertex;
     int n = 0;
