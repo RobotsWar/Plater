@@ -7,6 +7,14 @@ and some parameters such as the plate dimension, part orientation and spacing,
 and it tries to generates 3D model to print your parts with at least as possible
 plates.
 
+It uses a really simple configuration file that contains the list of parts with
+their quantities and dimension. You can then build your STL plate(s) and release
+it with your part, or simply release the `plater.conf` file and let people do
+their own plates using their own settings.
+
+Note that Plater will *not* choose the best orientation of a part for you, this is
+up to the user because it depends on a lot of things.
+
 # Using
 
 ## With the GUI
@@ -25,7 +33,16 @@ Hit "Run", this will generate you the STL file(s) corresponding to your plates.
 
 ## With the command line
 
-Plater can take several arguments, you can get the help with `-h`:
+Plater usage is:
+
+```
+plater [options] plater.conf
+```
+
+Where `plater.conf` is the name of your configuration file. If `-` is given as a
+file name, the configuration will be read from standard input.
+
+Here are the options:
 
 * `-v`, increase the verbosity, this will output more things on `stderr` during
   the placing of the parts
