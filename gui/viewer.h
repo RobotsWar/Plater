@@ -9,7 +9,7 @@ class Viewer : public QGLWidget
 {
     Q_OBJECT
 public:
-    explicit Viewer(int framesPerSecond = 20, QWidget *parent = 0, char *name = 0);
+    explicit Viewer(int framesPerSecond = 10, QWidget *parent = 0, char *name = 0);
     void setModel(SimpleModel *model);
     void initializeGL();
     void resizeGL(int width, int height);

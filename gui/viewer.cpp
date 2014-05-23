@@ -9,12 +9,12 @@ Viewer::Viewer(int framesPerSecond, QWidget *parent, char *name)
     alpha = 0;
     pressed = false;
     t = 0.0;
+    framesPerSecond = 30;
     if(framesPerSecond == 0)
         t_Timer = NULL;
     else
     {
-        int seconde = 1000; // 1 seconde = 1000 ms
-        int timerInterval = seconde / framesPerSecond;
+        int timerInterval = 1000 / framesPerSecond;
         t_Timer = new QTimer(this);
         connect(t_Timer, SIGNAL(timeout()), this, SLOT(timeOutSlot()));
         t_Timer->start( timerInterval );

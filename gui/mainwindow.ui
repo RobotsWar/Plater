@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>569</width>
-    <height>402</height>
+    <width>523</width>
+    <height>359</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -262,7 +262,6 @@
          </layout>
         </item>
        </layout>
-       <zorder>label</zorder>
        <zorder></zorder>
       </widget>
      </widget>
@@ -303,8 +302,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>569</width>
-     <height>25</height>
+     <width>523</width>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuAbout">
