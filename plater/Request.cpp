@@ -25,6 +25,27 @@ static std::vector<std::string> split(const std::string &s, char delim) {
     return elems;
 }
 
+static std::vector<std::string> splitWithEscape(const std::string &s, char delim) {
+    std::vector<std::string> elems = split(s, delim);
+    std::vector<std::string> escaped;
+
+    string current = "";
+    for (unsigned int i=0; i<elems.size(); i++) {
+        current += elems[i];
+        if (elems[i][elems[i].size()-1] == '\\') {
+            current[current.size()-1] = ' ';
+        } else {
+            escaped.push_back(current);
+            current = "";
+        }
+    }
+    if (current != "") {
+        escaped.push_back(current);
+    }
+
+    return escaped;
+}
+
 namespace Plater
 {
     Request::Request()
@@ -118,7 +139,7 @@ namespace Plater
         while (!stream->eof()) {
             string line = readLine();
             if (line[0] != '#') {
-                vector<string> chunks = split(line, ' ');
+                vector<string> chunks = splitWithEscape(line, ' ');
                 if (chunks.size() > 0) {
                     string filename = chunks[0];
                     int quantity = 1;
