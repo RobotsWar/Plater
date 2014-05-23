@@ -6,6 +6,7 @@ set (CMAKE_CXX_FLAGS "-std=c++0x -Wall -pedantic")
 set(ALL_SOURCES
     modelFile/modelFile.cpp
     log.cpp
+    util.cpp
 
     Bitmap.cpp
     PlacedPart.cpp
