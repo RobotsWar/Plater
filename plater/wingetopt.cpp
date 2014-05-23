@@ -21,9 +21,12 @@ Code given out at the 1985 UNIFORUM conference in Dallas.
 	fputs(argv[0], stderr);\
 	fputs(s, stderr);\
 	fputc(c, stderr);}
+
+/*
 	//(void) write(2, argv[0], (unsigned)strlen(argv[0]));\
 	//(void) write(2, s, (unsigned)strlen(s));\
 	//(void) write(2, errbuf, 2);}
+*/
 
 int	opterr = 1;
 int	optind = 1;
