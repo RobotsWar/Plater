@@ -1,8 +1,19 @@
 /** Copyright (C) 2013 David Braam - Released under terms of the AGPLv3 License */
+#include <cstdlib>
+#include <cstdio>
 #include <sstream>
+#define _USE_MATH_DEFINES
+#include <math.h>
 #include <fstream>
 #include <string.h>
 #include <stdio.h>
+
+#if defined(_WIN32) || defined(_WIN64)
+  #define snprintf _snprintf
+  #define vsnprintf _vsnprintf
+  #define strcasecmp _stricmp
+  #define strncasecmp _strnicmp
+#endif
 
 #include "modelFile.h"
 #include "../log.h"

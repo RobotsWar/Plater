@@ -1,6 +1,9 @@
+#define _USE_MATH_DEFINES
+#include <math.h>
 #include <sstream>
 #include <fstream>
 #include <iostream>
+#include <stdio.h>
 #include "util.h"
 #include "Request.h"
 #include "Placer.h"
@@ -10,6 +13,10 @@
 #include "log.h"
 
 using namespace std;
+
+#if defined(_WIN32) || defined(_WIN64)
+#define snprintf _snprintf
+#endif
 
 namespace Plater
 {

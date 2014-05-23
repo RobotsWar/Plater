@@ -1,6 +1,12 @@
 #include <iostream>
 #include <fcntl.h>
+#if defined(_WIN32) || defined(_WIN64)
+#include "wingetopt.h"
+#else
 #include <getopt.h>
+#endif
+#define _USE_MATH_DEFINES
+#include <math.h>
 #include "modelFile/modelFile.h"
 #include "Request.h"
 #include "util.h"

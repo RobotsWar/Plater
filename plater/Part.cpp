@@ -1,3 +1,5 @@
+#define _USE_MATH_DEFINES
+#include <math.h>
 #include <iostream>
 #include "Part.h"
 #include "modelFile/modelFile.h"

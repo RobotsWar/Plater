@@ -1,6 +1,13 @@
+#if defined(_WIN32) || defined(_WIN64)
+#include <direct.h>
+#endif
 #include <iostream>
 #include <sstream>
 #include "util.h"
+
+#if defined(_WIN32) || defined(_WIN64)
+	#define chdir _chdir
+#endif
 
 std::string getDirectory(const std::string &filename)
 {
@@ -23,6 +30,7 @@ std::string getBasename(const std::string &filename)
 bool chdirFile(const std::string &filename)
 {
     std::string targetDirectory = getDirectory(filename);
+
     
     if (targetDirectory != "") {
         return chdir(targetDirectory.c_str())==0;
