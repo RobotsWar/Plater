@@ -1,7 +1,6 @@
 #include <sstream>
 #include "viewer.h"
 #include <GL/glu.h>
-#include <GL/glut.h>
 #include <QMouseEvent>
 
 Viewer::Viewer(int framesPerSecond, QWidget *parent, char *name)
@@ -126,8 +125,12 @@ void Viewer::paintGL()
 
     glBegin(GL_TRIANGLES);
     if (model != NULL) {
-        for (auto volume : model->volumes) {
-            for (auto face : volume.faces) {
+        vector<SimpleVolume>::iterator vit;
+        vector<SimpleFace>::iterator fit;
+        for (vit = model->volumes.begin(); vit != model->volumes.end(); vit++) {
+            SimpleVolume &volume = *vit;
+            for (fit = volume.faces.begin(); fit != volume.faces.end(); fit++) {
+                SimpleFace &face = *fit;
                 float x1 = face.v[1].x-face.v[0].x;
                 float y1 = face.v[1].y-face.v[0].y;
                 float z1 = face.v[1].z-face.v[0].z;
@@ -216,7 +219,7 @@ void Viewer::mouseMoveEvent(QMouseEvent *evt)
 
 void Viewer::wheelEvent(QWheelEvent *evt)
 {
-    radius -= evt->delta()*0.02;
+    radius -= evt->delta()*0.04;
 }
 
 void Viewer::setPlateDimension(float width, float height)

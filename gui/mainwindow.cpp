@@ -7,6 +7,11 @@
 #include <viewer.h>
 #include <wizard.h>
 
+#if defined(_WIN32) || defined(_WIN64)
+    #include <direct.h>
+    #define chdir _chdir
+#endif
+
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow),
