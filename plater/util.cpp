@@ -1,11 +1,16 @@
+#include <iostream>
 #include <sstream>
 #include "util.h"
 
 std::string getDirectory(const std::string &filename)
 {
-    size_t found;
+    int found;
     found = filename.find_last_of("/\\");
-    return filename.substr(0, found);
+    if (found < 0) {
+        return "";
+    } else {
+        return filename.substr(0, found);
+    }
 }
 
 std::string getBasename(const std::string &filename)
@@ -17,7 +22,13 @@ std::string getBasename(const std::string &filename)
 
 bool chdirFile(const std::string &filename)
 {
-    return (chdir(getDirectory(filename).c_str())==0);
+    std::string targetDirectory = getDirectory(filename);
+    
+    if (targetDirectory != "") {
+        return chdir(targetDirectory.c_str())==0;
+    } else {
+        return true;
+    }
 }
 
 std::vector<std::string> &split(const std::string &s, char delim, std::vector<std::string> &elems) {

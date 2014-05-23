@@ -57,6 +57,25 @@ Here are the options:
   means that the first plate will be named plate_001.stl, the second plate_002.stl
   and so on.
 
+# The plater.conf file
+
+The configuration file looks like this:
+
+```
+part.stl 1
+other_part.stl 3 back
+yet-another-part.stl 8 left
+```
+
+Each line begins with a part name, followed by the quantity, and optionally the side
+that should be on the plate. The side can be `bottom` (default, you can also put
+nothing), `front`, `top`, `back`, `left` or `right.
+
+The file should be described relatively to the `plater.conf` file.
+
+If a filename contains a space (` `), you can escape it with the \ character (like 
+`some\ plate.stl`).
+
 # How does it works?
 
 The problem of placing parts is quite hard and very likely NP-complete. Plater is
