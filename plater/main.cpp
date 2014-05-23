@@ -12,7 +12,8 @@ using namespace Plater;
 void help()
 {
     cerr << "Plater v1.0 (https://github.com/RobotsWar/Plater)" << endl;
-    cerr << "Usage: plater [options] (will read config from stdin)" << endl;
+    cerr << "Usage: plater [options] plater.conf" << endl;
+    cerr << "(Use - to read from stdin)" << endl;
     cerr << endl;
     cerr << "-h: Display this help" << endl;
     cerr << "-v: Verbose mode" << endl;
@@ -68,10 +69,14 @@ int main(int argc, char *argv[])
     }
 
     if (optind != argc) {
-        char *file = argv[optind];
-        request.readFromFile(string(file));
+        string filename = string(argv[optind]);
+        if (filename == "-") {
+            request.readFromStdin();
+        } else {
+            request.readFromFile(filename);
+        }
     } else {
-        request.readFromStdin();
+        help();
     }
     request.process();
 
