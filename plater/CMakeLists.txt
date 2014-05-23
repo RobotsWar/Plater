@@ -14,6 +14,8 @@ set(ALL_SOURCES
     Placer.cpp
     Plate.cpp
     Part.cpp
+    QuadTree.cpp
+    Rectangle.cpp
     Request.cpp
     Solution.cpp
     Triangle.cpp

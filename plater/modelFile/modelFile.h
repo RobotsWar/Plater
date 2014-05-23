@@ -13,6 +13,7 @@ using std::vector;
 #include "../floatpoint.h"
 #include "../Bitmap.h"
 #include "../Triangle.h"
+#include "../QuadTree.h"
 
 extern FILE* binaryMeshBlob;
 
@@ -84,6 +85,9 @@ public:
 class SimpleModel
 {
 public:
+    SimpleModel();
+    virtual ~SimpleModel();
+
     vector<SimpleVolume> volumes;
 
     Point3 min()
@@ -125,6 +129,9 @@ public:
     SimpleModel translate(float X=0, float Y=0, float Z=0);
     SimpleModel putFaceOnPlate(string orientation);
     void merge(const SimpleModel &ohter);
+
+    Plater::QuadTree *tree;
+    std::vector<Plater::Triangle*> triangles;
 };
 
 SimpleModel loadModelFromFile(const char* filename, FMatrix3x3& matrix);

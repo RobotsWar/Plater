@@ -300,6 +300,7 @@ SimpleModel loadModelFromFile(const char* filename, FMatrix3x3& matrix)
 
 bool SimpleModel::contains(float x, float y)
 {
+    /*
     for(unsigned int i=0; i<volumes.size(); i++)
     {
         for (unsigned int k=0; k<volumes[i].faces.size(); k++) {
@@ -313,6 +314,37 @@ bool SimpleModel::contains(float x, float y)
             if (t.contains(x, y)) {
                 return true;
             }
+        }
+    }
+
+    return false;
+    */
+    if (tree == NULL) {
+        Point3 minP = min();
+        Point3 maxP = max();
+        tree = new Plater::QuadTree(minP.x, minP.y, maxP.x, maxP.y, 10);
+
+        for(unsigned int i=0; i<volumes.size(); i++)
+        {
+            for (unsigned int k=0; k<volumes[i].faces.size(); k++) {
+                SimpleFace &face = volumes[i].faces[k];
+                Triangle *triangle = new Triangle(
+                        FPoint2(face.v[0].x, face.v[0].y),
+                        FPoint2(face.v[1].x, face.v[1].y),
+                        FPoint2(face.v[2].x, face.v[2].y)
+                        );
+                triangles.push_back(triangle);
+                tree->add(triangle);
+            }
+        }
+    } 
+
+    std::vector<Triangle *> all;
+    tree->get(x, y, all);
+
+    for (int i=0; i<all.size(); i++) {
+        if (all[i]->contains(x, y)) {
+            return true;
         }
     }
 
@@ -450,4 +482,20 @@ SimpleModel SimpleModel::putFaceOnPlate(string orientation)
     if (orientation == "left") return rotateY(DEG2RAD(90));
     if (orientation == "right") return rotateY(DEG2RAD(-90));
     return *this;
+}
+    
+SimpleModel::SimpleModel()
+    : tree(NULL)
+{
+}
+
+SimpleModel::~SimpleModel()
+{
+    if (tree != NULL) {
+        delete tree;
+    }
+
+    for (int i=0; i<triangles.size(); i++) {
+        delete triangles[i];
+    }
 }

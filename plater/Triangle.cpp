@@ -1,13 +1,26 @@
 #include <iostream>
 #include "Triangle.h"
+#include "util.h"
 
 using namespace std;
 
 namespace Plater
 {
-    Triangle::Triangle(FPoint2 A, FPoint2 B, FPoint2 C)
-        : A(A), B(B), C(C)
+    Triangle::Triangle()
     {
+    }
+
+    Triangle::Triangle(FPoint2 A, FPoint2 B, FPoint2 C)
+    {
+        setPoints(A, B, C);
+    }
+            
+    void Triangle::setPoints(FPoint2 A_, FPoint2 B_, FPoint2 C_)
+    {
+        A = A_;
+        B = B_;
+        C = C_;
+
         // Segments
         AB = FPoint2(B.x-A.x, B.y-A.y);
         BC = FPoint2(C.x-B.x, C.y-B.y);
@@ -17,6 +30,11 @@ namespace Plater
         nAB = FPoint2(AB.y, -AB.x);
         nBC = FPoint2(BC.y, -BC.x);
         nCA = FPoint2(CA.y, -CA.x);
+
+        box.x1 = MIN(A.x, MIN(B.x, C.x));
+        box.y1 = MIN(A.y, MIN(B.y, C.y));
+        box.x2 = MAX(A.x, MAX(B.x, C.x));
+        box.y2 = MAX(A.y, MAX(B.y, C.y));
     }
 
     static bool getSide(FPoint2 pt, FPoint2 n, FPoint2 s)
