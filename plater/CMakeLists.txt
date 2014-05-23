@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 2.8)
 project(plater)
 
-set (CMAKE_CXX_FLAGS "-std=c++0x -Wall -pedantic")
+set (CMAKE_CXX_FLAGS "-std=c++0x -Wall -pedantic -U__STRICT_ANSI__")
 
 set(ALL_SOURCES
     modelFile/modelFile.cpp
