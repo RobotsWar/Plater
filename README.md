@@ -62,6 +62,7 @@ Here are the options:
 The configuration file looks like this:
 
 ```
+# This is an example of plater.conf file
 part.stl 1
 other_part.stl 3 back
 yet-another-part.stl 8 left
@@ -70,6 +71,9 @@ yet-another-part.stl 8 left
 Each line begins with a part name, followed by the quantity, and optionally the side
 that should be on the plate. The side can be `bottom` (default, you can also put
 nothing), `front`, `top`, `back`, `left` or `right.
+
+You can put comment lines begining with `#`, it can be useful to add some advices
+on how generate your plate or some copyrights.
 
 The file should be described relatively to the `plater.conf` file.
 
