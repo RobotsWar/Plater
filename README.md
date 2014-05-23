@@ -15,6 +15,8 @@ their own plates using their own settings.
 Note that Plater will *not* choose the best orientation of a part for you, this is
 up to the user because it depends on a lot of things.
 
+* [Get windows binaries (v1.0)](http://gregwar.com/plater/plater-win32-1.0.zip)
+
 # Using
 
 ## With the GUI
