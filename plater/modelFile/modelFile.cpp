@@ -322,7 +322,7 @@ bool SimpleModel::contains(float x, float y)
     if (tree == NULL) {
         Point3 minP = min();
         Point3 maxP = max();
-        tree = new Plater::QuadTree(minP.x, minP.y, maxP.x, maxP.y, 10);
+        tree = new Plater::QuadTree(minP.x, minP.y, maxP.x, maxP.y, 6);
 
         for(unsigned int i=0; i<volumes.size(); i++)
         {
@@ -342,7 +342,7 @@ bool SimpleModel::contains(float x, float y)
     std::vector<Triangle *> all;
     tree->get(x, y, all);
 
-    for (int i=0; i<all.size(); i++) {
+    for (unsigned int i=0; i<all.size(); i++) {
         if (all[i]->contains(x, y)) {
             return true;
         }
@@ -495,7 +495,7 @@ SimpleModel::~SimpleModel()
         delete tree;
     }
 
-    for (int i=0; i<triangles.size(); i++) {
+    for (unsigned int i=0; i<triangles.size(); i++) {
         delete triangles[i];
     }
 }

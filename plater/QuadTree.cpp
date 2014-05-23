@@ -47,7 +47,7 @@ namespace Plater
                     quad3->get(x, y, all);
                     quad4->get(x, y, all);
             } else {
-                for (int i=0; i<triangles.size(); i++) {
+                for (unsigned int i=0; i<triangles.size(); i++) {
                     all.push_back(triangles[i]);
                 }
             }
