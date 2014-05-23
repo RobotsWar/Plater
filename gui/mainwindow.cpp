@@ -55,6 +55,8 @@ void MainWindow::enableAll(bool enable)
     ui->ppmRadio->setEnabled(enable);
     ui->precision->setEnabled(enable);
     ui->spacing->setEnabled(enable);
+    ui->bruteForceSpacing->setEnabled(enable);
+    ui->randomIterations->setEnabled(enable);
 
     if (enable) {
         ui->runButton->setText("Run");
