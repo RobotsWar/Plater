@@ -10,6 +10,8 @@
 #if defined(_WIN32) || defined(_WIN64)
     #include <direct.h>
     #define chdir _chdir
+#else
+#include <unistd.h>
 #endif
 
 MainWindow::MainWindow(QWidget *parent) :
