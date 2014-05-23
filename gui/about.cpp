@@ -8,6 +8,9 @@ About::About(QWidget *parent) :
     ui->setupUi(this);
     setWindowTitle("About Plater");
     setWindowIcon(QIcon("img/plater.png"));
+    setFixedSize(550, 250);
+    QImage img("img/plater.png");
+    ui->imgLabel->setPixmap(QPixmap::fromImage(img));
 }
 
 About::~About()

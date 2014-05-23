@@ -6,22 +6,29 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>550</width>
-    <height>268</height>
+    <width>510</width>
+    <height>274</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
+  <property name="sizeGripEnabled">
+   <bool>false</bool>
+  </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
-      <widget class="QLabel" name="label_2">
-       <property name="text">
-        <string>&lt;img src=&quot;img/plater.png&quot;/&gt;    </string>
-       </property>
-      </widget>
+      <layout class="QVBoxLayout" name="zone">
+       <item>
+        <widget class="QLabel" name="imgLabel">
+         <property name="text">
+          <string>Plater</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
      </item>
      <item>
       <widget class="QLabel" name="label">
