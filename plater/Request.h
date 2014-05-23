@@ -30,6 +30,7 @@ namespace Plater
             PlacedPart *getNextPart();
 
             double plateWidth, plateHeight;
+            int randomIterations;
             int mode;
             float precision;
             float delta, deltaR;

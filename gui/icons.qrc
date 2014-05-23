@@ -1,0 +1,10 @@
+<RCC>
+    <qresource prefix="/icon">
+        <file>img/plater.png</file>
+        <file>img/clear.png</file>
+        <file>img/open.png</file>
+        <file>img/part.png</file>
+        <file>img/save.png</file>
+        <file>img/gears.png</file>
+    </qresource>
+</RCC>

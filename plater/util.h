@@ -15,6 +15,7 @@
 #define RND(a) ((random()%a)==0)
 
 std::string getDirectory(const std::string &filename);
+std::string getBasename(const std::string &filename);
 bool chdirFile(const std::string &filename);
 std::vector<std::string> &split(const std::string &s, char delim, std::vector<std::string> &elems);
 std::vector<std::string> split(const std::string &s, char delim);

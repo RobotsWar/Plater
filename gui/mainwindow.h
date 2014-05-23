@@ -41,6 +41,12 @@ private slots:
 
     void on_partBrowse_clicked();
 
+    void on_saveButton_clicked();
+
+    void on_openButton_clicked();
+
+    void on_clearButton_clicked();
+
 private:
     Ui::MainWindow *ui;
     QThread thread;
@@ -50,6 +56,7 @@ private:
     About *about;
     PlatesViewer *platesViewer;
     QStringList stls;
+    QString workingDirectory;
 };
 
 #endif // MAINWINDOW_H

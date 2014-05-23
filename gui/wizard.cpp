@@ -45,21 +45,6 @@ void Wizard::setOrientation(string orientation_)
     viewer->setModel(&model);
 }
 
-QString Wizard::getPart()
-{
-    std::ostringstream oss;
-    oss << stl.toStdString();
-    oss << " ";
-    oss << ui->quantity->text().toInt();
-
-    if (orientation != "bottom") {
-        oss << " ";
-        oss << orientation;
-    }
-
-    return QString::fromStdString(oss.str());
-}
-
 void Wizard::setPlateDimension(float width, float height)
 {
     if (viewer != NULL) {
@@ -95,4 +80,24 @@ void Wizard::on_left_clicked()
 void Wizard::on_right_clicked()
 {
     setOrientation("right");
+}
+
+
+QString Wizard::getPartFilename()
+{
+    return stl;
+}
+
+
+QString Wizard::getPartOptions()
+{
+    std::ostringstream oss;
+    oss << ui->quantity->text().toInt();
+
+    if (orientation != "bottom") {
+        oss << " ";
+        oss << orientation;
+    }
+
+    return QString::fromStdString(oss.str());
 }

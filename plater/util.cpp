@@ -8,6 +8,13 @@ std::string getDirectory(const std::string &filename)
     return filename.substr(0, found);
 }
 
+std::string getBasename(const std::string &filename)
+{
+    size_t found;
+    found = filename.find_last_of("/\\");
+    return filename.substr(found+1);
+}
+
 bool chdirFile(const std::string &filename)
 {
     return (chdir(getDirectory(filename).c_str())==0);

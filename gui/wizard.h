@@ -17,7 +17,8 @@ public:
     explicit Wizard(QString stl, QWidget *parent = 0);
     ~Wizard();
     void setOrientation(std::string orientation);
-    QString getPart();
+    QString getPartFilename();
+    QString getPartOptions();
 
     void setPlateDimension(float width, float height);
     

@@ -17,6 +17,7 @@ namespace Plater
         : 
         plateWidth(150000),
         plateHeight(150000),
+        randomIterations(3),
         mode(REQUEST_STL), 
         precision(500),
         delta(2000),
@@ -222,7 +223,7 @@ namespace Plater
                 Solution *solution = NULL;
 
                 for (int rotateDirection=0; rotateDirection<2; rotateDirection++) {
-                    for (int sortMode=0; !cancel && sortMode<PLACER_SORT_SHUFFLE+2; sortMode++) {
+                    for (int sortMode=0; !cancel && sortMode<PLACER_SORT_SHUFFLE+randomIterations; sortMode++) {
                         for (int gravity=0; !cancel && gravity<PLACER_GRAVITY_EQ; gravity++) {
                             Placer placer(this);
                             placer.sortParts(sortMode);

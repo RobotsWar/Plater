@@ -23,6 +23,7 @@ void help()
     cerr << "-s spacing: Change the spacing between parts (in mm, default: 2)" << endl;
     cerr << "-d delta: Sets the interval of place grid (in mm, default: 2)" << endl;
     cerr << "-r rotation: Sets the interval of rotation (in °, default: 90)" << endl;
+    cerr << "-R random: Sets the number of random (shuffled parts) iterations (default 3)" << endl;
     cerr << "-o pattern: output file pattern (default: plate_%03d)" << endl;
     cerr << "-p: will output ppm of the plates" << endl;
     exit(EXIT_FAILURE);
@@ -33,7 +34,7 @@ int main(int argc, char *argv[])
     int index;
     Request request;
 
-    while ((index = getopt(argc, argv, "hvs:d:r:pj:d:o:W:H:")) != -1) {
+    while ((index = getopt(argc, argv, "hvs:d:r:pj:d:o:W:H:R:")) != -1) {
         switch (index) {
             case 'h':
                 help();
@@ -64,6 +65,9 @@ int main(int argc, char *argv[])
                 break;
             case 'H':
                 request.plateHeight = atof(optarg)*1000;
+                break;
+            case 'R':
+                request.randomIterations = atoi(optarg);
                 break;
         }
     }

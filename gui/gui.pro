@@ -9,6 +9,7 @@ QT       += core gui opengl
 TARGET = plater-gui
 TEMPLATE = app
 
+RC_FILE += gui.rc
 
 SOURCES += main.cpp\
         mainwindow.cpp \
@@ -47,3 +48,6 @@ else:win32:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/../plater/build
 else:unix:!symbian: PRE_TARGETDEPS += $$PWD/../plater/build/liblibplater.a
 
 LIBS += -lGLU
+
+RESOURCES += \
+    icons.qrc

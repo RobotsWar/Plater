@@ -3,6 +3,7 @@
 #include <QFileDialog>
 #include <QMessageBox>
 #include <log.h>
+#include <util.h>
 #include <viewer.h>
 #include <wizard.h>
 
@@ -14,6 +15,7 @@ MainWindow::MainWindow(QWidget *parent) :
     wizard(NULL),
     platesViewer(NULL)
 {
+    workingDirectory = "";
     ui->setupUi(this);
     setWindowTitle("Plater");
     setWindowIcon(QIcon("img/plater.png"));
@@ -113,6 +115,8 @@ void MainWindow::on_runButton_clicked()
         worker.request.pattern = ui->outputDirectory->text().toStdString() + "/plate_%03d";
         worker.request.spacing = ui->spacing->text().toFloat()*1000;
         worker.request.precision = ui->precision->text().toFloat()*1000;
+        worker.request.randomIterations = ui->randomIterations->text().toInt();
+        worker.request.delta = ui->bruteForceSpacing->text().toFloat()*1000;
         worker.parts = ui->parts->toPlainText().toStdString();
         if (ui->ppmRadio->isChecked()) {
             worker.request.mode = REQUEST_PPM;
@@ -129,7 +133,7 @@ void MainWindow::on_runButton_clicked()
 
 void MainWindow::on_partBrowse_clicked()
 {
-    stls = QFileDialog::getOpenFileNames(this, "Select a part", "", "*.stl");
+    stls = QFileDialog::getOpenFileNames(this, "Select a part", workingDirectory, "*.stl");
     wizardNext();
 }
 
@@ -169,8 +173,49 @@ void MainWindow::on_wizard_accept()
 {
     QString parts = ui->parts->toPlainText();
     wizard->close();
-    parts += wizard->getPart() + "\n";
+    QString part = wizard->getPartFilename();
+    QString partOptions = wizard->getPartOptions();
+    string directory = getDirectory(part.toStdString());
+
+    if (parts.trimmed() == "") {
+        workingDirectory = QString::fromStdString(directory);
+        chdir(directory.c_str());
+    }
+    if (directory == workingDirectory.toStdString()) {
+        part = QString::fromStdString(getBasename(part.toStdString()));
+    }
+
+    parts += part + " " + partOptions + "\n";
     ui->parts->setText(parts);
 
     wizardNext();
+}
+
+void MainWindow::on_saveButton_clicked()
+{
+    QString filename = QFileDialog::getSaveFileName(this, "Select where to save plater.conf", workingDirectory + "/plater.conf");
+    QString configuration = ui->parts->toPlainText();
+
+    QFile conf(filename);
+    conf.open(QIODevice::WriteOnly);
+    conf.write(configuration.toStdString().c_str());
+    conf.close();
+}
+
+void MainWindow::on_openButton_clicked()
+{
+    QString filename = QFileDialog::getOpenFileName(this, "Select a plater.conf", workingDirectory);
+
+    QFile conf(filename);
+    conf.open(QIODevice::ReadOnly);
+    ui->parts->setText(conf.readAll());
+    conf.close();
+
+    workingDirectory = QString::fromStdString(getDirectory(filename.toStdString()));
+    chdir(workingDirectory.toStdString().c_str());
+}
+
+void MainWindow::on_clearButton_clicked()
+{
+    ui->parts->setText("");
 }
