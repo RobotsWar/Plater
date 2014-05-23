@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>478</width>
-    <height>183</height>
+    <width>550</width>
+    <height>268</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -26,7 +26,7 @@
      <item>
       <widget class="QLabel" name="label">
        <property name="text">
-        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Plater 2014 by &lt;/span&gt;&lt;a href=&quot;http://www.robotcampus.fr/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Robot Campus&lt;/span&gt;&lt;/a&gt;&lt;br/&gt;&lt;br/&gt;Plater is a free software under CC-BY-NC license&lt;br/&gt;&lt;br/&gt;&lt;a href=&quot;https://github.com/RobotsWar/Plater&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;https://github.com/RobotsWar/Plater&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Plater 2014 by &lt;/span&gt;&lt;a href=&quot;http://www.robotcampus.fr/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Robot Campus&lt;/span&gt;&lt;/a&gt;&lt;br/&gt;&lt;br/&gt;Plater is a free software under CC-BY-NC license&lt;/p&gt;&lt;p&gt;Grégoire Passault &amp;lt;g.passault@gmail.com&amp;gt;&lt;br/&gt;Quentin Rouxel &amp;lt;qrouxel@labri.fr&amp;gt;&lt;br/&gt;Guillaume Bea &amp;lt;guillaume.bea@etu.u-bordeaux1.fr&amp;gt;&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;https://github.com/RobotsWar/Plater&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;https://github.com/RobotsWar/Plater&lt;/span&gt;&lt;/a&gt;&lt;br/&gt;&lt;/p&gt;&lt;p&gt;Thanks to David Braam from Ultimaker&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
       </widget>
      </item>
