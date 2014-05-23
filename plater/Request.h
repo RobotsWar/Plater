@@ -23,6 +23,7 @@ namespace Plater
             void setPlateSize(float w, float h);
             void addPart(std::string filename, int quantity, std::string orientation);
             void readFromStdin();
+            void readFromFile(std::string filename);
             void readPartsFromString(std::string parts);
             void readParts();
             void process();

@@ -141,6 +141,19 @@ namespace Plater
             }
         }
     }
+            
+    void Request::readFromFile(std::string filename)
+    {
+        ifstream ifile(filename);
+
+        if (!ifile) {
+            cerr << "! Can't open configuration file " << filename << endl;
+        } else {
+            cerr << "* Reading from " << filename << endl;
+            stream = &ifile;
+            readParts();
+        }
+    }
 
     void Request::readFromStdin()
     {

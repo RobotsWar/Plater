@@ -67,7 +67,12 @@ int main(int argc, char *argv[])
         }
     }
 
-    request.readFromStdin();
+    if (optind != argc) {
+        char *file = argv[optind];
+        request.readFromFile(string(file));
+    } else {
+        request.readFromStdin();
+    }
     request.process();
 
     return EXIT_SUCCESS;
