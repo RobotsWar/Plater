@@ -38,9 +38,9 @@ namespace Plater
         return part->getSurface();
     }
             
-    float PlacedPart::getDensity() const
+    float PlacedPart::getGDist() const
     {
-        return part->getDensity(rotation);
+        return getGX()*getGX()+getGY()*getGY();
     }
 
     void PlacedPart::setPart(Part *part_)
@@ -79,18 +79,18 @@ namespace Plater
         return rotation;
     }
     
-    Bitmap *PlacedPart::getBmp()
+    Bitmap *PlacedPart::getBmp() const
     {
         return part->getBmp(rotation);
     }
             
-    float PlacedPart::getGX()
+    float PlacedPart::getGX() const
     {
         Bitmap *bmp = getBmp();
         return (bmp->sX/(float)bmp->pixels)*part->precision;
     }
 
-    float PlacedPart::getGY()
+    float PlacedPart::getGY() const
     {
         Bitmap *bmp = getBmp();
         return (bmp->sY/(float)bmp->pixels)*part->precision;

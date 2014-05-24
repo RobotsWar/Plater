@@ -228,21 +228,25 @@ namespace Plater
             } else {
                 _log("- Plate size: %g x %g µm\n", plateWidth, plateHeight);
                 Solution *solution = NULL;
+                int rs = ceil(M_PI*2/deltaR);
 
-                for (int rotateDirection=0; rotateDirection<2; rotateDirection++) {
-                    for (int sortMode=0; !cancel && sortMode<PLACER_SORT_SHUFFLE+randomIterations; sortMode++) {
-                        for (int gravity=0; !cancel && gravity<PLACER_GRAVITY_EQ; gravity++) {
-                            Placer placer(this);
-                            placer.sortParts(sortMode);
-                            placer.setGravityMode(gravity);
-                            placer.setRotateDirection(rotateDirection);
+                for (int rotateOffset=0; rotateOffset<2; rotateOffset++) {
+                    for (int rotateDirection=0; rotateDirection<2; rotateDirection++) {
+                        for (int sortMode=0; !cancel && sortMode<PLACER_SORT_SHUFFLE+randomIterations; sortMode++) {
+                            for (int gravity=0; !cancel && gravity<PLACER_GRAVITY_EQ; gravity++) {
+                                Placer placer(this);
+                                placer.sortParts(sortMode);
+                                placer.setGravityMode(gravity);
+                                placer.setRotateDirection(rotateDirection);
+                                placer.setRotateOffset(rotateOffset);
 
-                            Solution *solutionTmp = placer.place();
+                                Solution *solutionTmp = placer.place();
 
-                            if (solution == NULL || solutionTmp->score() < solution->score()) {
-                                solution = solutionTmp;
-                            } else {
-                                delete solutionTmp;
+                                if (solution == NULL || solutionTmp->score() < solution->score()) {
+                                    solution = solutionTmp;
+                                } else {
+                                    delete solutionTmp;
+                                }
                             }
                         }
                     }

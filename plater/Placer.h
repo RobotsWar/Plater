@@ -9,8 +9,8 @@
 
 #define PLACER_SORT_SURFACE_INC 0
 #define PLACER_SORT_SURFACE_DEC 1
-#define PLACER_SORT_DENSITY_INC 2
-#define PLACER_SORT_DENSITY_DEC 3
+#define PLACER_SORT_GDIST_INC   2
+#define PLACER_SORT_GDIST_DEC   3
 #define PLACER_SORT_SHUFFLE     4
 
 #define PLACER_GRAVITY_YX       0
@@ -27,11 +27,14 @@ namespace Plater
             void sortParts(int sortType);
             void setGravityMode(int gravityMode);
             void setRotateDirection(int direction);
+            void setRotateOffset(int offset);
 
             PlacedPart *getNextPart();
             Solution *place();
+            int rotateOff;
 
         protected:
+            int rotateOffset;
             int rotateDirection;
             std::map<Plate *, std::map<std::string, bool> > cache;
             float xCoef, yCoef;

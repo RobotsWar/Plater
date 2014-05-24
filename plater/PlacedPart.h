@@ -25,11 +25,11 @@ namespace Plater
             int getRotation();
 
             float getSurface() const;
-            float getDensity() const;
-            float getGX();
-            float getGY();
+            float getGDist() const;
+            float getGX() const;
+            float getGY() const;
 
-            Bitmap *getBmp();
+            Bitmap *getBmp() const;
 
             SimpleModel createModel();
 

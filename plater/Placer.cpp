@@ -36,14 +36,14 @@ namespace Plater
                         return a->getSurface() < b->getSurface();
                         });
                 break;
-            case PLACER_SORT_DENSITY_INC:
+            case PLACER_SORT_GDIST_INC:
                 sort(parts.begin(), parts.end(), [](const PlacedPart *a, const PlacedPart *b) {
-                        return a->getDensity() > b->getDensity();
+                        return a->getGDist() > b->getGDist();
                         });
                 break;
-            case PLACER_SORT_DENSITY_DEC:
+            case PLACER_SORT_GDIST_DEC:
                 sort(parts.begin(), parts.end(), [](const PlacedPart *a, const PlacedPart *b) {
-                        return a->getDensity() < b->getDensity();
+                        return a->getGDist() < b->getGDist();
                         });
                 break;
             default:
@@ -64,6 +64,11 @@ namespace Plater
     void Placer::setRotateDirection(int direction)
     {
         rotateDirection = direction;
+    }
+            
+    void Placer::setRotateOffset(int offset)
+    {
+        rotateOffset = offset;
     }
             
     void Placer::setGravityMode(int gravityMode)
@@ -95,7 +100,8 @@ namespace Plater
             bool found = false;
 
             for (int r=(rotateDirection ? rs-1 : 0); rotateDirection ? r>=0 : r<rs; rotateDirection ? r-- : r++) {
-                part->setRotation(r);
+                int vr = (r+rotateOff)%rs;
+                part->setRotation(vr);
                 for (float x=0; x<plate->width; x+=request->delta) {
                     for (float y=0; y<plate->height; y+=request->delta) {
                         float gx = part->getGX()+x;
@@ -109,7 +115,7 @@ namespace Plater
                                 betterX = x;
                                 betterY = y;
                                 betterScore = score;
-                                betterR = r;
+                                betterR = vr;
                             }
                         }
                     }
