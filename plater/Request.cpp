@@ -228,7 +228,6 @@ namespace Plater
             } else {
                 _log("- Plate size: %g x %g µm\n", plateWidth, plateHeight);
                 Solution *solution = NULL;
-                int rs = ceil(M_PI*2/deltaR);
 
                 for (int rotateOffset=0; rotateOffset<2; rotateOffset++) {
                     for (int rotateDirection=0; rotateDirection<2; rotateDirection++) {
