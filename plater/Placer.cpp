@@ -122,7 +122,7 @@ namespace Plater
                 }
             }
             if (found) {
-                _log("- Placing it @%g,%g r=%d\n", betterX, betterY, betterR);
+                // _log("- Placing it @%g,%g r=%d\n", betterX, betterY, betterR);
                 part->setRotation(betterR);
                 part->setOffset(betterX, betterY);
                 plate->place(part);
@@ -144,7 +144,7 @@ namespace Plater
         _log("* Placer\n");
         while (parts.size()) {
             PlacedPart *part = getNextPart();
-            _log("- Trying to place %s...\n", part->getPart()->getFilename().c_str());
+            // _log("- Trying to place %s...\n", part->getPart()->getFilename().c_str());
             bool placed = false;
 
             for (int i=0; i<solution->countPlates() && !placed; i++) {
@@ -154,12 +154,14 @@ namespace Plater
                     placed = true;
                 } else {
                     if (i+1 == solution->countPlates()) {
-                        _log("! Creating a new plate\n");
+                        // _log("! Creating a new plate\n");
                         solution->addPlate();
                     }
                 }
             }
         }
+
+        _log("- Solution with %d plates\n", solution->countPlates());
 
         return solution;
     }
