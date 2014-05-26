@@ -45,6 +45,7 @@ namespace Plater
         for (int k=1; k<bmps; k++) {
             Bitmap *rotated = Bitmap::rotate(bmp[0], k*deltaR);
             bmp[k] = Bitmap::trim(rotated);
+            delete rotated;
         }
     }
             

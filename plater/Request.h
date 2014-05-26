@@ -27,7 +27,6 @@ namespace Plater
             void readPartsFromString(std::string parts);
             void readParts();
             void process();
-            PlacedPart *getNextPart();
 
             double plateWidth, plateHeight;
             int randomIterations;
