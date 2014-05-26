@@ -339,16 +339,7 @@ bool SimpleModel::contains(float x, float y)
         }
     } 
 
-    std::vector<Triangle *> all;
-    tree->get(x, y, all);
-
-    for (unsigned int i=0; i<all.size(); i++) {
-        if (all[i]->contains(x, y)) {
-            return true;
-        }
-    }
-
-    return false;
+    return tree->test(x, y);
 }
 
 Bitmap *SimpleModel::pixelize(float precision, float dilatation)

@@ -14,6 +14,7 @@ namespace Plater
             virtual ~QuadTree();
 
             void add(Triangle *t);
+            bool test(float x, float y);
             void get(float x, float y, std::vector<Triangle *> &all);
             
             std::vector<Triangle *> triangles;

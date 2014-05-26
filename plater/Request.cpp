@@ -141,7 +141,7 @@ namespace Plater
         if (!chdirFile(filename)) {
             cerr << "! Can't go to the directory of " << filename << endl;
         }
-        ifstream ifile(filename);
+        ifstream ifile(getBasename(filename));
 
         if (!ifile) {
             cerr << "! Can't open configuration file " << filename << endl;

@@ -53,6 +53,28 @@ namespace Plater
             }
         }
     }
+    
+    bool QuadTree::test(float x, float y)
+    {
+        if (r.contains(x, y)) {
+            if (depth > 0) {
+                return quad1->test(x,y)
+                    || quad2->test(x,y)
+                    || quad3->test(x,y)
+                    || quad4->test(x,y);
+            } else {
+                for (unsigned int i=0; i<triangles.size(); i++) {
+                    if (triangles[i]->contains(x, y)) {
+                        return true;
+                    }
+                }
+
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
             
     QuadTree::~QuadTree()
     {
