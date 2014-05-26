@@ -6,7 +6,8 @@ namespace Plater
     QuadTree::QuadTree(float x1, float y1, float x2, float y2, int depth_)
         :
         depth(depth_),
-        quad1(NULL), quad2(NULL), quad3(NULL), quad4(NULL)
+        quad1(NULL), quad2(NULL), quad3(NULL), quad4(NULL),
+        black(false)
     {
         r.x1 = x1;
         r.y1 = y1;
@@ -27,6 +28,17 @@ namespace Plater
     void QuadTree::add(Triangle *t)
     {
         if (depth > 0) {
+            if (black) {
+                return;
+            }
+            if (t->contains(r)) {
+                black = true;
+                delete quad1;
+                delete quad2;
+                delete quad3;
+                delete quad4;
+                return;
+            }
             if (t->box.overlaps(r)) {
                 quad1->add(t);
                 quad2->add(t);
@@ -57,6 +69,9 @@ namespace Plater
     bool QuadTree::test(float x, float y)
     {
         if (r.contains(x, y)) {
+            if (black) {
+                return true;
+            }
             if (depth > 0) {
                 return quad1->test(x,y)
                     || quad2->test(x,y)
@@ -78,7 +93,7 @@ namespace Plater
             
     QuadTree::~QuadTree()
     {
-        if (depth > 0) {
+        if (depth > 0 && !black) {
             delete quad1;
             delete quad2;
             delete quad3;

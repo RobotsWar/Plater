@@ -23,6 +23,7 @@ namespace Plater
             int depth;
             Rectangle r;
             QuadTree *quad1, *quad2, *quad3, *quad4;
+            bool black;
     };
 }
 

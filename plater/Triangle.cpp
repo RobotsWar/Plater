@@ -66,4 +66,10 @@ namespace Plater
     {
         return contains(p.x, p.y);
     }
+            
+    bool Triangle::contains(const Rectangle &rect)
+    {
+        return contains(rect.x1, rect.y1)
+            && contains(rect.x2, rect.y2);
+    }
 }

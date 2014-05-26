@@ -15,6 +15,7 @@ namespace Plater
 
             bool contains(double x, double y);
             bool contains(const FPoint2 &p);
+            bool contains(const Rectangle &rect);
 
             Rectangle box;
         protected:
