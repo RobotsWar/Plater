@@ -79,8 +79,8 @@ namespace Plater
                 yCoef = 10;
                 break;
             case PLACER_GRAVITY_XY:
-                xCoef = 1;
-                yCoef = 10;
+                xCoef = 10;
+                yCoef = 1;
                 break;
             case PLACER_GRAVITY_EQ:
                 xCoef = 1;
