@@ -229,10 +229,11 @@ namespace Plater
                 _log("- Plate size: %g x %g µm\n", plateWidth, plateHeight);
                 Solution *solution = NULL;
 
-                for (int rotateOffset=0; rotateOffset<2; rotateOffset++) {
-                    for (int rotateDirection=0; rotateDirection<2; rotateDirection++) {
-                        for (int sortMode=0; !cancel && sortMode<PLACER_SORT_SHUFFLE+randomIterations; sortMode++) {
-                            for (int gravity=0; !cancel && gravity<PLACER_GRAVITY_EQ; gravity++) {
+                bool stop = false;
+                for (int rotateOffset=0; (!cancel && !stop) && rotateOffset<2; rotateOffset++) {
+                    for (int rotateDirection=0; (!cancel && !stop) && rotateDirection<2; rotateDirection++) {
+                        for (int sortMode=0; (!cancel && !stop) && sortMode<PLACER_SORT_SHUFFLE+randomIterations; sortMode++) {
+                            for (int gravity=0; (!cancel && !stop) && gravity<PLACER_GRAVITY_EQ; gravity++) {
                                 Placer placer(this);
                                 placer.sortParts(sortMode);
                                 placer.setGravityMode(gravity);
@@ -245,6 +246,10 @@ namespace Plater
                                     solution = solutionTmp;
                                 } else {
                                     delete solutionTmp;
+                                }
+
+                                if (solution->countPlates() == 1) {
+                                    stop = true;
                                 }
                             }
                         }
