@@ -40,7 +40,20 @@ namespace Plater
             
     float PlacedPart::getGDist() const
     {
-        return getGX()*getGX()+getGY()*getGY();
+        bool hasScore = false;
+        float score;
+        for (int i=0; i<part->bmps; i++) {
+            Bitmap *bmp = part->bmp[i];
+            float gX = bmp->sX/(float)bmp->pixels;
+            float gY = bmp->sY/(float)bmp->pixels;
+            float s = gX*gX+gY*gY;
+            if (!hasScore || s<score) {
+                score = s;
+                hasScore = true;
+            }
+        }
+
+        return score;
     }
 
     void PlacedPart::setPart(Part *part_)

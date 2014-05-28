@@ -27,9 +27,10 @@ namespace Plater
             float width;
             float height;
 
-        protected:
             int bmps;
             Bitmap **bmp;
+        
+        protected:
             std::string filename;
     };
 }
