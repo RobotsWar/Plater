@@ -26,8 +26,8 @@ void help()
     cerr << "-W width: Setting the plate width (default: 150mm)" << endl;
     cerr << "-H height: Setting the plate height (default: 150mm)" << endl;
     cerr << "-j precision: Sets the precision (in mm, default: 0.5)" << endl;
-    cerr << "-s spacing: Change the spacing between parts (in mm, default: 2)" << endl;
-    cerr << "-d delta: Sets the interval of place grid (in mm, default: 2)" << endl;
+    cerr << "-s spacing: Change the spacing between parts (in mm, default: 1.5)" << endl;
+    cerr << "-d delta: Sets the interval of place grid (in mm, default: 1.5)" << endl;
     cerr << "-r rotation: Sets the interval of rotation (in °, default: 90)" << endl;
     cerr << "-R random: Sets the number of random (shuffled parts) iterations (default 3)" << endl;
     cerr << "-o pattern: output file pattern (default: plate_%03d)" << endl;
