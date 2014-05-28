@@ -27,7 +27,7 @@ namespace Plater
         randomIterations(3),
         mode(REQUEST_STL), 
         precision(500),
-        delta(1500),
+        delta(1000),
         deltaR(M_PI/2),
         spacing(1500),
         pattern("plate_%03d"),

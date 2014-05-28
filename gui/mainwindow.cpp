@@ -58,6 +58,7 @@ void MainWindow::enableAll(bool enable)
     ui->precision->setEnabled(enable);
     ui->spacing->setEnabled(enable);
     ui->bruteForceSpacing->setEnabled(enable);
+    ui->bruteForceAngle->setEnabled(enable);
     ui->randomIterations->setEnabled(enable);
 
     if (enable) {
@@ -126,6 +127,7 @@ void MainWindow::on_runButton_clicked()
         worker.request.precision = ui->precision->text().toFloat()*1000;
         worker.request.randomIterations = ui->randomIterations->text().toInt();
         worker.request.delta = ui->bruteForceSpacing->text().toFloat()*1000;
+        worker.request.deltaR = DEG2RAD(ui->bruteForceAngle->text().toFloat());
         worker.parts = ui->parts->toPlainText().toStdString();
         if (ui->ppmRadio->isChecked()) {
             worker.request.mode = REQUEST_PPM;

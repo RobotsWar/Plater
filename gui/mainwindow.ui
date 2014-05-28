@@ -200,7 +200,7 @@
             <item>
              <widget class="QLineEdit" name="bruteForceSpacing">
               <property name="text">
-               <string>1.5</string>
+               <string>1</string>
               </property>
              </widget>
             </item>
@@ -208,6 +208,24 @@
              <widget class="QLabel" name="label_10">
               <property name="text">
                <string>mm</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_8">
+            <item>
+             <widget class="QLabel" name="label_12">
+              <property name="text">
+               <string>Brute-force angle delta: </string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLineEdit" name="bruteForceAngle">
+              <property name="text">
+               <string>90</string>
               </property>
              </widget>
             </item>
