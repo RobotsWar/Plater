@@ -41,7 +41,7 @@ namespace Plater
     float PlacedPart::getGDist() const
     {
         bool hasScore = false;
-        float score;
+        float score = 0;
         for (int i=0; i<part->bmps; i++) {
             Bitmap *bmp = part->bmp[i];
             float gX = bmp->sX/(float)bmp->pixels;
