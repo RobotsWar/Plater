@@ -55,6 +55,8 @@ namespace Plater
             bool cancel;
             int plates;
             std::vector<std::string> generatedFiles;
+
+            Solution *solution;
     };
 }
 

@@ -30,7 +30,8 @@ namespace Plater
         deltaR(M_PI/2),
         spacing(1500),
         pattern("plate_%03d"),
-        cancel(false)
+        cancel(false),
+        solution(NULL)
     {
     }
 
@@ -38,6 +39,10 @@ namespace Plater
     {
         for (auto part : parts) {
             delete part.second;
+        }
+
+        if (solution != NULL) {
+            delete solution;
         }
     }
             
@@ -221,6 +226,12 @@ namespace Plater
 
     void Request::process()
     {
+        if (solution != NULL) {
+            Solution *toDelete = solution;
+            solution = NULL;
+            delete toDelete;
+        }
+
         if (!cancel) {
             if (hasError) {
                 cerr << "! Can't process: " << error << endl;
@@ -243,7 +254,6 @@ namespace Plater
                     }
                 }
 
-                Solution *solution = NULL;
                 bool stop = false;
                 while (placers.size()) {
                     Placer *placer = placers.back();
@@ -273,7 +283,6 @@ namespace Plater
                     writeFiles(solution);
                     plates = solution->countPlates();
                 }
-                delete solution;
             }
         }
     }
