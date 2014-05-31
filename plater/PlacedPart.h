@@ -31,7 +31,7 @@ namespace Plater
 
             Bitmap *getBmp() const;
 
-            SimpleModel createModel();
+            Model createModel();
 
         protected:
             Part *part;

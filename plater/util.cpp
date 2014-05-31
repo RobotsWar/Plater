@@ -3,6 +3,7 @@
 #endif
 #include <iostream>
 #include <sstream>
+#include <unistd.h>
 #include "util.h"
 
 #if defined(_WIN32) || defined(_WIN64)

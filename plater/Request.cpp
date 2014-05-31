@@ -9,7 +9,6 @@
 #include "Placer.h"
 #include "Plate.h"
 #include "Solution.h"
-#include "modelFile/modelFile.h"
 #include "log.h"
 
 using namespace std;
@@ -161,7 +160,7 @@ namespace Plater
     
     void Request::writeSTL(Plate *plate, const char *filename)
     {
-        SimpleModel model = plate->createModel();
+        Model model = plate->createModel();
 
         try {
             saveModelToFileBinary(filename, &model);

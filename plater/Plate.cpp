@@ -12,9 +12,9 @@ namespace Plater
         bmp = new Bitmap(width/precision, height/precision);
     }
             
-    SimpleModel Plate::createModel()
+    Model Plate::createModel()
     {
-        SimpleModel model;
+        Model model;
 
         for (auto part : parts) {
             model.merge(part->createModel());

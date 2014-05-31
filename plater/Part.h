@@ -2,7 +2,8 @@
 #define _PLATER_PART_H
 
 #include <iostream>
-#include "modelFile/modelFile.h"
+#include "stl/StlFactory.h"
+
 
 namespace Plater
 {
@@ -15,7 +16,7 @@ namespace Plater
             void load(std::string filename, float precision, float deltaR, float spacing, string orientation);
             std::string getFilename();
 
-            SimpleModel model;
+            Model model;
 
             Bitmap *getBmp(int index) const;
             float getSurface() const;

@@ -1,7 +1,7 @@
 #ifndef _PLATER_TRIANGLE_H
 #define _PLATER_TRIANGLE_H
 
-#include "floatpoint.h"
+#include "stl/Point3.h"
 #include "Rectangle.h"
 
 namespace Plater

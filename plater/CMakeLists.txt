@@ -4,11 +4,12 @@ project(plater)
 set (CMAKE_CXX_FLAGS "-std=c++0x -Wall -pedantic -U__STRICT_ANSI__")
 
 set(ALL_SOURCES
-    modelFile/modelFile.cpp
-    log.cpp
-    util.cpp
-	wingetopt.cpp
-
+    stl/Point3.cpp
+    stl/Face.cpp
+    stl/Volume.cpp
+    stl/Model.cpp
+    stl/StlFactory.cpp
+    
     Bitmap.cpp
     PlacedPart.cpp
     Placer.cpp
@@ -19,6 +20,10 @@ set(ALL_SOURCES
     Request.cpp
     Solution.cpp
     Triangle.cpp
+    
+    log.cpp
+    util.cpp
+	wingetopt.cpp
     )
 
 include_directories("${CMAKE_SOURCE_DIR}/src")

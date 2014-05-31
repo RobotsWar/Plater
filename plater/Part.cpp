@@ -2,7 +2,6 @@
 #include <math.h>
 #include <iostream>
 #include "Part.h"
-#include "modelFile/modelFile.h"
 
 using namespace std;
 
@@ -30,9 +29,8 @@ namespace Plater
         deltaR = deltaR_;
         bmps = ceil((M_PI*2)/deltaR);
         filename = filename_;
-        FMatrix3x3 id;
 
-        model = loadModelFromFile(filename.c_str(), id);
+        model = loadModelFromFile(filename.c_str());
         model = model.putFaceOnPlate(orientation);
         bmp = new Bitmap*[bmps];
         bmp[0] = model.pixelize(precision, spacing);
