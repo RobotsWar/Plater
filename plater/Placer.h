@@ -31,7 +31,6 @@ namespace Plater
 
             PlacedPart *getNextPart();
             Solution *place();
-            int rotateOff;
 
         protected:
             int rotateOffset;

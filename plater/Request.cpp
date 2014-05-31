@@ -226,33 +226,44 @@ namespace Plater
                 cerr << "! Can't process: " << error << endl;
             } else {
                 _log("- Plate size: %g x %g µm\n", plateWidth, plateHeight);
-                Solution *solution = NULL;
 
-                bool stop = false;
-                for (int rotateOffset=0; (!cancel && !stop) && rotateOffset<2; rotateOffset++) {
-                    for (int rotateDirection=0; (!cancel && !stop) && rotateDirection<2; rotateDirection++) {
-                        for (int sortMode=0; (!cancel && !stop) && sortMode<PLACER_SORT_SHUFFLE+randomIterations; sortMode++) {
-                            for (int gravity=0; (!cancel && !stop) && gravity<PLACER_GRAVITY_EQ; gravity++) {
-                                Placer placer(this);
-                                placer.sortParts(sortMode);
-                                placer.setGravityMode(gravity);
-                                placer.setRotateDirection(rotateDirection);
-                                placer.setRotateOffset(rotateOffset);
-
-                                Solution *solutionTmp = placer.place();
-
-                                if (solution == NULL || solutionTmp->score() < solution->score()) {
-                                    solution = solutionTmp;
-                                } else {
-                                    delete solutionTmp;
-                                }
-
-                                if (solution->countPlates() == 1) {
-                                    stop = true;
-                                }
+                vector<Placer*> placers;
+                for (int rotateOffset=0; rotateOffset<2; rotateOffset++) {
+                    for (int rotateDirection=0; rotateDirection<2; rotateDirection++) {
+                        for (int sortMode=0; sortMode<PLACER_SORT_SHUFFLE+randomIterations; sortMode++) {
+                            for (int gravity=0; gravity<PLACER_GRAVITY_EQ; gravity++) {
+                                Placer *placer = new Placer(this);
+                                placer->sortParts(sortMode);
+                                placer->setGravityMode(gravity);
+                                placer->setRotateDirection(rotateDirection);
+                                placer->setRotateOffset(rotateOffset);
+                                placers.push_back(placer);
                             }
                         }
                     }
+                }
+
+                Solution *solution = NULL;
+                bool stop = false;
+                while (placers.size()) {
+                    Placer *placer = placers.back();
+                    placers.pop_back();
+
+                    if (!stop && !cancel) {
+                        Solution *solutionTmp = placer->place();
+
+                        if (solution == NULL || solutionTmp->score() < solution->score()) {
+                            solution = solutionTmp;
+                        } else {
+                            delete solutionTmp;
+                        }
+
+                        if (solution->countPlates() == 1) {
+                            stop = true;
+                        }
+                    }
+
+                    delete placer;
                 }
 
                 if (!cancel) {

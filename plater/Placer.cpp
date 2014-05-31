@@ -100,7 +100,7 @@ namespace Plater
             bool found = false;
 
             for (int r=(rotateDirection ? rs-1 : 0); rotateDirection ? r>=0 : r<rs; rotateDirection ? r-- : r++) {
-                int vr = (r+rotateOff)%rs;
+                int vr = (r+rotateOffset)%rs;
                 part->setRotation(vr);
                 for (float x=0; x<plate->width; x+=request->delta) {
                     for (float y=0; y<plate->height; y+=request->delta) {
