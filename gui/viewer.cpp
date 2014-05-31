@@ -21,7 +21,7 @@ Viewer::Viewer(int framesPerSecond, QWidget *parent, char *name)
     }
 }
 
-void Viewer::setModel(SimpleModel *model_)
+void Viewer::setModel(Model *model_)
 {
     model = model_;
     autorotate = true;
@@ -125,12 +125,12 @@ void Viewer::paintGL()
 
     glBegin(GL_TRIANGLES);
     if (model != NULL) {
-        vector<SimpleVolume>::iterator vit;
-        vector<SimpleFace>::iterator fit;
+        vector<Volume>::iterator vit;
+        vector<Face>::iterator fit;
         for (vit = model->volumes.begin(); vit != model->volumes.end(); vit++) {
-            SimpleVolume &volume = *vit;
+            Volume &volume = *vit;
             for (fit = volume.faces.begin(); fit != volume.faces.end(); fit++) {
-                SimpleFace &face = *fit;
+                Face &face = *fit;
                 float x1 = face.v[1].x-face.v[0].x;
                 float y1 = face.v[1].y-face.v[0].y;
                 float z1 = face.v[1].z-face.v[0].z;

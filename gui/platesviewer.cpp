@@ -54,8 +54,7 @@ void PlatesViewer::viewPlate()
     }
     index = (index)%plates.size();
 
-    FMatrix3x3 id;
-    model = loadModelFromFile(plates[index].c_str(), id);
+    model = loadModelFromFile(plates[index].c_str());
     model = model.center();
     viewer->setModel(&model);
 

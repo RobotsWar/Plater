@@ -3,7 +3,7 @@
 
 #include <QDialog>
 #include "viewer.h"
-#include "modelFile/modelFile.h"
+#include <stl/StlFactory.h>
 
 namespace Ui {
 class PlatesViewer;
@@ -29,7 +29,7 @@ private slots:
 
 private:
     int index;
-    SimpleModel model;
+    Model model;
     Ui::PlatesViewer *ui;
     Viewer *viewer;
     std::vector<std::string> plates;

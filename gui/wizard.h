@@ -2,7 +2,7 @@
 #define WIZARD_H
 
 #include <QDialog>
-#include <modelFile/modelFile.h>
+#include <stl/StlFactory.h>
 #include "viewer.h"
 
 namespace Ui {
@@ -34,7 +34,7 @@ private:
     QString stl;
     std::string orientation;
     Ui::Wizard *ui;
-    SimpleModel model;
+    Model model;
     Viewer *viewer;
 };
 

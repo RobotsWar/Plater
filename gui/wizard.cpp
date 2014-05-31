@@ -2,7 +2,7 @@
 #include "wizard.h"
 #include "ui_wizard.h"
 #include "viewer.h"
-#include <modelFile/modelFile.h>
+#include <stl/StlFactory.h>
 
 Wizard::Wizard(QString stl_, QWidget *parent) :
     QDialog(parent),
@@ -30,8 +30,7 @@ void Wizard::setOrientation(string orientation_)
 {
     orientation = orientation_;
 
-    FMatrix3x3 id;
-    model = loadModelFromFile(stl.toStdString().c_str(), id);
+    model = loadModelFromFile(stl.toStdString().c_str());
     model = model.putFaceOnPlate(orientation);
     model = model.center();
 
