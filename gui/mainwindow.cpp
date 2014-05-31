@@ -24,6 +24,8 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     workingDirectory = "";
     ui->setupUi(this);
+    ui->message->hide();
+    ui->progressBar->hide();
     setWindowTitle("Plater");
     setWindowIcon(QIcon("img/plater.png"));
 
@@ -31,6 +33,10 @@ MainWindow::MainWindow(QWidget *parent) :
 
     connect(&worker, SIGNAL(workerEnd()), this, SLOT(on_worker_end()));
     connect(ui->actionAbout, SIGNAL(triggered()), this, SLOT(on_about()));
+
+    timer = new QTimer(this);
+    connect(timer, SIGNAL(timeout()), this, SLOT(timeOutSlot()));
+    timer->start(250);
 }
 
 MainWindow::~MainWindow()
@@ -71,13 +77,21 @@ void MainWindow::enableAll(bool enable)
 void MainWindow::showError(string error)
 {
     error = "<font color=\"red\">" + error + "</font";
-    ui->errorMessage->setText(QString::fromStdString(error));
+    ui->message->setText(QString::fromStdString(error));
+    ui->message->show();
 }
 
 void MainWindow::showSuccess(string success)
 {
     success = "<font color=\"green\"> " + success + "</font";
-    ui->errorMessage->setText(QString::fromStdString(success));
+    ui->message->setText(QString::fromStdString(success));
+    ui->message->show();
+}
+
+void MainWindow::showMessage(string msg)
+{
+    ui->message->setText(QString::fromStdString(msg));
+    ui->message->show();
 }
 
 void MainWindow::wizardNext()
@@ -229,4 +243,20 @@ void MainWindow::on_openButton_clicked()
 void MainWindow::on_clearButton_clicked()
 {
     ui->parts->setText("");
+}
+
+void MainWindow::timeOutSlot()
+{
+    if (worker.working) {
+        if (worker.request.solution != NULL) {
+            ostringstream oss;
+            oss << "Current solution: " << worker.request.solution->countPlates() << " plates";
+            showMessage(oss.str());
+        }
+        float value = 100*(worker.request.placerCurrent/(float)worker.request.placersCount);
+        ui->progressBar->show();
+        ui->progressBar->setValue(value);
+    } else {
+        ui->progressBar->hide();
+    }
 }

@@ -253,6 +253,8 @@ namespace Plater
                         }
                     }
                 }
+                placersCount = placers.size();
+                placerCurrent = 0;
 
                 bool stop = false;
                 while (placers.size()) {
@@ -273,6 +275,7 @@ namespace Plater
                         }
                     }
 
+                    placerCurrent++;
                     delete placer;
                 }
 

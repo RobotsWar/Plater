@@ -56,6 +56,7 @@ namespace Plater
             int plates;
             std::vector<std::string> generatedFiles;
 
+            int placersCount, placerCurrent;
             Solution *solution;
     };
 }

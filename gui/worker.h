@@ -11,6 +11,7 @@ class Worker : public QThread
     void run();
 
 public:
+    bool working;
     Plater::Request request;
     Worker();
     std::string parts;

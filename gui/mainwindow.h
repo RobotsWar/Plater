@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QThread>
+#include <QTimer>
 #include <QMainWindow>
 #include "wizard.h"
 #include "worker.h"
@@ -21,8 +22,9 @@ public:
     ~MainWindow();
 
     void enableAll(bool enable);
-    void showError(std::string error);
-    void showSuccess(std::string error);
+    void showError(std::string msg);
+    void showSuccess(std::string msg);
+    void showMessage(std::string msg);
     void wizardNext();
     float getPlateWidth();
     float getPlateHeight();
@@ -47,6 +49,8 @@ private slots:
 
     void on_clearButton_clicked();
 
+    void timeOutSlot();
+
 private:
     Ui::MainWindow *ui;
     QThread thread;
@@ -57,6 +61,7 @@ private:
     PlatesViewer *platesViewer;
     QStringList stls;
     QString workingDirectory;
+    QTimer *timer;
 };
 
 #endif // MAINWINDOW_H
