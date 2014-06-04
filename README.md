@@ -17,6 +17,7 @@ up to the user because it depends on a lot of things.
 
 * [Get Windows binaries (v1.0)](http://gregwar.com/plater/plater-win32-1.0.zip)
 * [Get Linux binaries (v1.0), Qt 4.8 and OpenGL required](http://gregwar.com/plater/plater-linux-1.0.zip)
+* [Get OSX dmg (v1.0), thanks to Toby Tomkins](http://gregwar.com/plater/plater-osx-1.0.dmg)
 
 # Using
 
