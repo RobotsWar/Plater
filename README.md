@@ -132,6 +132,7 @@ Go in the `gui/` directory, and do:
 
 ```
 mkdir build
+cd build
 qmake ..
 make
 ```
