@@ -46,6 +46,7 @@ else:win32:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/../plater/build
 else:unix:!symbian: PRE_TARGETDEPS += $$PWD/../plater/build/liblibplater.a
 
 win32: LIBS += -lglu32
+mac: LIBS += -framework OpenGL
 else:unix: LIBS += -lGLU
 
 RESOURCES += \
