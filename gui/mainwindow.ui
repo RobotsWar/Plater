@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>553</width>
-    <height>497</height>
+    <width>548</width>
+    <height>456</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -18,11 +18,11 @@
     <item>
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
-       <number>1</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="tab">
        <attribute name="title">
-        <string>Parts</string>
+        <string>Parts (plater.conf)</string>
        </attribute>
        <layout class="QVBoxLayout" name="verticalLayout_4">
         <item>
@@ -44,7 +44,7 @@
           <item>
            <widget class="QPushButton" name="openButton">
             <property name="text">
-             <string>Open</string>
+             <string>Open plater.conf</string>
             </property>
             <property name="icon">
              <iconset resource="icons.qrc">
@@ -55,7 +55,7 @@
           <item>
            <widget class="QPushButton" name="saveButton">
             <property name="text">
-             <string>Save</string>
+             <string>Save plater.conf</string>
             </property>
             <property name="icon">
              <iconset resource="icons.qrc">
@@ -352,8 +352,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>553</width>
-     <height>25</height>
+     <width>548</width>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuAbout">
