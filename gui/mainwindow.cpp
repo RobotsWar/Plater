@@ -37,6 +37,7 @@ MainWindow::MainWindow(QWidget *parent) :
     timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(timeOutSlot()));
     timer->start(250);
+    updatePlateEnable();
 }
 
 MainWindow::~MainWindow()
@@ -49,6 +50,19 @@ MainWindow::~MainWindow()
     }
     delete about;
     delete ui;
+}
+
+void MainWindow::updatePlateEnable()
+{
+    if (ui->circularPlate->isChecked()) {
+        ui->plateWidth->setEnabled(false);
+        ui->plateHeight->setEnabled(false);
+        ui->diameter->setEnabled(true);
+    } else {
+        ui->plateWidth->setEnabled(true);
+        ui->plateHeight->setEnabled(true);
+        ui->diameter->setEnabled(false);
+    }
 }
 
 void MainWindow::enableAll(bool enable)
@@ -66,8 +80,11 @@ void MainWindow::enableAll(bool enable)
     ui->bruteForceSpacing->setEnabled(enable);
     ui->bruteForceAngle->setEnabled(enable);
     ui->randomIterations->setEnabled(enable);
+    ui->circularPlate->setEnabled(enable);
+    ui->diameter->setEnabled(enable);
 
     if (enable) {
+        updatePlateEnable();
         ui->runButton->setText("Run");
     } else {
         ui->runButton->setText("Cancel");
@@ -117,12 +134,20 @@ void MainWindow::wizardNext()
 
 float MainWindow::getPlateWidth()
 {
-    return ui->plateWidth->text().toFloat();
+    if (ui->circularPlate->isChecked()) {
+        return ui->diameter->text().toFloat();
+    } else {
+        return ui->plateWidth->text().toFloat();
+    }
 }
 
 float MainWindow::getPlateHeight()
 {
-    return ui->plateHeight->text().toFloat();
+    if (ui->circularPlate->isChecked()) {
+        return ui->diameter->text().toFloat();
+    } else {
+        return ui->plateHeight->text().toFloat();
+    }
 }
 
 void MainWindow::on_outputDirectoryButton_clicked()
@@ -143,6 +168,14 @@ void MainWindow::on_runButton_clicked()
         worker.request.delta = ui->bruteForceSpacing->text().toFloat()*1000;
         worker.request.deltaR = DEG2RAD(ui->bruteForceAngle->text().toFloat());
         worker.parts = ui->parts->toPlainText().toStdString();
+        worker.request.plateDiameter = ui->diameter->text().toFloat()*1000;
+
+        if (ui->circularPlate->isChecked()) {
+            worker.request.plateMode = PLATE_MODE_CIRCLE;
+        } else {
+            worker.request.plateMode = PLATE_MODE_RECTANGLE;
+        }
+
         if (ui->ppmRadio->isChecked()) {
             worker.request.mode = REQUEST_PPM;
         } else {
@@ -259,4 +292,9 @@ void MainWindow::timeOutSlot()
     } else {
         ui->progressBar->hide();
     }
+}
+
+void MainWindow::on_circularPlate_clicked()
+{
+    updatePlateEnable();
 }

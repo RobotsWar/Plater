@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>523</width>
-    <height>437</height>
+    <width>553</width>
+    <height>497</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -18,7 +18,7 @@
     <item>
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="tab">
        <attribute name="title">
@@ -117,6 +117,31 @@
             </item>
             <item>
              <widget class="QLabel" name="label_3">
+              <property name="text">
+               <string>mm</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_9">
+            <item>
+             <widget class="QCheckBox" name="circularPlate">
+              <property name="text">
+               <string>The plate is circular, with a radius of </string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLineEdit" name="diameter">
+              <property name="text">
+               <string>150</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="label_13">
               <property name="text">
                <string>mm</string>
               </property>
@@ -327,7 +352,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>523</width>
+     <width>553</width>
      <height>25</height>
     </rect>
    </property>

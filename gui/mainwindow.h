@@ -21,6 +21,7 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
+    void updatePlateEnable();
     void enableAll(bool enable);
     void showError(std::string msg);
     void showSuccess(std::string msg);
@@ -50,6 +51,8 @@ private slots:
     void on_clearButton_clicked();
 
     void timeOutSlot();
+
+    void on_circularPlate_clicked();
 
 private:
     Ui::MainWindow *ui;
