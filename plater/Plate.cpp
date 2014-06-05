@@ -6,10 +6,27 @@ using namespace std;
 
 namespace Plater
 {
-    Plate::Plate(float width_, float height_, float precision_)
-        : width(width_), height(height_), precision(precision_)
+    Plate::Plate(float width_, float height_, float diameter_, int mode_, float precision_)
+        : width(width_), height(height_), diameter(diameter_), mode(mode_), precision(precision_)
     {
+        if (mode == PLATE_MODE_CIRCLE) {
+            width = height = diameter;
+        }
+
         bmp = new Bitmap(width/precision, height/precision);
+
+        if (mode == PLATE_MODE_CIRCLE) {
+            for (int x=0; x<bmp->width; x++) {
+                for (int y=0; y<bmp->height; y++) {
+                    float dx = (x-bmp->centerX)*precision;
+                    float dy = (y-bmp->centerY)*precision;
+
+                    if (sqrt(dx*dx+dy*dy) > diameter/2) {
+                        bmp->setPoint(x, y, 2);
+                    }
+                }
+            }
+        }
     }
             
     Model Plate::createModel()

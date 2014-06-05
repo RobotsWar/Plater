@@ -21,6 +21,7 @@ namespace Plater
 {
     Request::Request()
         : 
+        plateMode(PLATE_MODE_RECTANGLE),
         plateWidth(150000),
         plateHeight(150000),
         randomIterations(3),
@@ -236,7 +237,11 @@ namespace Plater
             if (hasError) {
                 cerr << "! Can't process: " << error << endl;
             } else {
-                _log("- Plate size: %g x %g µm\n", plateWidth, plateHeight);
+                if (plateMode == PLATE_MODE_RECTANGLE) {
+                    _log("- Plate size: %g x %g microm\n", plateWidth, plateHeight);
+                } else {
+                    _log("- Plate size: %g microm (circle)\n", plateDiameter);
+                }
 
                 vector<Placer*> placers;
                 for (int rotateOffset=0; rotateOffset<2; rotateOffset++) {

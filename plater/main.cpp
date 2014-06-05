@@ -25,6 +25,7 @@ void help()
     cerr << "-v: Verbose mode" << endl;
     cerr << "-W width: Setting the plate width (default: 150mm)" << endl;
     cerr << "-H height: Setting the plate height (default: 150mm)" << endl;
+    cerr << "-D diameter: Set the plate diameter, in mm. If set, this will put the plate in circular mode" << endl;
     cerr << "-j precision: Sets the precision (in mm, default: 0.5)" << endl;
     cerr << "-s spacing: Change the spacing between parts (in mm, default: 1.5)" << endl;
     cerr << "-d delta: Sets the interval of place grid (in mm, default: 1.5)" << endl;
@@ -40,7 +41,7 @@ int main(int argc, char *argv[])
     int index;
     Request request;
 
-    while ((index = getopt(argc, argv, "hvs:d:r:pj:d:o:W:H:R:")) != -1) {
+    while ((index = getopt(argc, argv, "hvs:d:r:pj:d:o:W:H:R:D:")) != -1) {
         switch (index) {
             case 'h':
                 help();
@@ -74,6 +75,10 @@ int main(int argc, char *argv[])
                 break;
             case 'R':
                 request.randomIterations = atoi(optarg);
+                break;
+            case 'D':
+                request.plateMode = PLATE_MODE_CIRCLE;
+                request.plateDiameter = atof(optarg)*1000;
                 break;
         }
     }

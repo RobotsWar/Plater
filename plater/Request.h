@@ -28,7 +28,9 @@ namespace Plater
             void readParts();
             void process();
 
+            int plateMode;
             double plateWidth, plateHeight;
+            double plateDiameter;
             int randomIterations;
             int mode;
             float precision;

@@ -2,8 +2,8 @@
 
 namespace Plater
 {
-    Solution::Solution(float plateWidth_, float plateHeight_, float precision_)
-        : plateWidth(plateWidth_), plateHeight(plateHeight_), precision(precision_)
+    Solution::Solution(float plateWidth_, float plateHeight_, float plateDiameter_, int plateMode_, float precision_)
+        : plateWidth(plateWidth_), plateHeight(plateHeight_), plateDiameter(plateDiameter_), plateMode(plateMode_), precision(precision_)
     {
     }
 
@@ -30,7 +30,7 @@ namespace Plater
 
     void Solution::addPlate()
     {
-        plates.push_back(new Plate(plateWidth, plateHeight, precision));
+        plates.push_back(new Plate(plateWidth, plateHeight, plateDiameter, plateMode, precision));
     }
 
     int Solution::countPlates()

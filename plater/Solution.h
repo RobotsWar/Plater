@@ -9,7 +9,7 @@ namespace Plater
     class Solution
     {
         public:
-            Solution(float plateWidth_, float plateHeight_, float precision_);
+            Solution(float plateWidth_, float plateHeight_, float plateDiameter_, int plateMode_, float precision_);
             virtual ~Solution();
             float score();
 
@@ -19,7 +19,8 @@ namespace Plater
             void addPlate();
 
         protected:
-            float plateWidth, plateHeight, precision;
+            float plateWidth, plateHeight, plateDiameter, precision;
+            int plateMode;
             std::vector<Plate*> plates;
     };
 }
