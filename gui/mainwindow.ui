@@ -129,7 +129,7 @@
             <item>
              <widget class="QCheckBox" name="circularPlate">
               <property name="text">
-               <string>The plate is circular, with a radius of </string>
+               <string>The plate is circular, with a diameter of </string>
               </property>
              </widget>
             </item>
