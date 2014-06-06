@@ -94,7 +94,7 @@ namespace Plater
         std::string cacheName = part->getName();
 
         if (!cache[plate][cacheName]) {
-            float betterX=0, betterY=0, betterScore=0;
+            float betterX=0, betterY=0, betterScore;
             int betterR=0;
             int rs = ceil(M_PI*2/request->deltaR);
             bool found = false;
@@ -104,25 +104,18 @@ namespace Plater
                 part->setRotation(vr);
                 for (float x=0; x<plate->width; x+=request->delta) {
                     for (float y=0; y<plate->height; y+=request->delta) {
-                        int cacheX = (int)(x);
-                        int cacheY = (int)(y);
+                        float gx = part->getGX()+x;
+                        float gy = part->getGY()+y;
+                        float score = gy*yCoef+gx*xCoef;
 
-                        if (!caseCache[plate][cacheName][vr][cacheX][cacheY]) {
-                            float gx = part->getGX()+x;
-                            float gy = part->getGY()+y;
-                            float score = gy*yCoef+gx*xCoef;
-
-                            if (!found || score < betterScore) {
-                                part->setOffset(x, y);
-                                if (plate->canPlace(part)) {
-                                    found = true;
-                                    betterX = x;
-                                    betterY = y;
-                                    betterScore = score;
-                                    betterR = vr;
-                                } else {
-                                    caseCache[plate][cacheName][vr][cacheX][cacheY] = true;
-                                }
+                        if (!found || score < betterScore) {
+                            part->setOffset(x, y);
+                            if (plate->canPlace(part)) {
+                                found = true;
+                                betterX = x;
+                                betterY = y;
+                                betterScore = score;
+                                betterR = vr;
                             }
                         }
                     }

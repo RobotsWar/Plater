@@ -36,7 +36,6 @@ namespace Plater
             int rotateOffset;
             int rotateDirection;
             std::map<Plate *, std::map<std::string, bool> > cache;
-            std::map<Plate *, std::map<std::string, std::map<int, std::map<int, std::map<int, bool> > > > > caseCache;
             float xCoef, yCoef;
             vector<PlacedPart *> parts;
             Request *request;
