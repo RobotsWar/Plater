@@ -14,7 +14,7 @@ namespace Plater
     {
     }
         
-    bool Line::intersections(const Line &other, float *a, float *b)
+    bool Line::intersections(const Line &other, float *a, float *b) const
     {
         float det = dy*other.dx - dx*other.dy;
 
@@ -29,5 +29,21 @@ namespace Plater
         if (b != NULL) *b = (-dy*X + dx*Y)/det;
 
         return true;
+    }
+            
+    FPoint2 Line::min()
+    {
+        FPoint2 pt;
+        pt.x = (dx < 0) ? (x + dx) : x;
+        pt.y = (dy < 0) ? (y + dy) : y;
+        return pt;
+    }
+
+    FPoint2 Line::max()
+    {
+        FPoint2 pt;
+        pt.x = (dx > 0) ? (x + dx) : x;
+        pt.y = (dy > 0) ? (y + dy) : y;
+        return pt;
     }
 }

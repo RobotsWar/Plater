@@ -14,6 +14,10 @@ namespace Plater
             void addLine(Line line);
             void merge(const Lines &other);
 			Bitmap *pixelize(float precision, float dilatation);
+            FPoint2 min();
+            FPoint2 max();
+
+            std::vector<float> intersections(const Line &other);
 
             std::vector<Line> lines;
     };

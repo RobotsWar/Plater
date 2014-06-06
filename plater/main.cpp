@@ -11,7 +11,7 @@
 #include "Request.h"
 #include "util.h"
 #include "log.h"
-#include "Line.h"
+#include "Lines.h"
 
 using namespace std;
 using namespace Plater;
@@ -79,11 +79,13 @@ int main(int argc, char *argv[])
         }
     }
 
-    Line l1(0, 0, 10, 10), l2(5, 0, 0, 1);
-    float a, b;
-    l1.intersections(l2, &a, &b);
+    Lines lines;
+    // lines.addLine(Line(0, 0, 10000, 10000));
+    // lines.addLine(Line(10000, 10000, 0, -10000));
+#include "/tmp/o"
 
-    printf("alpha=%g, beta=%g\n", a, b);
+    Bitmap *bmp = lines.pixelize(500, 2000);
+    cout << bmp->toPpm();
     exit(0);
 
     if (optind != argc) {
