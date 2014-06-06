@@ -20,6 +20,7 @@ set(ALL_SOURCES
     Request.cpp
     Solution.cpp
     Triangle.cpp
+    Line.cpp
     
     log.cpp
     util.cpp
