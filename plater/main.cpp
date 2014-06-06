@@ -11,6 +11,7 @@
 #include "Request.h"
 #include "util.h"
 #include "log.h"
+#include "Line.h"
 
 using namespace std;
 using namespace Plater;
@@ -77,6 +78,13 @@ int main(int argc, char *argv[])
                 break;
         }
     }
+
+    Line l1(0, 0, 10, 10), l2(5, 0, 0, 1);
+    float a, b;
+    l1.intersections(l2, &a, &b);
+
+    printf("alpha=%g, beta=%g\n", a, b);
+    exit(0);
 
     if (optind != argc) {
         string filename = string(argv[optind]);

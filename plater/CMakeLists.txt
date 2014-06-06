@@ -21,6 +21,7 @@ set(ALL_SOURCES
     Solution.cpp
     Triangle.cpp
     Line.cpp
+    Lines.cpp
     
     log.cpp
     util.cpp

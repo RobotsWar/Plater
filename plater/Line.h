@@ -9,6 +9,7 @@ namespace Plater
     {
         public:
             Line(float x, float y, float dx, float dy);
+            Line(const Line &other);
 
             bool intersections(const Line &other, float *a=NULL, float *b=NULL);
 

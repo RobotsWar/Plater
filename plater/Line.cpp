@@ -8,6 +8,11 @@ namespace Plater
         : x(x_), y(y_), dx(dx_), dy(dy_)
     {
     }
+            
+    Line::Line(const Line &other)
+        : x(other.x), y(other.y), dx(other.dx), dy(other.dy)
+    {
+    }
         
     bool Line::intersections(const Line &other, float *a, float *b)
     {
