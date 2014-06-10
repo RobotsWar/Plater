@@ -38,6 +38,8 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(timer, SIGNAL(timeout()), this, SLOT(timeOutSlot()));
     timer->start(250);
     updatePlateEnable();
+
+    ui->nbThreads->setText(QString("%1").arg(QThread::idealThreadCount()));
 }
 
 MainWindow::~MainWindow()
