@@ -19,8 +19,9 @@ namespace Plater
             void addPlate();
 
         protected:
-            float plateWidth, plateHeight, plateDiameter, precision;
+            float plateWidth, plateHeight, plateDiameter;
             int plateMode;
+            float precision;
             std::vector<Plate*> plates;
     };
 }

@@ -1,6 +1,7 @@
 #ifndef _PLATER_PLACER_H
 #define _PLATER_PLACER_H
 
+#include <thread>
 #include <map>
 #include "Request.h"
 #include "Plate.h"
@@ -23,6 +24,7 @@ namespace Plater
     {
         public:
             Placer(Request *request);
+            virtual ~Placer();
 
             void sortParts(int sortType);
             void setGravityMode(int gravityMode);
@@ -31,8 +33,11 @@ namespace Plater
 
             PlacedPart *getNextPart();
             Solution *place();
-
+            void placeThreaded();
+            Solution *solution;
+            
         protected:
+            std::thread *myThread;
             int rotateOffset;
             int rotateDirection;
             std::map<Plate *, std::map<std::string, bool> > cache;

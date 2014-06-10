@@ -9,7 +9,8 @@
 namespace Plater
 {
     Placer::Placer(Request *request_)
-        : rotateDirection(0),
+        : solution(NULL),
+        rotateDirection(0),
         request(request_)
     {
         for (auto part : request->quantities) {
@@ -21,6 +22,14 @@ namespace Plater
         }
 
         setGravityMode(PLACER_GRAVITY_YX);
+    }
+
+    Placer::~Placer()
+    {
+        if (myThread != NULL) {
+            myThread->join();
+            delete myThread;
+        }
     }
 
     void Placer::sortParts(int sortType)
@@ -163,6 +172,14 @@ namespace Plater
 
         _log("- Solution with %d plates\n", solution->countPlates());
 
+        this->solution = solution;
         return solution;
+    }
+            
+    void Placer::placeThreaded()
+    {
+        myThread = new std::thread([this](){
+            this->place();
+        });
     }
 }

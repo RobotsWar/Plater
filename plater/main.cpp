@@ -33,6 +33,7 @@ void help()
     cerr << "-R random: Sets the number of random (shuffled parts) iterations (default 3)" << endl;
     cerr << "-o pattern: output file pattern (default: plate_%03d)" << endl;
     cerr << "-p: will output ppm of the plates" << endl;
+    cerr << "-t threads: sets the number of threads (default 1)" << endl;
     exit(EXIT_FAILURE);
 }
 
@@ -41,7 +42,7 @@ int main(int argc, char *argv[])
     int index;
     Request request;
 
-    while ((index = getopt(argc, argv, "hvs:d:r:pj:d:o:W:H:R:D:")) != -1) {
+    while ((index = getopt(argc, argv, "hvs:d:r:pj:d:o:W:H:R:D:t:")) != -1) {
         switch (index) {
             case 'h':
                 help();
@@ -79,6 +80,9 @@ int main(int argc, char *argv[])
             case 'D':
                 request.plateMode = PLATE_MODE_CIRCLE;
                 request.plateDiameter = atof(optarg)*1000;
+                break;
+            case 't':
+                request.nbThreads = atoi(optarg);
                 break;
         }
     }

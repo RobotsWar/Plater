@@ -1,4 +1,5 @@
 #define _USE_MATH_DEFINES
+#include <set>
 #include <math.h>
 #include <sstream>
 #include <fstream>
@@ -10,6 +11,7 @@
 #include "Plate.h"
 #include "Solution.h"
 #include "log.h"
+#include "sleep.h"
 
 using namespace std;
 
@@ -32,7 +34,8 @@ namespace Plater
         spacing(1500),
         pattern("plate_%03d"),
         cancel(false),
-        solution(NULL)
+        solution(NULL),
+        nbThreads(1)
     {
     }
 
@@ -262,26 +265,46 @@ namespace Plater
                 placerCurrent = 0;
 
                 bool stop = false;
-                while (placers.size()) {
-                    Placer *placer = placers.back();
-                    placers.pop_back();
+                std::set<Placer*> workers;
 
-                    if (!stop && !cancel) {
-                        Solution *solutionTmp = placer->place();
+                while (placers.size() || workers.size()) {
+                    while (placers.size() && workers.size() < nbThreads) {
+                        Placer *placer = placers.back();
+                        placers.pop_back();
 
-                        if (solution == NULL || solutionTmp->score() < solution->score()) {
-                            solution = solutionTmp;
-                        } else {
-                            delete solutionTmp;
-                        }
-
-                        if (solution->countPlates() == 1) {
-                            stop = true;
+                        if (!stop && !cancel) {
+                            workers.insert(placer);
+                            placer->placeThreaded();
                         }
                     }
 
-                    placerCurrent++;
-                    delete placer;
+                    vector<Placer*> toDelete;
+                    for (auto placer : workers) {
+                        if (placer->solution != NULL) {
+                            Solution *solutionTmp = placer->solution;
+
+                            if (solution == NULL || solutionTmp->score() < solution->score()) {
+                                solution = solutionTmp;
+                            } else {
+                                delete solutionTmp;
+                            }
+
+                            if (solution->countPlates() == 1) {
+                                stop = true;
+                            }
+
+                            placerCurrent++;
+                            toDelete.push_back(placer);
+                        }
+                    }
+
+                    for (auto placer : toDelete) {
+                        workers.erase(placer);
+                        delete placer;
+                    }
+
+
+                    ms_sleep(50);
                 }
 
                 if (!cancel) {

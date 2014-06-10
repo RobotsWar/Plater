@@ -1,5 +1,6 @@
 cmake_minimum_required(VERSION 2.8)
 project(plater)
+find_package (Threads)
 
 set (CMAKE_CXX_FLAGS "-std=c++0x -Wall -pedantic -U__STRICT_ANSI__")
 
@@ -9,7 +10,7 @@ set(ALL_SOURCES
     stl/Volume.cpp
     stl/Model.cpp
     stl/StlFactory.cpp
-    
+ 
     Bitmap.cpp
     PlacedPart.cpp
     Placer.cpp
@@ -21,6 +22,7 @@ set(ALL_SOURCES
     Solution.cpp
     Triangle.cpp
     
+    sleep.cpp
     log.cpp
     util.cpp
 	wingetopt.cpp
@@ -29,6 +31,8 @@ set(ALL_SOURCES
 include_directories("${CMAKE_SOURCE_DIR}/src")
 
 add_library(libplater ${ALL_SOURCES})
+
+target_link_libraries(libplater ${CMAKE_THREAD_LIBS_INIT})
 
 add_executable(plater "main.cpp")
 target_link_libraries(plater libplater)

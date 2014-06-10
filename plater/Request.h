@@ -60,6 +60,8 @@ namespace Plater
 
             int placersCount, placerCurrent;
             Solution *solution;
+
+            unsigned int nbThreads;
     };
 }
 
