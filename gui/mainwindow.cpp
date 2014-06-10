@@ -82,6 +82,7 @@ void MainWindow::enableAll(bool enable)
     ui->randomIterations->setEnabled(enable);
     ui->circularPlate->setEnabled(enable);
     ui->diameter->setEnabled(enable);
+    ui->nbThreads->setEnabled(enable);
 
     if (enable) {
         updatePlateEnable();
@@ -169,6 +170,7 @@ void MainWindow::on_runButton_clicked()
         worker.request.deltaR = DEG2RAD(ui->bruteForceAngle->text().toFloat());
         worker.parts = ui->parts->toPlainText().toStdString();
         worker.request.plateDiameter = ui->diameter->text().toFloat()*1000;
+        worker.request.nbThreads = ui->nbThreads->text().toInt();
 
         if (ui->circularPlate->isChecked()) {
             worker.request.plateMode = PLATE_MODE_CIRCLE;
