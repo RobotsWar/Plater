@@ -87,6 +87,10 @@ QString Wizard::getPartFilename()
     return stl;
 }
 
+int Wizard::getQuantity()
+{
+    return ui->quantity->text().toInt();
+}
 
 QString Wizard::getPartOptions()
 {

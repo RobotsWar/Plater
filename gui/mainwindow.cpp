@@ -235,20 +235,23 @@ void MainWindow::on_wizard_accept()
 {
     QString parts = ui->parts->toPlainText();
     wizard->close();
-    QString part = wizard->getPartFilename();
-    QString partOptions = wizard->getPartOptions();
-    string directory = getDirectory(part.toStdString());
 
-    if (parts.trimmed() == "") {
-        workingDirectory = QString::fromStdString(directory);
-        chdir(directory.c_str());
-    }
-    if (directory == workingDirectory.toStdString()) {
-        part = QString::fromStdString(getBasename(part.toStdString()));
-    }
+    if (wizard->getQuantity() > 0) {
+        QString part = wizard->getPartFilename();
+        QString partOptions = wizard->getPartOptions();
+        string directory = getDirectory(part.toStdString());
 
-    parts += part + " " + partOptions + "\n";
-    ui->parts->setText(parts);
+        if (parts.trimmed() == "") {
+            workingDirectory = QString::fromStdString(directory);
+            chdir(directory.c_str());
+        }
+        if (directory == workingDirectory.toStdString()) {
+            part = QString::fromStdString(getBasename(part.toStdString()));
+        }
+
+        parts += part + " " + partOptions + "\n";
+        ui->parts->setText(parts);
+    }
 
     wizardNext();
 }

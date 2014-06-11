@@ -20,6 +20,7 @@ public:
     QString getPartFilename();
     QString getPartOptions();
 
+    int getQuantity();
     void setPlateDimension(float width, float height);
     
 private slots:
