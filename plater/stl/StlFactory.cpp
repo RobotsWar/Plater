@@ -23,7 +23,7 @@ using namespace Plater;
 
 FILE* binaryMeshBlob = NULL;
 
-void* fgets_(char* ptr, size_t len, FILE* f)
+static void* fgets_(char* ptr, size_t len, FILE* f)
 {
     while(len && fread(ptr, 1, 1, f) > 0)
     {
