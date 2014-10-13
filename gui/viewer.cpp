@@ -42,9 +42,9 @@ void Viewer::setModel(Model *model_)
 
 void Viewer::initializeGL()
 {
-    GLfloat specular[] = { 0.2, 0.2, 0.2, 1.0 };
-    GLfloat ambient[] = {0.3f, 0.3f, 0.3f, 0.0f};
-    GLfloat diffuse[] = {1.0f, 1.0f, 1.0f, 1.0f};
+    GLfloat specular[] = { 0.0, 0.0, 0.0, 1.0 };
+    GLfloat ambient[] = {0.05f, 0.05f, 0.05f, 0.0f};
+    GLfloat diffuse[] = {0.8f, 0.8f, 0.8f, 1.0f};
 
     glShadeModel(GL_SMOOTH);
     glClearColor(0.0f, 0.0f, 0.0f, 0.2f);
@@ -92,8 +92,8 @@ void Viewer::resizeGL(int width, int height)
         float Y = aX*sin(alpha)+aY*cos(alpha);
         float Z = aZ;
 
-        float Xl = aX*cos(alpha+M_PI/2)-aY*sin(alpha);
-        float Yl = aX*sin(alpha+M_PI/2)+aY*cos(alpha);
+        float Xl = aX*cos(alpha+M_PI/2)-aY*sin(alpha*M_PI/2);
+        float Yl = aX*sin(alpha+M_PI/2)+aY*cos(alpha*M_PI/2);
 
         GLfloat light0_pos[] = {Xl, Yl, Z, 0.0f};
         glLightfv(GL_LIGHT0, GL_POSITION, light0_pos);
