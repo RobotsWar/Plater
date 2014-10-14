@@ -309,3 +309,23 @@ void MainWindow::on_circularPlate_clicked()
 {
     updatePlateEnable();
 }
+
+void MainWindow::on_actionQuit_triggered()
+{
+    close();
+}
+
+void MainWindow::on_actionAdd_parts_triggered()
+{
+    on_partBrowse_clicked();
+}
+
+void MainWindow::on_actionOpen_plater_conf_triggered()
+{
+    on_openButton_clicked();
+}
+
+void MainWindow::on_actionSave_triggered()
+{
+    on_saveButton_clicked();
+}

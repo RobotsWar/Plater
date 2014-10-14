@@ -32,27 +32,24 @@ public:
 
 public slots:
     void on_worker_end();
-
     void on_about();
-
     void on_wizard_accept();
     
 private slots:
     void on_outputDirectoryButton_clicked();
-
     void on_runButton_clicked();
-
     void on_partBrowse_clicked();
-
     void on_saveButton_clicked();
-
     void on_openButton_clicked();
-
     void on_clearButton_clicked();
-
     void timeOutSlot();
-
     void on_circularPlate_clicked();
+    void on_actionQuit_triggered();
+    void on_actionAdd_parts_triggered();
+
+    void on_actionOpen_plater_conf_triggered();
+
+    void on_actionSave_triggered();
 
 private:
     Ui::MainWindow *ui;
