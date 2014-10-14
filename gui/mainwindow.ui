@@ -6,12 +6,16 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>548</width>
-    <height>456</height>
+    <width>559</width>
+    <height>538</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="icons.qrc">
+    <normaloff>:/icon/img/plater.png</normaloff>:/icon/img/plater.png</iconset>
   </property>
   <widget class="QWidget" name="main">
    <layout class="QVBoxLayout" name="verticalLayout">
@@ -370,8 +374,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>548</width>
-     <height>21</height>
+     <width>559</width>
+     <height>25</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuAbout">

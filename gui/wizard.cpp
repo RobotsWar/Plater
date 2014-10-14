@@ -46,7 +46,6 @@ void Wizard::setOrientation(string orientation_)
     viewer->show();
     ui->zone->update();
     ui->grid->update();
-
 }
 
 void Wizard::setPlateDimension(float width, float height)

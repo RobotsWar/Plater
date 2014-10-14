@@ -27,7 +27,6 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->message->hide();
     ui->progressBar->hide();
     setWindowTitle("Plater");
-    setWindowIcon(QIcon("img/plater.png"));
 
     about = new About;
 
