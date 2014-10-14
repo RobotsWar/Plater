@@ -123,7 +123,11 @@ void MainWindow::wizardNext()
     stls.pop_back();
 
     if (stl != "") {
+        QByteArray geometry;
+        bool hadWizard = false;
         if (wizard != NULL) {
+            hadWizard = true;
+            geometry = wizard->saveGeometry();
             wizard->close();
             delete wizard;
         }
@@ -131,6 +135,7 @@ void MainWindow::wizardNext()
         wizard = new Wizard(stl);
         connect(wizard, SIGNAL(accepted()), this, SLOT(on_wizard_accept()));
         wizard->show();
+        wizard->restoreGeometry(geometry);
         wizard->setPlateDimension(getPlateWidth(), getPlateHeight());
     }
 }
