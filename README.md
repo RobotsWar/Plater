@@ -2,6 +2,8 @@
 
 ![Plater](plater.jpg)
 
+## [Demo video »](https://www.youtube.com/watch?v=WTK5fVQNPsI)
+
 Plater is a 3D printer plates placer and optimizer. It takes a few STL files
 and some parameters such as the plate dimension, part orientation and spacing,
 and it tries to generates 3D model to print your parts with at least as possible
