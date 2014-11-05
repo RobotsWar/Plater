@@ -24,5 +24,6 @@ bool chdirFile(const std::string &filename);
 std::vector<std::string> &split(const std::string &s, char delim, std::vector<std::string> &elems);
 std::vector<std::string> split(const std::string &s, char delim);
 std::vector<std::string> splitWithEscape(const std::string &s, char delim);
+bool isNumeric(std::string str);
 
 #endif

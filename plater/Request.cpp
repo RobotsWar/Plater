@@ -111,6 +111,47 @@ namespace Plater
         readParts();
     }
 
+    /**
+     * Read chunks from line, could be:
+     *
+     * file.stl quantity
+     *      or
+     * file.stl quantity orientation
+     */
+    vector<string> Request::getChunks(string line)
+    {
+        vector<string> parts = split(line, ' ');
+        vector<string> chunks;
+        int n = parts.size();
+        string filename;
+
+        if (n < 1) {
+            return parts;
+        }
+
+        // XXX: This is not really clean, something smarter could 
+        // be done here
+
+        int quantity;
+        for (quantity=n-1; quantity>0; quantity--) {
+            if (isNumeric(parts[quantity])) {
+                break;
+            }
+        }
+        for (int i=0; i<quantity; i++) {
+            if (filename != "") {
+                filename += " ";
+            }
+            filename += parts[i];
+        }
+        chunks.push_back(filename);
+        for (int i=quantity; i<n; i++) {
+            chunks.push_back(parts[i]);
+        }
+
+        return chunks;
+    }
+
     void Request::readParts()
     {
         parts.clear();
@@ -120,7 +161,7 @@ namespace Plater
         while (!stream->eof()) {
             string line = readLine();
             if (line[0] != '#') {
-                vector<string> chunks = splitWithEscape(line, ' ');
+                vector<string> chunks = getChunks(line);
                 if (chunks.size() > 0) {
                     string filename = chunks[0];
                     int quantity = 1;

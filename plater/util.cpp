@@ -75,3 +75,14 @@ std::vector<std::string> splitWithEscape(const std::string &s, char delim) {
 
     return escaped;
 }
+
+bool isNumeric(std::string str)
+{
+    for (unsigned int i=0; i<str.size(); i++) {
+        if (!isdigit(str[i])) {
+            return false;
+        }
+    }
+
+    return true;
+}

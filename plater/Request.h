@@ -20,6 +20,7 @@ namespace Plater
             Request();
             virtual ~Request();
 
+            std::vector<std::string> getChunks(string line);
             void setPlateSize(float w, float h);
             void addPart(std::string filename, int quantity, std::string orientation);
             void readFromStdin();
