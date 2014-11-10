@@ -288,9 +288,9 @@ namespace Plater
                 }
 
                 vector<Placer*> placers;
-                for (int rotateOffset=0; rotateOffset<2; rotateOffset++) {
-                    for (int rotateDirection=0; rotateDirection<2; rotateDirection++) {
-                        for (int sortMode=0; sortMode<PLACER_SORT_SHUFFLE+randomIterations; sortMode++) {
+                for (int sortMode=0; sortMode<PLACER_SORT_SHUFFLE+randomIterations; sortMode++) {
+                    for (int rotateOffset=0; rotateOffset<2; rotateOffset++) {
+                        for (int rotateDirection=0; rotateDirection<2; rotateDirection++) {
                             for (int gravity=0; gravity<PLACER_GRAVITY_EQ; gravity++) {
                                 Placer *placer = new Placer(this);
                                 placer->sortParts(sortMode);

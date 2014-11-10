@@ -8,11 +8,9 @@
 #include "PlacedPart.h"
 #include "Solution.h"
 
-#define PLACER_SORT_SURFACE_INC 0
-#define PLACER_SORT_SURFACE_DEC 1
-#define PLACER_SORT_GDIST_INC   2
-#define PLACER_SORT_GDIST_DEC   3
-#define PLACER_SORT_SHUFFLE     4
+#define PLACER_SORT_SURFACE_DEC 0
+#define PLACER_SORT_SURFACE_INC 1
+#define PLACER_SORT_SHUFFLE     2
 
 #define PLACER_GRAVITY_YX       0
 #define PLACER_GRAVITY_XY       1

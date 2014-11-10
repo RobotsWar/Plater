@@ -45,16 +45,6 @@ namespace Plater
                         return a->getSurface() < b->getSurface();
                         });
                 break;
-            case PLACER_SORT_GDIST_INC:
-                sort(parts.begin(), parts.end(), [](const PlacedPart *a, const PlacedPart *b) {
-                        return a->getGDist() > b->getGDist();
-                        });
-                break;
-            case PLACER_SORT_GDIST_DEC:
-                sort(parts.begin(), parts.end(), [](const PlacedPart *a, const PlacedPart *b) {
-                        return a->getGDist() < b->getGDist();
-                        });
-                break;
             default:
                 unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
                 shuffle(parts.begin(), parts.end(), std::default_random_engine(seed));
