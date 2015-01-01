@@ -58,24 +58,6 @@ namespace Plater
         return string(buffer);
     }
 
-    std::string Request::readString()
-    {
-        std::string data;
-        *stream >> data;
-
-        return data;
-    }
-
-    double Request::readFloat()
-    {
-        return atof(readString().c_str());
-    }
-
-    int Request::readInt()
-    {
-        return atoi(readString().c_str());
-    }
-
     void Request::setPlateSize(float w, float h)
     {
         plateWidth = w*1000;
@@ -287,8 +269,14 @@ namespace Plater
                     _log("- Plate size: %g microm (circle)\n", plateDiameter);
                 }
 
+                int lastSort;
+                if (sortMode == REQUEST_SINGLE_SORT) {
+                    lastSort = PLACER_SORT_SURFACE_DEC;
+                } else {
+                    lastSort = PLACER_SORT_SHUFFLE+randomIterations;
+                }
                 vector<Placer*> placers;
-                for (int sortMode=0; sortMode<PLACER_SORT_SHUFFLE+randomIterations; sortMode++) {
+                for (int sortMode=0; sortMode<=lastSort; sortMode++) {
                     for (int rotateOffset=0; rotateOffset<2; rotateOffset++) {
                         for (int rotateDirection=0; rotateDirection<2; rotateDirection++) {
                             for (int gravity=0; gravity<PLACER_GRAVITY_EQ; gravity++) {

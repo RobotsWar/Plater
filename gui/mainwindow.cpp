@@ -39,6 +39,8 @@ MainWindow::MainWindow(QWidget *parent) :
     updatePlateEnable();
 
     ui->nbThreads->setText(QString("%1").arg(QThread::idealThreadCount()));
+
+    ui->randomIterations->setEnabled(false);
 }
 
 MainWindow::~MainWindow()
@@ -182,6 +184,12 @@ void MainWindow::on_runButton_clicked()
             worker.request.plateMode = PLATE_MODE_CIRCLE;
         } else {
             worker.request.plateMode = PLATE_MODE_RECTANGLE;
+        }
+
+        if (ui->singleSort->isChecked()) {
+            worker.request.sortMode = REQUEST_SINGLE_SORT;
+        } else {
+            worker.request.sortMode = REQUEST_MULTIPLE_SORTS;
         }
 
         if (ui->ppmRadio->isChecked()) {
@@ -328,4 +336,14 @@ void MainWindow::on_actionOpen_plater_conf_triggered()
 void MainWindow::on_actionSave_triggered()
 {
     on_saveButton_clicked();
+}
+
+void MainWindow::on_singleSort_clicked()
+{
+    ui->randomIterations->setEnabled(false);
+}
+
+void MainWindow::on_multipleSort_clicked()
+{
+    ui->randomIterations->setEnabled(true);
 }

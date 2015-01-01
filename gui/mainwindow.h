@@ -51,6 +51,10 @@ private slots:
 
     void on_actionSave_triggered();
 
+    void on_singleSort_clicked();
+
+    void on_multipleSort_clicked();
+
 private:
     Ui::MainWindow *ui;
     QThread thread;
