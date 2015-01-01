@@ -55,6 +55,7 @@ void Viewer::initializeGL()
     glEnable(GL_LIGHT0);
     // glEnable(GL_MODULATE);
     glEnable(GL_COLOR_MATERIAL);
+    glEnable(GL_MULTISAMPLE);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glLightModeli(GL_LIGHT_MODEL_LOCAL_VIEWER, GL_TRUE);
 
