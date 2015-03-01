@@ -30,7 +30,7 @@ void Wizard::setOrientation(string orientation_)
 {
     orientation = orientation_;
 
-    model = loadModelFromFile(stl.toStdString().c_str());
+    model = loadModelFromFile(stl.toUtf8().data());
     model = model.putFaceOnPlate(orientation);
     model = model.center();
 

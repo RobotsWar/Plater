@@ -123,7 +123,7 @@ void MainWindow::wizardNext()
     QString stl = stls.last();
     stls.pop_back();
 
-    if (stl != "") {
+    if (stl != "" && QFile::exists(stl)) {
         QByteArray geometry;
         bool hadWizard = false;
         if (wizard != NULL) {
@@ -255,7 +255,7 @@ void MainWindow::on_wizard_accept()
 
         if (parts.trimmed() == "") {
             workingDirectory = QString::fromStdString(directory);
-            chdir(directory.c_str());
+            chdir(workingDirectory.toUtf8().data());
         }
         if (directory == workingDirectory.toStdString()) {
             part = QString::fromStdString(getBasename(part.toStdString()));
