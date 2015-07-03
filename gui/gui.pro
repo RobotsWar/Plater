@@ -53,5 +53,5 @@ RESOURCES += \
     icons.qrc
 
 unix: Plater.path = /usr/local/bin/
-unix: Plater.files = Plater
+unix: Plater.files = build/Plater
 unix: INSTALLS += Plater
