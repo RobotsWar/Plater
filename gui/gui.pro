@@ -52,6 +52,5 @@ else:unix: LIBS += -lGLU
 RESOURCES += \
     icons.qrc
 
-unix: Plater.path = /usr/local/bin/
-unix: Plater.files = build/Plater
-unix: INSTALLS += Plater
+unix: target.path = /usr/local/bin/
+unix: INSTALLS += target
