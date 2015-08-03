@@ -139,6 +139,7 @@ mkdir build
 cd build
 qmake ..
 make
+sudo make install
 ```
 
 This will create the `plater-gui` binary file.
