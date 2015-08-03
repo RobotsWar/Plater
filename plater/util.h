@@ -26,4 +26,8 @@ std::vector<std::string> split(const std::string &s, char delim);
 std::vector<std::string> splitWithEscape(const std::string &s, char delim);
 bool isNumeric(std::string str);
 
+std::string ltrim(std::string s);
+std::string rtrim(std::string s);
+std::string trim(std::string s);
+
 #endif

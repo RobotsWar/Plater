@@ -143,11 +143,7 @@ namespace Plater
         while (!stream->eof()) {
             string line = readLine();
             if (line[0] != '#') {
-                int n = line.size()-1;
-                if (line[n] == '\r') {
-                    // Removing trailing \r
-                    line = line.substr(0, n);
-                }
+                line = trim(line);
                 vector<string> chunks = getChunks(line);
                 if (chunks.size() > 0) {
                     string filename = chunks[0];
